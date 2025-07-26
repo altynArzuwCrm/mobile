@@ -25,6 +25,8 @@ abstract class AppColors {
   static const Color green = Color(0xff34C759);
   static const Color lightGreen = Color.fromRGBO(0, 255, 148, 0.2);
   static const Color timeBorder = Color(0xffD8E0F0);
+  static const Color whiteBorder = Color(0xffD8DDE5);
+  static const Color attachment = Color.fromRGBO(109, 93, 211, 0.1);
 
 
 

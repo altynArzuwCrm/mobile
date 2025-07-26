@@ -20,6 +20,8 @@ class IconAssets{
   static const String filter = '$ICON_PATH/filter.svg';
   static const String delete = '$ICON_PATH/delete.svg';
   static const String edit = '$ICON_PATH/edit.svg';
+  static const String calendar = '$ICON_PATH/calendar.svg';
+  static const String attach = '$ICON_PATH/attach.svg';
 
 }
 
