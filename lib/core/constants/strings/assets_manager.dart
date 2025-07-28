@@ -22,6 +22,17 @@ class IconAssets{
   static const String edit = '$ICON_PATH/edit.svg';
   static const String calendar = '$ICON_PATH/calendar.svg';
   static const String attach = '$ICON_PATH/attach.svg';
+  static const String send = '$ICON_PATH/send.svg';
+
+
+
+
+  static const String contact = '$ICON_PATH/contact.svg';
+  static const String members = '$ICON_PATH/members.svg';
+  static const String profile = '$ICON_PATH/profile.svg';
+  static const String project = '$ICON_PATH/project.svg';
+  static const String support = '$ICON_PATH/support.svg';
+  static const String warehouse = '$ICON_PATH/warehouse.svg';
 
 }
 

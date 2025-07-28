@@ -1,3 +1,4 @@
+import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -23,36 +24,45 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBar(
-        onTap: onTap,
-        isScrollable: isScrollable,
-        padding: const EdgeInsets.only(top: 10),
-        indicator: UnderlineTabIndicator(
-          borderRadius: BorderRadius.circular(2),
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 3.0,
+    return Material(
+      color: AppColors.lightBlue,
+      child: TabBar(
+          onTap: onTap,
+          isScrollable: isScrollable,
+          padding: const EdgeInsets.only(top: 10),
+
+          indicator: UnderlineTabIndicator(
+            borderRadius: BorderRadius.circular(2),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 3.0,
+            ),
+
           ),
-        ),
-        splashFactory: NoSplash.splashFactory,
-        overlayColor:
-        WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-          return states.contains(WidgetState.focused)
-              ? null
-              : Colors.transparent;
-        }),
-        labelPadding:labelPadding ?? const EdgeInsets.only(left: 10, right: 10),
-        indicatorSize: TabBarIndicatorSize.tab,
-        unselectedLabelColor: unSelectedLabelColor,
-        unselectedLabelStyle: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            fontFamily: TextFonts.nunito),
-        labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-          overflow: TextOverflow.visible,
-        ),
-        labelColor: selectedLabelColor,
-        indicatorPadding: indicatorPadding,
-        tabs: tabs);
+          splashFactory: NoSplash.splashFactory,
+          overlayColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+            return states.contains(WidgetState.focused)
+                ? null
+                : Colors.transparent;
+          }),
+          labelPadding:labelPadding ?? const EdgeInsets.only(left: 10, right: 10),
+          indicatorSize: TabBarIndicatorSize.tab,
+          unselectedLabelColor: unSelectedLabelColor,
+          unselectedLabelStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              fontFamily: TextFonts.nunito,
+          ),
+          labelStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: TextFonts.nunito,
+            overflow: TextOverflow.visible,
+          ),
+          labelColor: selectedLabelColor,
+          indicatorPadding: indicatorPadding,
+          tabs: tabs),
+    );
   }
 }

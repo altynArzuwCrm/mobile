@@ -17,10 +17,11 @@ abstract final class AppRoutes {
 
 
   static const String details = '/details';
-  static const String historyPage = '/historyPage';
-  static const String addressPage = '/addressPage';
-  static const String map = '/map';
-  static const String scanner = '/scanner';
-  static const String directory = '/directory';
+  static const String profile = '/profile';
+  static const String warehouse = '/warehouse';
+  static const String projects = '/projects';
+  static const String projectDetails = '/projectDetails';
+  static const String editProject = '/editProject';
+  static const String contacts = '/contacts';
 
 }

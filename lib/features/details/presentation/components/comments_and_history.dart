@@ -7,25 +7,23 @@ class CommentsAndHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(
-      length: 2,
-      child: CustomTabBar(
-        onTap: (index) {},
-        isScrollable: false,
-        indicatorPadding: EdgeInsets.zero,
-        selectedLabelColor: AppColors.primary,
-        unSelectedLabelColor:
-        Theme.of(context).textTheme.bodyLarge!.color!,
-        tabs: [
-          Tab(
-            text: 'allResults',
-          ),
-          Tab(
-            text: 'book',
-          ),
-        ],
+    return  CustomTabBar(
+      onTap: (index) {
+        // DefaultTabController.of(context).animateTo(index);
+      },
+      isScrollable: false,
+      indicatorPadding: EdgeInsets.zero,
+      selectedLabelColor: AppColors.primary,
+      unSelectedLabelColor:AppColors.primary,
+      tabs: [
+        Tab(
+          text: 'Комментарии',
+        ),
+        Tab(
+          text: 'История',
+        ),
+      ],
 
-      ),
     );
   }
 }

@@ -26,7 +26,10 @@ abstract class AppColors {
   static const Color lightGreen = Color.fromRGBO(0, 255, 148, 0.2);
   static const Color timeBorder = Color(0xffD8E0F0);
   static const Color whiteBorder = Color(0xffD8DDE5);
+  static const Color commentTimeBorder = Color(0xffE6EBF5);
   static const Color attachment = Color.fromRGBO(109, 93, 211, 0.1);
+  static const Color sendBtn = Color(0xff3F8CFF);
+  static const Color tabBarColor = Color(0xffE6EDF5);
 
 
 

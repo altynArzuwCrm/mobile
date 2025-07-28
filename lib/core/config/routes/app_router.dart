@@ -10,12 +10,19 @@ import 'package:crm/features/details/presentation/pages/details_page.dart';
 import 'package:crm/features/main/presentation/pages/main_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
 import 'package:crm/features/orders/presentation/pages/user_order_page.dart';
+import 'package:crm/features/settings/presentation/pages/contacts/contacts_page.dart';
+import 'package:crm/features/settings/presentation/pages/edit_project_page.dart';
+import 'package:crm/features/settings/presentation/pages/profile_page.dart';
+import 'package:crm/features/settings/presentation/pages/project_details_page.dart';
+import 'package:crm/features/settings/presentation/pages/projects_page.dart';
+import 'package:crm/features/settings/presentation/pages/settings_page.dart';
+import 'package:crm/features/settings/presentation/pages/warehouse_page.dart';
 import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final goRouter = GoRouter(
-  initialLocation: AppRoutes.details,
+  initialLocation: AppRoutes.contacts,
   navigatorKey: rootNavKey,
   routes: [
     StatefulShellRoute.indexedStack(
@@ -72,9 +79,7 @@ final goRouter = GoRouter(
               path: AppRoutes.userPage,
               pageBuilder: (context, state) {
                 return NoTransitionPage(
-                  child: Scaffold(
-                    appBar: AppBar(title: Text('userPage'),),
-                  ),
+                  child: SettingsPage(),
                 );
               },
             )
@@ -123,6 +128,42 @@ final goRouter = GoRouter(
       path: AppRoutes.details,
       builder: (context, state) {
         return DetailsPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.profile,
+      builder: (context, state) {
+        return ProfilePage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.warehouse,
+      builder: (context, state) {
+        return WareHousePage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.projects,
+      builder: (context, state) {
+        return ProjectsPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.projectDetails,
+      builder: (context, state) {
+        return ProjectDetailsPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.editProject,
+      builder: (context, state) {
+        return EditProjectPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.contacts,
+      builder: (context, state) {
+        return ContactsPage();
       },
     ),
   ],

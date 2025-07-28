@@ -9,6 +9,7 @@ class CustomDropdownField extends StatelessWidget {
   final Widget? icon;
   final Color? borderColor;
   final Color? backgroundColor;
+  final EdgeInsetsGeometry? padding;
 
   const CustomDropdownField({
     super.key,
@@ -19,6 +20,7 @@ class CustomDropdownField extends StatelessWidget {
     this.icon,
     this.borderColor,
     this.backgroundColor,
+    this.padding,
   });
 
   @override
@@ -27,7 +29,7 @@ class CustomDropdownField extends StatelessWidget {
     final Color effectiveBackground = backgroundColor ?? AppColors.white;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         height: 50,

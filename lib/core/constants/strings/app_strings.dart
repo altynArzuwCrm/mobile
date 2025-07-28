@@ -5,6 +5,8 @@ static const String appName = "Worky";
 static const String error = "Something went wrong";
 static const String noInternet = "No internet connection";
 static const String orders = "Заказы";
+static const String products = "Товары";
+static const String projects = "Проекты";
 
 
 static const String trackOnMap = "Отслеживать на карте";

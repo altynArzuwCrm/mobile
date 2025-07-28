@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Project extends StatelessWidget {
-  const Project({super.key});
-
+  const Project({super.key, required this.title});
+final String title;
   @override
   Widget build(BuildContext context) {
     return MainCardWidget(
@@ -24,7 +24,7 @@ class Project extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Заказчик',
+                    title,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,

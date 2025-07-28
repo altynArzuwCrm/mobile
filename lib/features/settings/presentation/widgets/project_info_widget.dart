@@ -6,8 +6,8 @@ import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class GeneralInfo extends StatelessWidget {
-  const GeneralInfo({super.key});
+class ProjectInfoWidget extends StatelessWidget {
+  const ProjectInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,31 +15,13 @@ class GeneralInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Общая инфмормация',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  color: AppColors.darkBlue,
-                ),
-              ),
-
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: AppColors.bgColor,
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.keyboard_arrow_up),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                ),
-              ),
-            ],
+          Text(
+            'Общая инфмормация',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              color: AppColors.darkBlue,
+            ),
           ),
           SizedBox(height: 15),
           Text(
@@ -51,22 +33,17 @@ class GeneralInfo extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          PersonImgWithTitleWidget(image: img, name: 'Evan Yates'),
-
-          SizedBox(height: 22),
           Text(
-            'Ответственный',
+            'Evan Yates',
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.normalGray,
+              fontSize: 16,
+              color: AppColors.darkBlue,
             ),
           ),
-          SizedBox(height: 8),
-          PersonImgWithTitleWidget(image: img, name: 'Black Sliva'),
           SizedBox(height: 22),
           Text(
-            'Ответственный',
+            'Дедлайн',
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
