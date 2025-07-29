@@ -1,5 +1,6 @@
 import 'package:crm/common/widgets/custom_tabbar.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class CommentsAndHistory extends StatelessWidget {
@@ -17,10 +18,10 @@ class CommentsAndHistory extends StatelessWidget {
       unSelectedLabelColor:AppColors.primary,
       tabs: [
         Tab(
-          text: 'Комментарии',
+          text: AppStrings.comments,
         ),
         Tab(
-          text: 'История',
+          text: AppStrings.history,
         ),
       ],
 

@@ -1,5 +1,6 @@
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
@@ -31,7 +32,7 @@ class _EditProjectInfoWidgetState extends State<EditProjectInfoWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Общая инфмормация',
+            AppStrings.allInfo,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16,
@@ -87,7 +88,7 @@ class _EditProjectInfoWidgetState extends State<EditProjectInfoWidget> {
               Padding(
                 padding: const EdgeInsets.only(left: 6.0),
                 child: Text(
-                  'Сумма',
+                  AppStrings.sum,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -122,7 +123,7 @@ class _EditProjectInfoWidgetState extends State<EditProjectInfoWidget> {
               Padding(
                 padding: const EdgeInsets.only(left: 6.0),
                 child: Text(
-                  'Дедлайн',
+                  AppStrings.dedline,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -136,7 +137,7 @@ class _EditProjectInfoWidgetState extends State<EditProjectInfoWidget> {
                 dateFormat: 'dd MMMM yyyy, HH:mm',
                 //  locale: const Locale('ru'),
                 onDateSelected: (date) {
-                  print('Selected: $date');
+                  debugPrint('Selected: $date');
                 },
               ),
             ],

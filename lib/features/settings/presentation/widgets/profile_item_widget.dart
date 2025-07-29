@@ -4,14 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileItemWidget extends StatelessWidget {
-  const ProfileItemWidget({super.key, required this.title, required this.name,  this.showDate = false});
+  const ProfileItemWidget({
+    super.key,
+    required this.title,
+    required this.name,
+    this.showDate = false,
+    this.child,
+  });
+
   final String title;
   final String name;
-final bool showDate;
+  final bool showDate;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return   Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -30,13 +38,14 @@ final bool showDate;
           children: [
             Container(
               width: double.infinity,
-            
-              padding: EdgeInsets.symmetric(vertical: 11,horizontal: 18),
+
+              padding: EdgeInsets.symmetric(vertical: 11, horizontal: 18),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.timeBorder)
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.timeBorder),
               ),
-              child: Text(name,
+              child: Text(
+                name,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -44,12 +53,19 @@ final bool showDate;
                 ),
               ),
             ),
-            if(showDate)
-            Positioned(
+            if (showDate)
+              Positioned(
                 right: 18,
                 top: 13,
                 bottom: 13,
-                child: SvgPicture.asset(IconAssets.calendar,width: 24,height: 24,))
+                child:
+                    child ??
+                    SvgPicture.asset(
+                      IconAssets.calendar,
+                      width: 24,
+                      height: 24,
+                    ),
+              ),
           ],
         ),
       ],

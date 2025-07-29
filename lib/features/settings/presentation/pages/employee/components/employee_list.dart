@@ -3,8 +3,8 @@ import 'package:crm/features/settings/presentation/widgets/contacts_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ContactsList extends StatelessWidget {
-  const ContactsList({super.key});
+class EmployeeList extends StatelessWidget {
+  const EmployeeList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ContactsList extends StatelessWidget {
       itemBuilder: (context, index) {
         return ContactsCard(
           onTap: () {
-            context.push(AppRoutes.contactDetails);
+            context.push(AppRoutes.employeeProfile);
           },
         );
       },

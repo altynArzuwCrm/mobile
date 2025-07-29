@@ -6,16 +6,17 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   TabBarDelegate({required this.child});
 
   @override
-  double get minExtent => kToolbarHeight; // height of TabBar
+  double get minExtent => kToolbarHeight;
+
   @override
   double get maxExtent => kToolbarHeight;
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return child;
   }
 

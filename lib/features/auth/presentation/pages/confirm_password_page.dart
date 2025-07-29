@@ -1,9 +1,12 @@
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 class ConfirmPasswordPage extends StatefulWidget {
@@ -24,6 +27,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
     focusNode.dispose();
     super.dispose();
   }
+
   bool checkBtnColor() {
     if (pinController.text.length == 5) {
       return false;
@@ -31,18 +35,15 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
       return true;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 50,
-      textStyle: const TextStyle(
-        fontSize: 14,
-        color: AppColors.white,
-
-      ),
+      textStyle: const TextStyle(fontSize: 14, color: AppColors.white),
       decoration: BoxDecoration(
-       // color: AppColors.formBG,
+        // color: AppColors.formBG,
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.white),
       ),
@@ -52,7 +53,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Altyn Arzuw',
+            AppStrings.appName,
 
             style: TextStyle(
               fontFamily: TextFonts.nunito,
@@ -67,7 +68,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Введите код',
+                  AppStrings.enterPassword,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: TextFonts.nunito,
@@ -82,7 +83,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Код отправленный на email',
+                      AppStrings.passwordHasSentToEmail,
                       textAlign: TextAlign.start,
 
                       style: TextStyle(
@@ -106,10 +107,12 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                               controller: pinController,
                               focusNode: focusNode,
                               pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
+                                  PinputAutovalidateMode.onSubmit,
                               defaultPinTheme: defaultPinTheme,
-                              separatorBuilder: (index) => const SizedBox(width: 8),
-                              hapticFeedbackType: HapticFeedbackType.lightImpact,
+                              separatorBuilder: (index) =>
+                                  const SizedBox(width: 8),
+                              hapticFeedbackType:
+                                  HapticFeedbackType.lightImpact,
                               onCompleted: (pin) {
                                 debugPrint('onCompleted: $pin');
                               },
@@ -130,29 +133,30 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                                 ],
                               ),
                               focusedPinTheme: defaultPinTheme.copyWith(
-                                decoration: defaultPinTheme.decoration!.copyWith(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColors.primary,
-                                  ),
-                                ),
+                                decoration: defaultPinTheme.decoration!
+                                    .copyWith(
+                                      color: AppColors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
                               ),
                               submittedPinTheme: defaultPinTheme.copyWith(
-                                decoration: defaultPinTheme.decoration!.copyWith(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(19),
-                                  border: Border.all(
-                                    color: AppColors.white,
-                                  ),
-                                ),
+                                decoration: defaultPinTheme.decoration!
+                                    .copyWith(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(19),
+                                      border: Border.all(
+                                        color: AppColors.white,
+                                      ),
+                                    ),
                               ),
                               errorPinTheme: defaultPinTheme.copyBorderWith(
                                 border: Border.all(color: Colors.redAccent),
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -160,17 +164,21 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                 ),
                 SizedBox(height: 53),
                 MainButton(
-                  buttonTile: 'Подтвердить',
-                  onPressed: () {},
+                  buttonTile: AppStrings.confirm,
+                  onPressed: () {
+                    context.go(AppRoutes.newPassword);
+                  },
                   isLoading: false,
                   hasIcon: true,
                 ),
                 SizedBox(height: 20),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pop();
+                  },
 
                   child: Text(
-                    'Вернуться',
+                    AppStrings.back,
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: TextFonts.nunito,
@@ -180,8 +188,6 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                     ),
                   ),
                 ),
-
-                ///
               ],
             ),
           ),
@@ -189,5 +195,4 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
       ),
     );
   }
-
 }

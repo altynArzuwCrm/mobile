@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,7 +10,8 @@ class SelectDateWidget extends StatefulWidget {
   final bool includeTime;
   final DateTime? firstDate;
   final DateTime? lastDate;
-//  final Locale? locale;
+
+  //  final Locale? locale;
 
   const SelectDateWidget({
     super.key,
@@ -19,7 +21,7 @@ class SelectDateWidget extends StatefulWidget {
     this.includeTime = false,
     this.firstDate,
     this.lastDate,
-   // this.locale,
+    // this.locale,
   });
 
   @override
@@ -43,17 +45,16 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
       initialDate: selectedDate ?? now,
       firstDate: now,
       lastDate: widget.lastDate ?? DateTime(2100),
-  //    locale: widget.locale,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
               onPrimary: Colors.white,
               onSurface: Colors.black,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor:AppColors.primary,),
+              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
             ),
           ),
           child: child!,
@@ -61,7 +62,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
       },
     );
 
-    if (pickedDate == null) return;
+    if (!mounted || pickedDate == null) return;
 
     DateTime finalDate = pickedDate;
 
@@ -70,6 +71,9 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
         context: context,
         initialTime: TimeOfDay.fromDateTime(selectedDate ?? now),
       );
+
+      if (!mounted) return;
+
       if (pickedTime != null) {
         finalDate = DateTime(
           pickedDate.year,
@@ -81,6 +85,8 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
       }
     }
 
+    if (!mounted) return;
+
     setState(() => selectedDate = finalDate);
     widget.onDateSelected?.call(finalDate);
   }
@@ -88,10 +94,10 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
   @override
   Widget build(BuildContext context) {
     final formatted = selectedDate != null
-        ? DateFormat(widget.dateFormat, //widget.locale?.toString(),
-    )
-        .format(selectedDate!)
-        : 'Выбрать период';
+        ? DateFormat(
+            widget.dateFormat, //widget.locale?.toString(),
+          ).format(selectedDate!)
+        : AppStrings.selectDate;
 
     return GestureDetector(
       onTap: _pickDateTime,
@@ -112,7 +118,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
                 color: selectedDate != null ? AppColors.black : AppColors.gray,
               ),
             ),
-            const Icon(Icons.calendar_today, size: 18, color:AppColors.gray,),
+            const Icon(Icons.calendar_today, size: 18, color: AppColors.gray),
           ],
         ),
       ),

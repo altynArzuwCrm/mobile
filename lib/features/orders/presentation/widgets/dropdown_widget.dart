@@ -46,12 +46,17 @@ class CustomDropdownField extends StatelessWidget {
                 const Icon(
                   Icons.keyboard_arrow_down,
                   color: AppColors.gray,
-                  size: 30,
+                  size: 22,
                 ),
             elevation: 5,
             value: value,
             hint: hintText != null
-                ? Text(hintText!, style: TextStyle(color: Colors.grey.shade400))
+                ? Text(hintText!, style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: AppColors.gray,
+            ),
+            )
                 : null,
             items: items,
             onChanged: onChanged,

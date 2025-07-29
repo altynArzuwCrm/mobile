@@ -18,7 +18,7 @@ class AppStart extends StatelessWidget {
             create: (context) => locator<InternetBloc>()),
       ],
       child: MaterialApp.router(
-        title: AppStrings.appName,
+        title: AppStrings.splashName,
         theme: AppTheme.lightTheme(),
         debugShowCheckedModeBanner: false,
         routerConfig: goRouter,

@@ -1,15 +1,16 @@
 import 'package:crm/common/widgets/shimmer_image.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
-var img = 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg';
+
+var img =
+    'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg';
 
 class UserOrderCard extends StatelessWidget {
   const UserOrderCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       margin: EdgeInsets.only(bottom: 20, right: 25, left: 25),
@@ -65,7 +66,7 @@ class UserOrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Начало',
+                    AppStrings.start,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -86,7 +87,7 @@ class UserOrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Ответственный',
+                    AppStrings.responsible,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -100,7 +101,7 @@ class UserOrderCard extends StatelessWidget {
                     child: ImageWithShimmer(
                       height: 24,
                       width: 24,
-                    imageUrl: img,
+                      imageUrl: img,
                     ),
                   ),
                 ],
@@ -108,7 +109,7 @@ class UserOrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Дедлайн',
+                    AppStrings.dedline,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -142,7 +143,7 @@ class UserOrderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  'Принять работу',
+                  AppStrings.acceptJob,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -154,7 +155,7 @@ class UserOrderCard extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'Подробнее',
+                  AppStrings.moreDetails,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 12,

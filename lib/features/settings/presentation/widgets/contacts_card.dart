@@ -1,9 +1,12 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:flutter/material.dart';
 
 class ContactsCard extends StatelessWidget {
-  const ContactsCard({super.key});
+  const ContactsCard({super.key, required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class ContactsCard extends StatelessWidget {
             ],
           ),
           Text(
-            'Генеральный директор',
+            AppStrings.manager,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -43,7 +46,7 @@ class ContactsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Email',
+                    AppStrings.email,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -62,7 +65,7 @@ class ContactsCard extends StatelessWidget {
 
                   SizedBox(height: 14),
                   Text(
-                    'Компания',
+                    AppStrings.company,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -87,7 +90,7 @@ class ContactsCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Phone',
+                    AppStrings.phone,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -106,24 +109,34 @@ class ContactsCard extends StatelessWidget {
 
                   SizedBox(height: 37),
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Подробнее',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primary,
+                  InkWell(
+                    onTap: onTap,
+                    //     (){
+                    //   context.push(AppRoutes.contactDetails);
+                    // },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppStrings.moreDetails,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primary,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Icon(Icons.arrow_forward_ios_outlined,size: 16,color: AppColors.primary,),
-                      )
-                    ],
+                        SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 16,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

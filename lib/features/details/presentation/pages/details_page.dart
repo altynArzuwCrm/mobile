@@ -1,17 +1,13 @@
-import 'dart:io';
-
-import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/tabbar_child_widget.dart';
-import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/details/presentation/components/comments_list.dart';
 import 'package:crm/features/details/presentation/components/general_info.dart';
 import 'package:crm/features/details/presentation/components/history_list.dart';
 import 'package:crm/features/details/presentation/components/product.dart';
 import 'package:crm/features/details/presentation/components/project.dart';
 import 'package:crm/features/details/presentation/components/comments_and_history.dart';
+import 'package:crm/features/details/presentation/widgets/details_appbar.dart';
 import 'package:crm/features/details/presentation/widgets/tabbar_delegate.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -37,54 +33,26 @@ class DetailsPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Platform.isIOS
-                                          ? CupertinoIcons.back
-                                          : Icons.arrow_back,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Наименование заказа',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.darkBlue,
-                                    ),
-                                  ),
-                                  AppBarIcon(
-                                    icon: IconAssets.edit,
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
+                              SizedBox(height: 10),
+                              DetailsAppbar(),
                               SizedBox(height: 15),
+
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 25,
                                 ),
-                                child: GeneralInfo(),
-                              ),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 25,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GeneralInfo(),
+                                    SizedBox(height: 20),
+                                    Product(),
+                                    SizedBox(height: 20),
+                                    Project(title: AppStrings.client),
+                                    SizedBox(height: 20),
+                                  ],
                                 ),
-                                child: Product(),
                               ),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 25,
-                                ),
-                                child: Project(title: 'Заказчик',),
-                              ),
-                              SizedBox(height: 20),
                             ],
                           ),
                         ]),
@@ -104,11 +72,10 @@ class DetailsPage extends StatelessWidget {
                     ),
                   ];
                 },
-
             body: TabBarView(
               children: [
                 TabChildWidget(
-                  childKey: 'Комментарии',
+                  childKey: AppStrings.comments,
                   delegate: SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 25.0,
@@ -119,7 +86,7 @@ class DetailsPage extends StatelessWidget {
                   isComment: true,
                 ),
                 TabChildWidget(
-                  childKey: 'История',
+                  childKey: AppStrings.history,
                   delegate: HistoryList(),
                   isComment: false,
                 ),

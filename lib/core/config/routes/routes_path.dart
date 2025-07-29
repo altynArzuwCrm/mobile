@@ -12,7 +12,7 @@ abstract final class AppRoutes {
   static const String mainPage = '/mainPage';
   static const String orderPage = '/orderPage';
   static const String statisticsPage = '/statisticsPage';
-  static const String userPage = '/userPage';
+  static const String settingsPage = '/settingsPage';
   static const String userOrderPage = '/userOrderPage';
 
 
@@ -23,5 +23,12 @@ abstract final class AppRoutes {
   static const String projectDetails = '/projectDetails';
   static const String editProject = '/editProject';
   static const String contacts = '/contacts';
+  static const String contactDetails = '/clientProfile';
+  static const String editContact = '/editContact';
+  static const String editProfile = '/editProfile';
+  static const String employee = '/employee';
+  static const String employeeProfile = '/employeeProfile';
+  static const String employeeProfileEdit = '/employeeProfileEdit';
+  static const String support = '/support';
 
 }

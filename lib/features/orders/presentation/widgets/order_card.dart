@@ -1,6 +1,8 @@
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_decorated_container/flutter_decorated_container.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard({super.key});
@@ -61,7 +63,7 @@ class OrderCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Название заказа',
+                AppStrings.orderTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
@@ -69,7 +71,7 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'Проект',
+                AppStrings.project,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -87,7 +89,7 @@ class OrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Начало',
+                    AppStrings.start,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -108,7 +110,7 @@ class OrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Ответственный',
+                    AppStrings.responsible,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -130,7 +132,7 @@ class OrderCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Дедлайн',
+                    AppStrings.dedline,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -180,7 +182,7 @@ class OrderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  'Принять работу',
+                  AppStrings.acceptJob,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -193,10 +195,13 @@ class OrderCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: AppColors.red,style: BorderStyle.solid)
+                  border: Border.all(
+                    color: AppColors.red,
+                    style: BorderStyle.solid,
+                  ),
                 ),
                 child: Text(
-                  'Отклонить',
+                  AppStrings.reject,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -205,9 +210,11 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push(AppRoutes.details);
+                },
                 child: Text(
-                  'Подробнее',
+                  AppStrings.moreDetails,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 12,

@@ -1,38 +1,38 @@
-const String IMAGE_PATH = "assets/images";
-const String JSON_PATH = "assets/animations";
-const String ICON_PATH = "assets/icons";
+const String imagePath = "assets/images";
+const String jsonPath = "assets/animations";
+const String iconPath = "assets/icons";
 
 class ImageAssets {
-  static const String splashLogo = "$ICON_PATH/logo.svg";
-  static const String noImage = "$IMAGE_PATH/image.png";
+  static const String splashLogo = "$iconPath/logo.svg";
+  static const String noImage = "$imagePath/image.png";
 }
 class IconAssets{
-  static const String logo = '$ICON_PATH/logo.png';
-  static const String mainLogo = '$ICON_PATH/mainLogo.svg';
+  static const String logo = '$iconPath/logo.png';
+  static const String mainLogo = '$iconPath/mainLogo.svg';
 
-  static const String mainBottom = '$ICON_PATH/mainBottom.svg';
-  static const String orderBottom = '$ICON_PATH/orderBottom.svg';
-  static const String statisticBottom = '$ICON_PATH/statisticBottom.svg';
-  static const String userBottom = '$ICON_PATH/userBottom.svg';
+  static const String mainBottom = '$iconPath/mainBottom.svg';
+  static const String orderBottom = '$iconPath/orderBottom.svg';
+  static const String statisticBottom = '$iconPath/statisticBottom.svg';
+  static const String userBottom = '$iconPath/userBottom.svg';
 
-  static const String search = '$ICON_PATH/search.svg';
-  static const String notifications = '$ICON_PATH/notifications.svg';
-  static const String filter = '$ICON_PATH/filter.svg';
-  static const String delete = '$ICON_PATH/delete.svg';
-  static const String edit = '$ICON_PATH/edit.svg';
-  static const String calendar = '$ICON_PATH/calendar.svg';
-  static const String attach = '$ICON_PATH/attach.svg';
-  static const String send = '$ICON_PATH/send.svg';
-
-
+  static const String search = '$iconPath/search.svg';
+  static const String notifications = '$iconPath/notifications.svg';
+  static const String filter = '$iconPath/filter.svg';
+  static const String delete = '$iconPath/delete.svg';
+  static const String edit = '$iconPath/edit.svg';
+  static const String calendar = '$iconPath/calendar.svg';
+  static const String attach = '$iconPath/attach.svg';
+  static const String send = '$iconPath/send.svg';
 
 
-  static const String contact = '$ICON_PATH/contact.svg';
-  static const String members = '$ICON_PATH/members.svg';
-  static const String profile = '$ICON_PATH/profile.svg';
-  static const String project = '$ICON_PATH/project.svg';
-  static const String support = '$ICON_PATH/support.svg';
-  static const String warehouse = '$ICON_PATH/warehouse.svg';
+
+
+  static const String contact = '$iconPath/contact.svg';
+  static const String members = '$iconPath/members.svg';
+  static const String profile = '$iconPath/profile.svg';
+  static const String project = '$iconPath/project.svg';
+  static const String support = '$iconPath/support.svg';
+  static const String warehouse = '$iconPath/warehouse.svg';
 
 }
 

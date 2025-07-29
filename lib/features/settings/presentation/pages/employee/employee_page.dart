@@ -2,18 +2,19 @@ import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/presentation/widgets/filter_widget.dart';
-import 'package:crm/features/settings/presentation/pages/contacts/components/contacts.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:flutter/material.dart';
+import 'components/employee_activity_list.dart';
+import 'components/employee_list.dart';
 
-class ContactsPage extends StatefulWidget {
-  const ContactsPage({super.key});
+class EmployeePage extends StatefulWidget {
+  const EmployeePage({super.key});
 
   @override
-  State<ContactsPage> createState() => _ContactsPageState();
+  State<EmployeePage> createState() => _EmployeePageState();
 }
 
-class _ContactsPageState extends State<ContactsPage>
+class _EmployeePageState extends State<EmployeePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -34,7 +35,7 @@ class _ContactsPageState extends State<ContactsPage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(AppStrings.contacts),
+        title: Text(AppStrings.members),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
@@ -46,17 +47,15 @@ class _ContactsPageState extends State<ContactsPage>
           child: TabBarHeader(
             tabController: _tabController,
             tabs: [
-              Tab(child: Center(child: Text(AppStrings.contacts, maxLines: 1))),
-              Tab(
-                child: Center(child: Text(AppStrings.companies, maxLines: 1)),
-              ),
+              Tab(child: Center(child: Text(AppStrings.members, maxLines: 1))),
+              Tab(child: Center(child: Text(AppStrings.activity, maxLines: 1))),
             ],
           ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [ContactsList(), ContactsList()],
+        children: const [EmployeeList(), EmployeeActivityList()],
       ),
     );
   }

@@ -1,10 +1,13 @@
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,6 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _positionCtrl = TextEditingController();
   final TextEditingController _emailCtrl = TextEditingController();
   final TextEditingController _passwordCtrl = TextEditingController();
+  bool remember = false;
 
   bool isVisible = true;
 
@@ -41,8 +45,9 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 60),
             Text(
-              'Altyn Arzuw',
+              AppStrings.appName,
 
               style: TextStyle(
                 fontFamily: TextFonts.nunito,
@@ -59,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Заявка для регистрации',
+                      AppStrings.registration,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: TextFonts.nunito,
@@ -74,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Имя',
+                          AppStrings.name,
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
@@ -89,12 +94,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         KTextField(
                           controller: _nameCtrl,
                           isSubmitted: false,
-                          hintText: 'Введите ваше имя',
+                          hintText: AppStrings.writeName,
                         ),
                         SizedBox(height: 25),
 
                         Text(
-                          'Фамилия',
+                          AppStrings.surname,
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
@@ -109,12 +114,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         KTextField(
                           controller: _surnameCtrl,
                           isSubmitted: false,
-                          hintText: 'Введите свою фамилию',
+                          hintText: AppStrings.enterSurname,
                         ),
                         SizedBox(height: 25),
 
                         Text(
-                          'Позиция',
+                          AppStrings.position,
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
@@ -129,12 +134,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         KTextField(
                           controller: _positionCtrl,
                           isSubmitted: false,
-                          hintText: 'Введите свою позицию',
+                          hintText: AppStrings.enterPosition,
                         ),
                         SizedBox(height: 25),
 
                         Text(
-                          'Email',
+                          AppStrings.email,
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
@@ -149,12 +154,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         KTextField(
                           controller: _emailCtrl,
                           isSubmitted: false,
-                          hintText: 'youremail@gmail.com',
+                          hintText: AppStrings.emailHint,
                         ),
                         SizedBox(height: 25),
 
                         Text(
-                          'Пароль',
+                          AppStrings.password,
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
@@ -195,31 +200,36 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             Row(
                               children: [
-                                Theme(
-                                  data: Theme.of(context).copyWith(
-                                    checkboxTheme: CheckboxThemeData(
-                                      side: BorderSide(color: AppColors.white),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      remember = !remember;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 24,
+                                    width: 24,
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                        color: AppColors.white,
                                       ),
-                                      fillColor:
-                                          WidgetStateProperty.resolveWith<
-                                            Color
-                                          >((states) {
-                                            return Colors.transparent;
-                                          }),
                                     ),
-                                  ),
-                                  child: Checkbox(
-                                    value: true,
-                                    onChanged: (value) {},
-                                    checkColor: AppColors.primary,
+                                    child: remember
+                                        ? Icon(
+                                            Icons.done,
+                                            color: AppColors.primary,
+                                            size: 16,
+                                          )
+                                        : null,
                                   ),
                                 ),
 
                                 SizedBox(width: 12),
                                 Text(
-                                  'Запомнить',
+                                  AppStrings.remember,
                                   textAlign: TextAlign.start,
 
                                   style: TextStyle(
@@ -231,15 +241,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                               ],
                             ),
-                            Text(
-                              'Забыли пароль?',
-                              textAlign: TextAlign.end,
+                            TextButton(
+                              onPressed: () {
+                                context.push(AppRoutes.changePassword);
+                              },
+                              child: Text(
+                                AppStrings.forgetPassword,
+                                textAlign: TextAlign.end,
 
-                              style: TextStyle(
-                                fontFamily: TextFonts.nunito,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: Colors.white,
+                                style: TextStyle(
+                                  fontFamily: TextFonts.nunito,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -248,17 +263,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     SizedBox(height: 35),
                     MainButton(
-                      buttonTile: 'Отправитьh',
-                      onPressed: () {},
+                      buttonTile: AppStrings.send,
+                      onPressed: () {
+                        context.go(AppRoutes.mainPage);
+                      },
                       isLoading: false,
                       hasIcon: true,
                     ),
                     SizedBox(height: 20),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pop();
+                      },
 
                       child: Text(
-                        'Есть аккаунт',
+                        AppStrings.hasAccount,
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: TextFonts.nunito,
@@ -268,8 +287,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                     ),
-
-                    ///
                   ],
                 ),
               ),

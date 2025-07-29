@@ -1,10 +1,13 @@
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -31,7 +34,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Altyn Arzuw',
+            AppStrings.appName,
 
             style: TextStyle(
               fontFamily: TextFonts.nunito,
@@ -46,7 +49,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Сбросить пароль',
+                  AppStrings.resetPassword,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: TextFonts.nunito,
@@ -61,7 +64,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email',
+                      AppStrings.email,
                       textAlign: TextAlign.start,
 
                       style: TextStyle(
@@ -78,24 +81,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       child: KTextField(
                         controller: _emailCtrl,
                         isSubmitted: false,
-                        hintText: 'youremail@gmail.com',
+                        hintText: AppStrings.emailHint,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(height: 53),
                 MainButton(
-                  buttonTile: 'Подтвердить',
-                  onPressed: () {},
+                  buttonTile: AppStrings.confirm,
+                  onPressed: () {
+                    context.push(AppRoutes.confirmPassword);
+                  },
                   isLoading: false,
                   hasIcon: true,
                 ),
                 SizedBox(height: 20),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pop();
+                  },
 
                   child: Text(
-                    'Вернуться',
+                    AppStrings.back,
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: TextFonts.nunito,

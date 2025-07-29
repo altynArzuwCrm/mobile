@@ -19,13 +19,13 @@ class BottomNavBar extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
         decoration: BoxDecoration(
           color: AppColors.accent,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(items.length, (index) {
             final isSelected = index == currentIndex;
 
@@ -38,7 +38,14 @@ class BottomNavBar extends StatelessWidget {
                   color: isSelected ? AppColors.primary : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
-                child: SvgPicture.asset(items[index], color: AppColors.white),
+                child: SvgPicture.asset(
+                  items[index],
+                  //  color: AppColors.white,
+                  colorFilter: ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
             );
           }),

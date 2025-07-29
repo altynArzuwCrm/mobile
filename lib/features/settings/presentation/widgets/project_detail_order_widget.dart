@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart'
     show MainCardWidget;
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class ProjectDetailOrderWidget extends StatelessWidget {
     return Stack(
       children: [
         MainCardWidget(
-
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -19,7 +19,7 @@ class ProjectDetailOrderWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Дизайн обложки',
+                    AppStrings.coverDesign,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -30,7 +30,7 @@ class ProjectDetailOrderWidget extends StatelessWidget {
                   SizedBox(height: 5),
 
                   Text(
-                    'Ответственный',
+                    AppStrings.responsible,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -48,7 +48,7 @@ class ProjectDetailOrderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios_outlined,size: 16,)
+              Icon(Icons.arrow_forward_ios_outlined, size: 16),
             ],
           ),
         ),

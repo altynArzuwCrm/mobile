@@ -1,16 +1,15 @@
-import 'package:crm/common/widgets/shimmer_image.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
-import 'package:crm/features/details/presentation/widgets/person_img_with_title_widget.dart';
-import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Project extends StatelessWidget {
   const Project({super.key, required this.title});
-final String title;
+
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return MainCardWidget(
@@ -59,7 +58,7 @@ final String title;
           ),
           SizedBox(height: 20),
           Text(
-            'Описание',
+            AppStrings.description,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16,
@@ -76,9 +75,8 @@ final String title;
             ),
           ),
 
-          // SizedBox(height: 0),
           Text(
-            'Дополнительные файлы',
+            AppStrings.additionalFile,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16,

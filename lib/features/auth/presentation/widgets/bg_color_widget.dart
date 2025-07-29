@@ -9,6 +9,7 @@ class BgColorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     backgroundColor: Color(0xff6392E5),
       body: Container(
         width: double.infinity,
         height: double.infinity,

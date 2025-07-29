@@ -1,25 +1,12 @@
-import 'dart:io';
-
-import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/main_btn.dart';
-import 'package:crm/common/widgets/tabbar_child_widget.dart';
-import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/details/presentation/components/comments_list.dart';
-import 'package:crm/features/details/presentation/components/general_info.dart';
-import 'package:crm/features/details/presentation/components/history_list.dart';
-import 'package:crm/features/details/presentation/components/product.dart';
 import 'package:crm/features/details/presentation/components/project.dart';
-import 'package:crm/features/details/presentation/components/comments_and_history.dart';
-import 'package:crm/features/details/presentation/widgets/tabbar_delegate.dart';
+import 'package:crm/features/settings/presentation/widgets/edit_project_info_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/project_detail_order_widget.dart';
-import 'package:crm/features/settings/presentation/widgets/project_info_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProjectDetailsPage extends StatelessWidget {
-  const ProjectDetailsPage({super.key});
+class EditProjectPage extends StatelessWidget {
+  const EditProjectPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +14,7 @@ class ProjectDetailsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
-          title: Text('Наименование проекта'),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 18.0),
-              child: AppBarIcon(onTap: () {}, icon: IconAssets.edit),
-            ),
-          ],
+          title: Text(AppStrings.editProject),
         ),
         body: Stack(
           children: [
@@ -45,20 +26,11 @@ class ProjectDetailsPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProjectInfoWidget(),
+                        EditProjectInfoWidget(),
 
                         SizedBox(height: 20),
-                        Project(title: 'Проект',),
+                        Project(title: AppStrings.project),
                         SizedBox(height: 20),
-
-                        Text(
-                          'Заказы',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            color: AppColors.darkBlue,
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -85,7 +57,7 @@ class ProjectDetailsPage extends StatelessWidget {
               right: 25,
               left: 25,
               child: MainButton(
-                buttonTile: 'Вернуться',
+                buttonTile: AppStrings.save,
                 onPressed: () {},
                 isLoading: false,
               ),

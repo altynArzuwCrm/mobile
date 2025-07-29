@@ -4,7 +4,12 @@ import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class SearchChip extends StatelessWidget {
-  const SearchChip({super.key, required this.title, required this.onTap, required this.onDeleted});
+  const SearchChip({
+    super.key,
+    required this.title,
+    required this.onTap,
+    required this.onDeleted,
+  });
 
   final String title;
   final VoidCallback onTap;
@@ -14,7 +19,8 @@ class SearchChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Chip(onDeleted: onDeleted,
+      child: Chip(
+        onDeleted: onDeleted,
         padding: EdgeInsets.zero,
         backgroundColor: AppColors.bgColor,
         deleteIcon: IconButton(
@@ -40,7 +46,6 @@ class SearchChip extends StatelessWidget {
               ),
             ),
 
-            // SizedBox(width: 8),
           ],
         ),
       ),

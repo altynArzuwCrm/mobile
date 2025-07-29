@@ -1,10 +1,13 @@
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});
@@ -35,7 +38,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Altyn Arzuw',
+            AppStrings.appName,
 
             style: TextStyle(
               fontFamily: TextFonts.nunito,
@@ -52,7 +55,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Новый пароль',
+                    AppStrings.newPassword,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: TextFonts.nunito,
@@ -67,7 +70,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Новый пароль',
+                        AppStrings.newPassword,
                         textAlign: TextAlign.start,
 
                         style: TextStyle(
@@ -92,19 +95,19 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                           },
                           child: isVisibleNew
                               ? const Icon(
-                            Icons.visibility_outlined,
-                            color: AppColors.white,
-                          )
+                                  Icons.visibility_outlined,
+                                  color: AppColors.white,
+                                )
                               : const Icon(
-                            Icons.visibility_off_outlined,
-                            color: AppColors.white,
-                          ),
+                                  Icons.visibility_off_outlined,
+                                  color: AppColors.white,
+                                ),
                         ),
                       ),
                       SizedBox(height: 25),
 
                       Text(
-                        'Подтвердите пароль',
+                        AppStrings.confirmPassword,
                         textAlign: TextAlign.start,
 
                         style: TextStyle(
@@ -138,18 +141,18 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                 ),
                         ),
                       ),
-
                     ],
                   ),
                   SizedBox(height: 45),
                   MainButton(
-                    buttonTile: 'Подтвердить ',
-                    onPressed: () {},
+                    buttonTile: AppStrings.confirm,
+                    onPressed: () {
+                      context.go(AppRoutes.mainPage);
+
+                    },
                     isLoading: false,
                     hasIcon: true,
                   ),
-
-
                 ],
               ),
             ),

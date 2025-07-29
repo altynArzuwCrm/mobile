@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/details/presentation/widgets/person_img_with_title_widget.dart';
@@ -19,7 +20,7 @@ class GeneralInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Общая инфмормация',
+                AppStrings.allInfo,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
@@ -43,7 +44,7 @@ class GeneralInfo extends StatelessWidget {
           ),
           SizedBox(height: 15),
           Text(
-            'Заказчик',
+            AppStrings.client,
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -55,7 +56,7 @@ class GeneralInfo extends StatelessWidget {
 
           SizedBox(height: 22),
           Text(
-            'Ответственный',
+            AppStrings.responsible,
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -66,7 +67,7 @@ class GeneralInfo extends StatelessWidget {
           PersonImgWithTitleWidget(image: img, name: 'Black Sliva'),
           SizedBox(height: 22),
           Text(
-            'Ответственный',
+            AppStrings.dedline,
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -84,7 +85,7 @@ class GeneralInfo extends StatelessWidget {
           ),
           SizedBox(height: 22),
           Text(
-            'Сумма',
+            AppStrings.sum,
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,

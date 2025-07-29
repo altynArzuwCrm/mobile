@@ -74,71 +74,69 @@ class TabChildWidget extends StatelessWidget {
                     top: false,
                     child: Column(
                       children: [
-                        Container(
-                          child: Stack(
-                            children: [
-                              TextField(
-                                onTapOutside: (event) {
-                                  FocusScope.of(context).unfocus();
-                                },
-                                decoration: InputDecoration(
-                                  hintText: "Введите текст",
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.fromLTRB(
-                                    16,
-                                    16,
-                                    6,
-                                    16,
+                        Stack(
+                          children: [
+                            TextField(
+                              onTapOutside: (event) {
+                                FocusScope.of(context).unfocus();
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Введите текст",
+                                isDense: true,
+                                contentPadding: EdgeInsets.fromLTRB(
+                                  16,
+                                  16,
+                                  6,
+                                  16,
+                                ),
+                                fillColor: AppColors.white,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusColor: AppColors.primary,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
                                   ),
-                                  fillColor: AppColors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(14),
+                                    topRight: Radius.circular(14),
                                   ),
-                                  focusColor: AppColors.primary,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppColors.primary,
-                                    ),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(14),
-                                      topRight: Radius.circular(14),
-                                    ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.timeBorder,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppColors.timeBorder,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
 
-                                  suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        right: 6,
-                                        top: 2,
-                                        bottom: 2,
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(14),
-                                        color: AppColors.sendBtn,
-                                      ),
-                                      child: SvgPicture.asset(
-                                        IconAssets.send,
-                                        height: 24,
-                                        width: 24,
-                                      ),
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    FocusScope.of(context).unfocus();
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      right: 6,
+                                      top: 2,
+                                      bottom: 2,
+                                    ),
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: AppColors.sendBtn,
+                                    ),
+                                    child: SvgPicture.asset(
+                                      IconAssets.send,
+                                      height: 24,
+                                      width: 24,
                                     ),
                                   ),
                                 ),
-                                maxLines: 1,
                               ),
-                            ],
-                          ),
+                              maxLines: 1,
+                            ),
+                          ],
                         ),
 
                         const SizedBox(height: 35),

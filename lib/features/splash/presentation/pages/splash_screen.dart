@@ -1,11 +1,54 @@
+import 'dart:async';
+
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
+import 'package:crm/core/local/app_prefs.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+  final _appPreferences = locator<AppPreferences>();
+
+  _startDelay() async {
+    _timer = Timer(const Duration(milliseconds: 3000), _goNext);
+  }
+
+  void _goNext() async {
+    final isNotFirstTime = await _appPreferences.isOnBoardingScreenViewed();
+
+    if (!mounted) return;
+
+    if (isNotFirstTime) {
+      context.go(AppRoutes.mainPage);
+    } else {
+      context.go(AppRoutes.signIn);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _startDelay();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +60,7 @@ class SplashScreen extends StatelessWidget {
         children: [
           Image.asset(IconAssets.logo, width: 50, height: 27),
           Text(
-            'Worky',
+            AppStrings.splashName,
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w600,
@@ -26,7 +69,7 @@ class SplashScreen extends StatelessWidget {
             ),
           ),
           Text(
-            'Digital & IT',
+            AppStrings.digital,
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w400,

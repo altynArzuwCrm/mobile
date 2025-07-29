@@ -28,7 +28,12 @@ class AppBarIcon extends StatelessWidget {
           icon,
           height: iconHeight ?? 24,
           width: iconWidth ?? 24,
-          color: color ??  Theme.of(context).appBarTheme.iconTheme!.color,
+          // color: color ??  Theme.of(context).appBarTheme.iconTheme!.color,
+          colorFilter: ColorFilter.mode(
+            color ?? Theme.of(context).appBarTheme.iconTheme!.color!,
+            BlendMode.srcIn,
+          ),
+
         ),
       ),
     );

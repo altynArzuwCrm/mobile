@@ -21,7 +21,7 @@ class DialogWidget extends StatelessWidget {
       backgroundColor: AppColors.white,
       elevation: 4,
       insetPadding: EdgeInsets.symmetric(horizontal: 35),
-      shadowColor: Theme.of(context).shadowColor.withOpacity(0.5),
+      shadowColor: Theme.of(context).shadowColor.withAlpha(128),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
       ),

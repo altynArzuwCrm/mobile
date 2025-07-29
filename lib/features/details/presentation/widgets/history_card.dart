@@ -1,7 +1,6 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/features/details/presentation/widgets/person_img_with_title_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HistoryCard extends StatelessWidget {

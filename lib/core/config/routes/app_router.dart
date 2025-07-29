@@ -9,20 +9,26 @@ import 'package:crm/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:crm/features/details/presentation/pages/details_page.dart';
 import 'package:crm/features/main/presentation/pages/main_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
-import 'package:crm/features/orders/presentation/pages/user_order_page.dart';
 import 'package:crm/features/settings/presentation/pages/contacts/contacts_page.dart';
-import 'package:crm/features/settings/presentation/pages/edit_project_page.dart';
-import 'package:crm/features/settings/presentation/pages/profile_page.dart';
-import 'package:crm/features/settings/presentation/pages/project_details_page.dart';
-import 'package:crm/features/settings/presentation/pages/projects_page.dart';
+import 'package:crm/features/settings/presentation/pages/contacts/edit_contact_page.dart';
+import 'package:crm/features/settings/presentation/pages/employee/edit_employee_profile.dart';
+import 'package:crm/features/settings/presentation/pages/employee/employee_page.dart';
+import 'package:crm/features/settings/presentation/pages/employee/employee_profile.dart';
+import 'package:crm/features/settings/presentation/pages/profile/edit_profile_page.dart';
+import 'package:crm/features/settings/presentation/pages/project/edit_project_page.dart';
+import 'package:crm/features/settings/presentation/pages/contacts/contact_detail_page.dart';
+import 'package:crm/features/settings/presentation/pages/profile/profile_page.dart';
+import 'package:crm/features/settings/presentation/pages/project/project_details_page.dart';
+import 'package:crm/features/settings/presentation/pages/project/projects_page.dart';
 import 'package:crm/features/settings/presentation/pages/settings_page.dart';
+import 'package:crm/features/settings/presentation/pages/support/support_page.dart';
 import 'package:crm/features/settings/presentation/pages/warehouse_page.dart';
 import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final goRouter = GoRouter(
-  initialLocation: AppRoutes.contacts,
+  initialLocation: AppRoutes.splash,
   navigatorKey: rootNavKey,
   routes: [
     StatefulShellRoute.indexedStack(
@@ -36,9 +42,7 @@ final goRouter = GoRouter(
             GoRoute(
               path: AppRoutes.mainPage,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(
-                  child: MainPage(),
-                );
+                return const NoTransitionPage(child: MainPage());
               },
             ),
           ],
@@ -54,7 +58,7 @@ final goRouter = GoRouter(
                   child: OrdersPage(),
                 );
               },
-            )
+            ),
           ],
         ),
         StatefulShellBranch(
@@ -64,25 +68,21 @@ final goRouter = GoRouter(
               path: AppRoutes.statisticsPage,
               pageBuilder: (context, state) {
                 return NoTransitionPage(
-                  child: Scaffold(
-                    appBar: AppBar(title: Text('statisticsPage'),),
-                  ),
+                  child: Scaffold(appBar: AppBar(title: Text('Статистика'))),
                 );
               },
-            )
+            ),
           ],
         ),
         StatefulShellBranch(
           navigatorKey: shellNavKey4,
           routes: [
             GoRoute(
-              path: AppRoutes.userPage,
+              path: AppRoutes.settingsPage,
               pageBuilder: (context, state) {
-                return NoTransitionPage(
-                  child: SettingsPage(),
-                );
+                return NoTransitionPage(child: SettingsPage());
               },
-            )
+            ),
           ],
         ),
       ],
@@ -164,6 +164,48 @@ final goRouter = GoRouter(
       path: AppRoutes.contacts,
       builder: (context, state) {
         return ContactsPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.contactDetails,
+      builder: (context, state) {
+        return ContactDetailPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.editContact,
+      builder: (context, state) {
+        return EditContactPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.editProfile,
+      builder: (context, state) {
+        return EditProfilePage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.employee,
+      builder: (context, state) {
+        return EmployeePage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.employeeProfile,
+      builder: (context, state) {
+        return EmployeeProfilePage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.employeeProfileEdit,
+      builder: (context, state) {
+        return EmployeeProfileEditPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.support,
+      builder: (context, state) {
+        return SupportPage();
       },
     ),
   ],

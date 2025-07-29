@@ -1,5 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/settings/presentation/widgets/settings_widget.dart';
@@ -11,12 +13,12 @@ class SettingsPage extends StatelessWidget {
   SettingsPage({super.key});
 
   final List<String> titles = [
-    'Профиль',
-    'Проекты',
-    'Контакты',
-    'Сотрудники',
-    'Справочник товаров и услуг',
-    'Поддержка',
+    AppStrings.profile,
+    AppStrings.products,
+    AppStrings.contacts,
+    AppStrings.members,
+    AppStrings.productSupport,
+    AppStrings.support,
   ];
   final List<String> icons = [
     IconAssets.profile,
@@ -25,6 +27,15 @@ class SettingsPage extends StatelessWidget {
     IconAssets.members,
     IconAssets.warehouse,
     IconAssets.support,
+  ];
+
+  final List<String> routes = [
+    AppRoutes.profile,
+    AppRoutes.projects,
+    AppRoutes.contacts,
+    AppRoutes.employee,
+    AppRoutes.warehouse,
+    AppRoutes.support,
   ];
 
   @override
@@ -56,7 +67,7 @@ class SettingsPage extends StatelessWidget {
               UserDataWidget(),
               Divider(color: AppColors.commentTimeBorder, thickness: 1),
 
-              SettingsWidget(titles: titles, icons: icons, routes: []),
+              SettingsWidget(titles: titles, icons: icons, routes: routes),
             ],
           ),
         ),

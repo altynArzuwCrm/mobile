@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class HomePageSearchWidget extends StatefulWidget {
@@ -69,7 +68,7 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
         ),
         errorText: null,
 
-        hintText: 'Поиск',
+        hintText: AppStrings.search,
         hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColors.gray),
         contentPadding:
         const EdgeInsets.symmetric(horizontal: 12, vertical: 15),

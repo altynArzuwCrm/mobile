@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'setting_item_widget.dart';
 
 class SettingsWidget extends StatelessWidget {
-  const SettingsWidget({super.key, required this.titles, required this.icons, required this.routes});
+  const SettingsWidget({
+    super.key,
+    required this.titles,
+    required this.icons,
+    required this.routes,
+  });
 
   final List<String> titles;
   final List<String> icons;
@@ -17,13 +23,18 @@ class SettingsWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: List.generate(
           6,
-              (index) =>
-              InkWell(
-                  onTap: (){},
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: SettingsItemWidget(icon: icons[index], title: titles[index]),
-                  )),
+          (index) => InkWell(
+            onTap: () {
+              context.push(routes[index]);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: SettingsItemWidget(
+                icon: icons[index],
+                title: titles[index],
+              ),
+            ),
+          ),
         ),
       ),
     );
