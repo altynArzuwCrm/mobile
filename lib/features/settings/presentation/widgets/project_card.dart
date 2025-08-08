@@ -6,7 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({super.key});
+  const ProjectCard({
+    super.key,
+    required this.title,
+    required this.deadline,
+    required this.ordersCount, required this.id,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final int id;
+  final String title;
+  final String? deadline;
+  final int ordersCount;
+
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +29,8 @@ class ProjectCard extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            context.push(AppRoutes.projectDetails);
+            onTap();
+            context.push('${AppRoutes.projectDetails}/$id');
           },
           borderRadius: BorderRadius.circular(8),
           child: MainCardWidget(
@@ -22,7 +38,7 @@ class ProjectCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'PN0001245',
+                  title,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -36,49 +52,53 @@ class ProjectCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
-                      children: [
-                        Text(
-                          AppStrings.start,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: AppColors.normalGray,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Text(
-                          '2d 4h',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: AppColors.darkBlue,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          AppStrings.responsible,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: AppColors.normalGray,
-                          ),
-                        ),
-                        SizedBox(height: 2),
+                      crossAxisAlignment: CrossAxisAlignment.start,
 
+                      children: [
                         Text(
-                          'Марал Маралова',
+                          AppStrings.orders,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: AppColors.accent,
+                            fontSize: 14,
+                            color: AppColors.normalGray,
                           ),
                         ),
+                        SizedBox(height: 2),
+                          Text(
+                            ordersCount.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
                       ],
                     ),
+                    // Column(
+                    //   children: [
+                    //     Text(
+                    //       AppStrings.responsible,
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.w400,
+                    //         fontSize: 14,
+                    //         color: AppColors.normalGray,
+                    //       ),
+                    //     ),
+                    //     SizedBox(height: 2),
+                    //
+                    //     Text(
+                    //       'Марал Маралова',
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.w400,
+                    //         fontSize: 12,
+                    //         color: AppColors.accent,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: [
                         Text(
                           AppStrings.dedline,
@@ -89,15 +109,15 @@ class ProjectCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 2),
-
-                        Text(
-                          '1d 2h',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: AppColors.darkBlue,
+                        if (deadline != null)
+                          Text(
+                            deadline!,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: AppColors.darkBlue,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                     Padding(

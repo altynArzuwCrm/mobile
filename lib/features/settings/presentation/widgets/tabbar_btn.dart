@@ -5,11 +5,13 @@ class TabBarHeader extends StatelessWidget {
   const TabBarHeader({
     super.key,
     required this.tabController,
-    required this.tabs,
+    required this.tabs, this.margin, this.tabBarColor,
   });
 
   final TabController tabController;
   final List<Widget> tabs;
+  final EdgeInsetsGeometry? margin;
+  final Color? tabBarColor;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +19,15 @@ class TabBarHeader extends StatelessWidget {
       children: [
         Container(
           height: 49.0,
-          margin: const EdgeInsets.symmetric(horizontal: 16),
+          margin:margin ?? const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: AppColors.tabBarColor,
+            color:tabBarColor ?? AppColors.tabBarColor,
             borderRadius: BorderRadius.circular(23),
           ),
         ),
         TabBar(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+          padding: margin?? const EdgeInsets.symmetric(horizontal: 10),
+          labelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
           unselectedLabelColor: AppColors.darkBlue,
           unselectedLabelStyle: TextStyle(
             fontWeight: FontWeight.w400,

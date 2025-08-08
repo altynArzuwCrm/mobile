@@ -1,6 +1,7 @@
 abstract final class AppRoutes {
 
   static const String splash = '/splash';
+  // static const String authGate = '/authGate';
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
   static const String changePassword = '/changePassword';
@@ -22,13 +23,14 @@ abstract final class AppRoutes {
   static const String projects = '/projects';
   static const String projectDetails = '/projectDetails';
   static const String editProject = '/editProject';
-  static const String contacts = '/contacts';
+  static const String contacts = '/clients';
   static const String contactDetails = '/clientProfile';
   static const String editContact = '/editContact';
   static const String editProfile = '/editProfile';
-  static const String employee = '/employee';
+  static const String employee = '/users';
   static const String employeeProfile = '/employeeProfile';
   static const String employeeProfileEdit = '/employeeProfileEdit';
   static const String support = '/support';
+  static const String statistics = '/statistics';
 
 }

@@ -1,11 +1,19 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart'
     show MainCardWidget;
 import 'package:flutter/material.dart';
 
 class ProjectDetailOrderWidget extends StatelessWidget {
-  const ProjectDetailOrderWidget({super.key});
+  const ProjectDetailOrderWidget({
+    super.key,
+    required this.title,
+    required this.client,
+    required this.deadline,
+  });
+
+  final String title;
+  final String client;
+  final String deadline;
 
   @override
   Widget build(BuildContext context) {
@@ -15,39 +23,44 @@ class ProjectDetailOrderWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.coverDesign,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.darkBlue,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.darkBlue,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
 
-                  SizedBox(height: 5),
+                    SizedBox(height: 5),
 
-                  Text(
-                    AppStrings.responsible,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: AppColors.normalGray,
+                    Text(
+                      client,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.normalGray,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    '2d 4h',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: AppColors.darkBlue,
+                    SizedBox(height: 5),
+                    Text(
+                      deadline,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.darkBlue,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              SizedBox(width: 8),
               Icon(Icons.arrow_forward_ios_outlined, size: 16),
             ],
           ),

@@ -30,6 +30,8 @@ abstract class AppColors {
   static const Color attachment = Color.fromRGBO(109, 93, 211, 0.1);
   static const Color sendBtn = Color(0xff3F8CFF);
   static const Color tabBarColor = Color(0xffE6EDF5);
+  static const Color chartTextColor = Color(0xff615E83);
+  static const Color chartLineColor = Color(0xffE5E5EF);
 
 
 

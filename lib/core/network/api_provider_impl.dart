@@ -1,6 +1,7 @@
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'api_provider.dart';
+import 'dio_interceptor.dart';
 
 class ApiProviderImpl implements ApiProvider {
   final Dio dio;
@@ -10,10 +11,12 @@ class ApiProviderImpl implements ApiProvider {
   static Dio _initializeDio() {
     Dio dio = Dio(
       BaseOptions(
-          baseUrl: ApiEndpoints.baseUrl,
-          receiveDataWhenStatusError: true,
-          connectTimeout: const Duration(seconds: 45)),
+        baseUrl: ApiEndpoints.baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(seconds: 10),
+      ),
     );
+    dio.interceptors.addAll([TokenInterceptor(dio)]);
     return dio;
   }
 
@@ -163,10 +166,6 @@ class ApiProviderImpl implements ApiProvider {
       if (!isMultiPart) 'Accept': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
     };
-    return await dio.delete(
-      endPoint,
-      data: data,
-      queryParameters: query,
-    );
+    return await dio.delete(endPoint, data: data, queryParameters: query);
   }
 }

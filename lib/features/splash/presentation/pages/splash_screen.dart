@@ -5,7 +5,7 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
-import 'package:crm/core/local/app_prefs.dart';
+import 'package:crm/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +20,21 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
-  final _appPreferences = locator<AppPreferences>();
+  // final _appPreferences = locator<AppPreferences>();
 
   _startDelay() async {
     _timer = Timer(const Duration(milliseconds: 3000), _goNext);
   }
 
   void _goNext() async {
-    final isNotFirstTime = await _appPreferences.isOnBoardingScreenViewed();
+    final isRegistered = locator<AuthBloc>().state;
 
     if (!mounted) return;
 
-    if (isNotFirstTime) {
-      context.go(AppRoutes.mainPage);
+    //context.go(AppRoutes.mainPage);
+
+    if (isRegistered is Authenticated) {
+      context.go(AppRoutes.statistics);
     } else {
       context.go(AppRoutes.signIn);
     }

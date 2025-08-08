@@ -6,24 +6,24 @@ import 'package:crm/features/auth/presentation/pages/confirm_password_page.dart'
 import 'package:crm/features/auth/presentation/pages/new_password_page.dart';
 import 'package:crm/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:crm/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:crm/features/clients/client_detail_page.dart';
+import 'package:crm/features/clients/clients_page.dart';
+import 'package:crm/features/clients/edit_client_page.dart';
 import 'package:crm/features/details/presentation/pages/details_page.dart';
-import 'package:crm/features/main/presentation/pages/main_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
-import 'package:crm/features/settings/presentation/pages/contacts/contacts_page.dart';
-import 'package:crm/features/settings/presentation/pages/contacts/edit_contact_page.dart';
-import 'package:crm/features/settings/presentation/pages/employee/edit_employee_profile.dart';
-import 'package:crm/features/settings/presentation/pages/employee/employee_page.dart';
-import 'package:crm/features/settings/presentation/pages/employee/employee_profile.dart';
+import 'package:crm/features/projects/presentations/pages/projects_page.dart';
 import 'package:crm/features/settings/presentation/pages/profile/edit_profile_page.dart';
-import 'package:crm/features/settings/presentation/pages/project/edit_project_page.dart';
-import 'package:crm/features/settings/presentation/pages/contacts/contact_detail_page.dart';
+import 'package:crm/features/projects/presentations/pages/edit_project_page.dart';
 import 'package:crm/features/settings/presentation/pages/profile/profile_page.dart';
-import 'package:crm/features/settings/presentation/pages/project/project_details_page.dart';
-import 'package:crm/features/settings/presentation/pages/project/projects_page.dart';
+import 'package:crm/features/projects/presentations/pages/project_details_page.dart';
 import 'package:crm/features/settings/presentation/pages/settings_page.dart';
 import 'package:crm/features/settings/presentation/pages/support/support_page.dart';
 import 'package:crm/features/settings/presentation/pages/warehouse_page.dart';
 import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
+import 'package:crm/features/statistics/presentation/pages/statistics_page.dart' show StatisticsPage;
+import 'package:crm/features/users/edit_user_profile.dart';
+import 'package:crm/features/users/user_page.dart';
+import 'package:crm/features/users/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,9 +40,9 @@ final goRouter = GoRouter(
           navigatorKey: shellNavKey1,
           routes: [
             GoRoute(
-              path: AppRoutes.mainPage,
+              path: AppRoutes.statistics,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(child: MainPage());
+                return const NoTransitionPage(child: StatisticsPage());
               },
             ),
           ],
@@ -94,6 +94,13 @@ final goRouter = GoRouter(
         return SplashScreen();
       },
     ),
+
+    // GoRoute(
+    //   path: AppRoutes.authGate,
+    //   builder: (context, state) {
+    //     return AuthGate();
+    //   },
+    // ),
     GoRoute(
       path: AppRoutes.signIn,
       builder: (context, state) {
@@ -149,11 +156,14 @@ final goRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRoutes.projectDetails,
+      path: '${AppRoutes.projectDetails}/:id',
       builder: (context, state) {
-        return ProjectDetailsPage();
+        final  projectId = state.pathParameters['id']??'';
+        final id = int.parse(projectId);
+        return ProjectDetailsPage(id: id);
       },
     ),
+
     GoRoute(
       path: AppRoutes.editProject,
       builder: (context, state) {

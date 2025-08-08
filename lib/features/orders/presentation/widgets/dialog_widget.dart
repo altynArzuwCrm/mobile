@@ -19,11 +19,12 @@ class DialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: AppColors.white,
-      elevation: 4,
+      elevation: 5,
       insetPadding: EdgeInsets.symmetric(horizontal: 35),
       shadowColor: Theme.of(context).shadowColor.withAlpha(128),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
+        side: BorderSide(color: AppColors.lightGray),
       ),
       alignment: Alignment.center,
       child: ConstrainedBox(

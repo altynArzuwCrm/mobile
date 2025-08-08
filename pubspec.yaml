@@ -49,6 +49,10 @@ dependencies:
   cached_network_image: ^3.4.1
   heroicons_flutter: ^0.4.0
   shared_preferences: ^2.5.3
+  flutter_secure_storage: ^9.2.4
+  toastification: ^3.0.3
+  pull_to_refresh: ^2.0.0
+  fl_chart: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -102,6 +106,10 @@ flutter:
     - family: Nunito
       fonts:
         - asset: assets/fonts/Nunito.ttf
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

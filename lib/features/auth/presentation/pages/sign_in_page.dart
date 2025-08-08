@@ -1,13 +1,20 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
+import 'package:crm/features/auth/domain/usecases/login_usecase.dart';
+import 'package:crm/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_color_widget.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -19,16 +26,35 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailCtrl = TextEditingController();
+  final TextEditingController _nameCtrl = TextEditingController();
   final TextEditingController _passwordCtrl = TextEditingController();
   bool isVisible = true;
   bool remember = false;
 
+  bool validate() {
+    bool isValid = formKey.currentState?.validate() ?? false;
+
+    if (!remember) {
+      return false;
+    }
+
+    return isValid;
+  }
+
   @override
   void dispose() {
-    _emailCtrl.dispose();
+    _nameCtrl.dispose();
     _passwordCtrl.dispose();
+    locator<AuthBloc>().add(CheckAuthEvent());
     super.dispose();
+  }
+
+  bool isDisableBtn() {
+    if ((_nameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) || !remember) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -84,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         SizedBox(height: 10),
 
-                        KTextField(controller: _emailCtrl, isSubmitted: false),
+                        KTextField(controller: _nameCtrl, isSubmitted: false),
                         SizedBox(height: 25),
 
                         Text(
@@ -121,6 +147,14 @@ class _SignInPageState extends State<SignInPage> {
                                     color: AppColors.white,
                                   ),
                           ),
+                          validator: (value) {
+                            if (value != null) {
+                              if (value.isEmpty) {
+                                return '';
+                              }
+                            }
+                            return null;
+                          },
                         ),
                         SizedBox(height: 17),
                         Row(
@@ -141,7 +175,9 @@ class _SignInPageState extends State<SignInPage> {
                                     padding: EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: AppColors.white),
+                                      border: Border.all(
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                     child: remember
                                         ? Icon(
@@ -188,19 +224,59 @@ class _SignInPageState extends State<SignInPage> {
                       ],
                     ),
                     SizedBox(height: 35),
-                    MainButton(
-                      buttonTile: AppStrings.login,
-                      onPressed: () {
-                        context.go(AppRoutes.mainPage);
+                    // MainButton(
+                    //   buttonTile: AppStrings.login,
+                    //   onPressed: () {
+                    //     context.go(AppRoutes.mainPage);
+                    //   },
+                    //   isLoading: false,
+                    //   hasIcon: true,
+                    // ),
+                    BlocConsumer<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        log(state.toString(),name: 'state');
+                        if (state is Authenticated) {
+                          toastification.show(
+                            context: context,
+                            title: Text('Вы успешно вошли в систему'),
+                            autoCloseDuration: const Duration(seconds: 3),
+                          );
+                          context.go(AppRoutes.mainPage);
+                        } else if (state is AuthFailure) {
+                          toastification.show(
+                            context: context,
+                            title: Text(AppStrings.error),
+                            autoCloseDuration: const Duration(seconds: 5),
+                          );
+                        }
                       },
-                      isLoading: false,
-                      hasIcon: true,
+                      builder: (context, state) {
+                        return MainButton(
+                          buttonTile: AppStrings.login,
+                          onPressed: () async {
+                            final name = _nameCtrl.text.trim();
+                            final password = _passwordCtrl.text.trim();
+
+                            if (validate()) {
+                              locator<AuthBloc>().add(
+                                LogInEvent(
+                                  LoginParams(
+                                    password: password,
+                                    username: name,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          isDisable: isDisableBtn(),
+                          isLoading: state is AuthLoading,
+                        );
+                      },
                     ),
                     SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
                         context.push(AppRoutes.signUp);
-
                       },
 
                       child: Text(

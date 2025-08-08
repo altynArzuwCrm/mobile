@@ -23,6 +23,7 @@ class IconAssets{
   static const String calendar = '$iconPath/calendar.svg';
   static const String attach = '$iconPath/attach.svg';
   static const String send = '$iconPath/send.svg';
+  static const String increase = '$iconPath/increase.svg';
 
 
 

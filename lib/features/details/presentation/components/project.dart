@@ -23,7 +23,7 @@ class Project extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    AppStrings.project,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -32,7 +32,7 @@ class Project extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'PN0001245',
+                    title,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,

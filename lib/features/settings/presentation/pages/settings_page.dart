@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
 
   final List<String> titles = [
     AppStrings.profile,
-    AppStrings.products,
+    AppStrings.projects,
     AppStrings.contacts,
     AppStrings.members,
     AppStrings.productSupport,
