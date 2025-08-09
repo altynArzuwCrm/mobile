@@ -9,6 +9,9 @@ class ApiEndpoints {
   static const projects = 'projects';
   static const clients = 'clients';
   static const contacts = 'contacts';
+  static const users = 'users';
+  static const orders = 'orders';
+  static const products = 'products';
 
 
 

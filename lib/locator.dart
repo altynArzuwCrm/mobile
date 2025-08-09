@@ -15,11 +15,17 @@ import 'features/auth/domain/repositories/authentication_repository.dart';
 import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/domain/usecases/logout_usecase.dart';
 import 'features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
+import 'features/clients/data/datasources/remote/client_datasources.dart';
+import 'features/clients/data/repositories/client_repository_impl.dart';
+import 'features/clients/domain/repositories/client_repository.dart';
 import 'features/projects/data/datasources/remote/project_remote_datasource.dart';
 import 'features/projects/data/repository_impl/project_repository_impl.dart';
 import 'features/projects/domain/repositories/project_repository.dart';
 import 'features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'features/users/data/datasources/remote/user_datasources.dart';
+import 'features/users/data/repositories/user_repository_impl.dart';
+import 'features/users/domain/repositories/user_repository.dart';
 
 final locator = GetIt.instance;
 String documentsDir = '';
@@ -55,6 +61,13 @@ Future<void> initLocator() async {
   locator.registerLazySingleton<ProjectRemoteDataSource>(
     () => ProjectRemoteDataSourceImpl(locator()),
   );
+  locator.registerLazySingleton<UserRemoteDataSource>(
+    () => UserRemoteDataSourceImpl(locator()),
+  );
+
+  locator.registerLazySingleton<ClientRemoteDataSource>(
+    () => ClientRemoteDataSourceImpl(locator()),
+  );
 
   ///repository
 
@@ -64,6 +77,12 @@ Future<void> initLocator() async {
 
   locator.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(locator(), locator()),
+  );
+  locator.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(locator(), locator()),
+  );
+  locator.registerLazySingleton<ClientRepository>(
+    () => ClientRepositoryImpl(locator(), locator()),
   );
 
   ///usecase
@@ -77,5 +96,4 @@ Future<void> initLocator() async {
 
   locator.registerSingleton<ProjectsBloc>(ProjectsBloc(locator()));
   locator.registerSingleton<ProjectDetailsBloc>(ProjectDetailsBloc());
-
 }

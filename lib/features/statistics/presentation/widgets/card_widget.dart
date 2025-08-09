@@ -8,9 +8,7 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0), // Adjust the radius here
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       shadowColor: Color.fromRGBO(13, 10, 44, 0.08),
       child: Padding(padding: const EdgeInsets.all(16.0), child: child),
     );

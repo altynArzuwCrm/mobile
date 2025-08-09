@@ -36,9 +36,11 @@ class AuthenticationRemoteDataSourceImpl
 
 
     if (response.statusCode == 200) {
-      final result = UserModel.fromJson(response.data);
+      // final result = UserModel.fromJson(response.data);
+      //
+      // final accessToken = result.token;
 
-      final accessToken = result.token;
+      final accessToken = response.data["token"];
 
       await locator<Store>().setToken(accessToken);
 
