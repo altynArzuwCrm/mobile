@@ -16,6 +16,8 @@ class TokenInterceptor extends Interceptor {
   bool _requiresToken(RequestOptions options) {
     final apiPathsRequiringToken = [
       ApiEndpoints.projects,
+      ApiEndpoints.currentUser,
+      ApiEndpoints.users,
     ];
     return apiPathsRequiringToken.contains(options.path);
   }

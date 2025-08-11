@@ -1,6 +1,7 @@
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/projects/domain/entities/project_entity.dart';
+import 'package:crm/features/projects/domain/usecases/create_project_usecase.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/locator.dart';
 import 'package:equatable/equatable.dart';
@@ -15,6 +16,8 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     repository: locator(),
   );
 
+  final CreateProjectUseCase _createProjectUseCase = CreateProjectUseCase(repository: locator());
+
   // final DeleteProjectUseCase _deleteProjectUseCase = DeleteProjectUseCase(
   //   repository: locator(),
   // );
@@ -23,6 +26,7 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
 
   ProjectsBloc(this._networkInfo) : super(ProjectsLoading()) {
     on<GetAllProjects>(_onGetAllProjects);
+    on<CreateProject>(_onCreateProject);
   }
 
   bool canLoad = true;
@@ -59,6 +63,29 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         } else {
           _projects.addAll(data);
         }
+
+        emit(ProjectsLoaded(_projects));
+      },
+    );
+  }
+
+  Future<void> _onCreateProject(
+      CreateProject event,
+    Emitter<ProjectsState> emit,
+  ) async {
+
+    final result = await _createProjectUseCase.execute(event.params);
+
+    result.fold(
+      (failure) {
+        if (failure is ConnectionFailure) {
+          emit(ProjectsConnectionError());
+        }
+        if (failure is ServerFailure) {
+          emit(ProjectsError());
+        }
+      },
+      (data) {
 
         emit(ProjectsLoaded(_projects));
       },

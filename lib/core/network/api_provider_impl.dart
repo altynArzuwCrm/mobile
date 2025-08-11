@@ -13,7 +13,7 @@ class ApiProviderImpl implements ApiProvider {
       BaseOptions(
         baseUrl: ApiEndpoints.baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 20),
       ),
     );
     dio.interceptors.addAll([TokenInterceptor(dio)]);

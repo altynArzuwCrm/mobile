@@ -265,7 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     MainButton(
                       buttonTile: AppStrings.send,
                       onPressed: () {
-                        context.go(AppRoutes.mainPage);
+                        context.go(AppRoutes.mainStatistics);
                       },
                       isLoading: false,
                       hasIcon: true,

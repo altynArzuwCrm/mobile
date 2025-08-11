@@ -7,6 +7,7 @@ import 'package:crm/features/clients/domain/repositories/client_repository.dart'
 import 'package:crm/features/clients/domain/usecases/create_client_contact_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
+import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:dartz/dartz.dart';
 
 class ClientRepositoryImpl implements ClientRepository{
@@ -48,12 +49,14 @@ class ClientRepositoryImpl implements ClientRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> deleteClient(int id)async {
+  Future<Either<Failure, List<ClientEntity>>> deleteClient(int id)async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
         final response = await remoteDataSource.deleteClient(id);
-        return Right(response);
+        final result = response.map((e)=> e.toEntity()).toList();
+
+        return Right(result);
       } catch (error) {
         return  Left(ServerFailure('[Server]: $error'));
       }
@@ -108,16 +111,16 @@ class ClientRepositoryImpl implements ClientRepository{
   }
 
   @override
-  Future<Either<Failure, List<ClientEntity>>> getAllClients(ProjectParams params) async{
+  Future<Either<Failure, List<ClientEntity>>> getAllClients(UserParams params) async{
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      try {
+      // try {
         final response = await remoteDataSource.getAllClients(params);
         final result = response.map((e)=> e.toEntity()).toList();
         return Right(result);
-      } catch (error) {
-        return  Left(ServerFailure('[Server]: $error'));
-      }
+      // } catch (error) {
+      //   return  Left(ServerFailure('[Server]: $error'));
+      // }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

@@ -3,10 +3,10 @@ import 'package:crm/core/network/api_provider.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_contact_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
-import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
+import 'package:crm/features/users/domain/entities/user_params.dart';
 
 abstract class ClientRemoteDataSource {
-  Future<List<ClientModel>> getAllClients(ProjectParams params);
+  Future<List<ClientModel>> getAllClients(UserParams params);
 
   Future<ClientModel> getClientById(int id);
 
@@ -14,7 +14,7 @@ abstract class ClientRemoteDataSource {
 
   Future<ClientModel> editClient(CreateClientParams params);
 
-  Future<bool> deleteClient(int id);
+  Future<List<ClientModel>> deleteClient(int id);
 
   Future<bool> createClientContact(ClientContactParams params);
 
@@ -29,7 +29,7 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
   ClientRemoteDataSourceImpl(this.apiProvider);
 
   @override
-  Future<List<ClientModel>> getAllClients(ProjectParams params) async {
+  Future<List<ClientModel>> getAllClients(UserParams params) async {
     final response = await apiProvider.get(
       endPoint: ApiEndpoints.clients,
       query: params.toQueryParameters(),
@@ -65,23 +65,27 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
   @override
   Future<ClientModel> editClient(CreateClientParams params) async {
     final response = await apiProvider.put(
-      endPoint: ApiEndpoints.clients,
+      endPoint: '${ApiEndpoints.clients}/${params.id}',
+
       data: params.toQueryParameters(),
     );
+    print(params.toQueryParameters());
     final result = response.data;
     return ClientModel.fromJson(result);
   }
 
   @override
-  Future<bool> deleteClient(int id) async {
+  Future<List<ClientModel>> deleteClient(int id) async {
     final response = await apiProvider.delete(
       endPoint: '${ApiEndpoints.clients}/$id',
     );
 
     if (response.statusCode == 200) {
-      return true;
+      final clients = await getAllClients(UserParams());
+
+      return clients;
     } else {
-      return false;
+      return [];
     }
   }
 

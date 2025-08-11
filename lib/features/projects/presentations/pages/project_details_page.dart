@@ -59,8 +59,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               if (state is ProjectDetailLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is ProjectDetailLoaded) {
-
-                final data  = state.data;
+                final data = state.data;
 
                 return Stack(
                   children: [
@@ -72,7 +71,12 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ProjectInfoWidget(sum: data.paymentAmount,deadline: data.deadline,started: data.createdAt,client: 'client',),
+                                ProjectInfoWidget(
+                                  sum: data.paymentAmount,
+                                  deadline: data.deadline,
+                                  started: data.createdAt,
+                                  client: 'client',
+                                ),
 
                                 SizedBox(height: 20),
                                 Project(title: data.title),
@@ -95,9 +99,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                           padding: EdgeInsets.only(bottom: 85),
                           sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
-                              childCount: data.orders.length,
+                              childCount: data.orders?.length,
                               (BuildContext context, int index) {
-                                final item = data.orders[index];
+                                final item = data.orders?[index];
                                 return Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                     25,
@@ -105,7 +109,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                                     25,
                                     0,
                                   ),
-                                  child: ProjectDetailOrderWidget(title: item.product.name, client: item.client.name, deadline: item.deadline,),
+                                  child: ProjectDetailOrderWidget(
+                                    title: item?.product.name ?? '',
+                                    client: item?.client.name ?? '',
+                                    deadline: item?.deadline ?? '',
+                                  ),
                                 );
                               },
                             ),
@@ -119,7 +127,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                       left: 25,
                       child: MainButton(
                         buttonTile: AppStrings.back,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                         isLoading: false,
                       ),
                     ),

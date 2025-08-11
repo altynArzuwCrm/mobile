@@ -8,13 +8,17 @@ final class GetAllProjects extends ProjectsEvent{
   GetAllProjects(this.params);
 }
 
+final class CreateProject extends ProjectsEvent{
+  final CreateProjectParams params;
+
+  CreateProject(this.params);
+}
 
 final class DeleteProject extends ProjectsEvent{
   final int id;
 
   DeleteProject(this.id);
 }
-
 
 
 final class SelectToDelete extends ProjectsEvent{

@@ -79,12 +79,12 @@ final ProjectRemoteDataSource remoteDataSource;
   Future<Either<Failure, ProjectEntity>> getProjectById(int id)async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.getProjectById(id);
         return Right(response.toEntity());
-      // } catch (error) {
-      //   return  Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return  Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

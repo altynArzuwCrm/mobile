@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
@@ -5,13 +7,21 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/settings/presentation/widgets/settings_widget.dart';
-import 'package:crm/features/settings/presentation/widgets/user_data_widget.dart';
+import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
+import 'package:crm/features/users/presentation/pages/components/user_data_widget.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SettingsPage extends StatelessWidget {
-  SettingsPage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final List<String> titles = [
     AppStrings.profile,
     AppStrings.projects,
@@ -20,6 +30,7 @@ class SettingsPage extends StatelessWidget {
     AppStrings.productSupport,
     AppStrings.support,
   ];
+
   final List<String> icons = [
     IconAssets.profile,
     IconAssets.project,
@@ -33,10 +44,17 @@ class SettingsPage extends StatelessWidget {
     AppRoutes.profile,
     AppRoutes.projects,
     AppRoutes.contacts,
-    AppRoutes.employee,
+    AppRoutes.userPage,
     AppRoutes.warehouse,
     AppRoutes.support,
   ];
+  final userCubit = locator<UserCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    userCubit.getCurrentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +82,21 @@ class SettingsPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
 
             children: [
-              UserDataWidget(),
+              BlocBuilder<UserCubit, UserState>(
+                builder: (context, state) {
+                  log(state.toString());
+                  if (state is UserLoaded) {
+                    final data = state.data;
+                    return UserDataWidget(
+                      name: data.name,
+                      job: data.username,
+                      image: data.image,
+                    );
+                  }
+
+                  return UserDataWidget(name: null, job: null, image: null);
+                },
+              ),
               Divider(color: AppColors.commentTimeBorder, thickness: 1),
 
               SettingsWidget(titles: titles, icons: icons, routes: routes),

@@ -14,7 +14,7 @@ abstract class UserRemoteDataSource {
 
   Future<UserModel> editUser(CreateUserParams params);
 
-  Future<bool> deleteUser(int id);
+  Future<List<UserModel>> deleteUser(int id);
 
   Future<bool> getUsersByRole();
 
@@ -51,26 +51,31 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<bool> deleteUser(int id) async {
+  Future<List<UserModel>> deleteUser(int id) async {
     final response = await apiProvider.delete(
       endPoint: '${ApiEndpoints.users}/$id',
     );
 
     if (response.statusCode == 200) {
-      return true;
+      final users = await getAllUsers(UserParams());
+
+      return users;
     } else {
-      return false;
+      return [];
     }
   }
 
   @override
   Future<UserModel> editUser(CreateUserParams params) async {
     final response = await apiProvider.put(
-      endPoint: ApiEndpoints.users,
+      endPoint: '${ApiEndpoints.users}/${params.id}',
       data: params.toQueryParameters(),
     );
 
-    final result = response.data['data'];
+    final result = response.data;
+    // if(response.statusCode == 200){
+    //   await getAllUsers(UserParams());
+    // }
 
     return UserModel.fromJson(result);
   }
@@ -91,8 +96,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> getCurrentUser() async {
-    final response = await apiProvider.get(endPoint: ApiEndpoints.users);
-    final result = response.data;
+    final response = await apiProvider.get(endPoint: ApiEndpoints.currentUsers);
+    final result = response.data['data'];
+
     return UserModel.fromJson(result);
   }
 
@@ -101,7 +107,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final response = await apiProvider.get(
       endPoint: '${ApiEndpoints.users}/$id',
     );
-    final result = response.data;
+
+    final result = response.data['data'];
     return UserModel.fromJson(result);
   }
 

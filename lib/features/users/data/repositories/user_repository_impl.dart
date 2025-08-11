@@ -33,12 +33,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteUser(int id) async {
+  Future<Either<Failure, List<UserEntity>>> deleteUser(int id) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
         final response = await remoteDataSource.deleteUser(id);
-        return Right(response);
+        final result = response.map((e) => e.toEntity()).toList();
+
+        return Right(result);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
       }

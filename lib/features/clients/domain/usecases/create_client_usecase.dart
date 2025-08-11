@@ -17,12 +17,14 @@ class CreateClientUseCase
 }
 
 class CreateClientParams {
+  final int id;
   final String name;
   final String companyName;
   final String email;
   final String phone;
 
   CreateClientParams({
+    required this.id,
     required this.name,
     required this.companyName,
     required this.email,

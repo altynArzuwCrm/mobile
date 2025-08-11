@@ -30,27 +30,29 @@ class UserParams {
 }
 
 class CreateUserParams {
-  final String name;
-  final String username;
+  final int? id;
+  final String? name;
+  final String? username;
   final String? password;
-  final String phone;
-  final bool isActive;
-  final List<int> roles;
+  final String? phone;
+  final bool? isActive;
+  final List<int>? roles;
 
-  CreateUserParams(
+  CreateUserParams({
+    this.id,
     this.name,
     this.username,
     this.password,
     this.phone,
-    this.isActive,
-    this.roles,
-  );
+    this.isActive = true,
+    this.roles = const [1, 2],
+  });
 
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
 
     params['name'] = name;
-    params['username'] = username.trim();
+    params['username'] = username?.trim();
     if (password != null) params['password'] = password?.trim();
     params['phone'] = phone;
     params['is_active'] = isActive;

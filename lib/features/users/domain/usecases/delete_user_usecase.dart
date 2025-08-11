@@ -1,15 +1,16 @@
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/usecase/usecase.dart';
+import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/repositories/user_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class DeleteUserUseCase extends BaseUseCase<int, bool> {
+class DeleteUserUseCase extends BaseUseCase<int, List<UserEntity>> {
   final UserRepository repository;
 
   DeleteUserUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, bool>> execute(input) async {
+  Future<Either<Failure, List<UserEntity>>> execute(input) async {
     return await repository.deleteUser(input);
   }
 }

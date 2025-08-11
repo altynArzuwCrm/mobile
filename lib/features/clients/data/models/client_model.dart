@@ -20,8 +20,8 @@ class ClientModel {
 
   factory ClientModel.fromJson(Map<String, dynamic> json) => ClientModel(
     id: json["id"],
-    name: json["name"],
-    companyName: json["company_name"],
+    name: json["name"]??'',
+    companyName: json["company_name"]??'',
     createdAt:  json["created_at"] != null
         ? formatDateTime(DateTime.parse(json["created_at"]))
         : '',

@@ -123,7 +123,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
                             id: item.id,
                             title: item.title,
                             deadline: item.deadline,
-                            ordersCount: item.orders.length,
+                            ordersCount: item.orders?.length ?? 0,
 
                             isSelected: index == isSelected,
                             onTap: () {

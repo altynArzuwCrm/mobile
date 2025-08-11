@@ -24,13 +24,13 @@ abstract final class AppRoutes {
   static const String projectDetails = '/projectDetails';
   static const String editProject = '/editProject';
   static const String contacts = '/clients';
-  static const String contactDetails = '/clientProfile';
+  static const String clientDetails = '/clientProfile';
   static const String editContact = '/editContact';
   static const String editProfile = '/editProfile';
-  static const String employee = '/users';
-  static const String employeeProfile = '/employeeProfile';
-  static const String employeeProfileEdit = '/employeeProfileEdit';
+  static const String userPage = '/users';
+  static const String userDetails = '/userDetails';
+  static const String editUserData = '/employeeProfileEdit';
   static const String support = '/support';
-  static const String statistics = '/statistics';
+  static const String mainStatistics = '/mainStatistics';
 
 }

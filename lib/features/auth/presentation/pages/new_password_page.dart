@@ -147,7 +147,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                   MainButton(
                     buttonTile: AppStrings.confirm,
                     onPressed: () {
-                      context.go(AppRoutes.mainPage);
+                      context.go(AppRoutes.mainStatistics);
 
                     },
                     isLoading: false,

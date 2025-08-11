@@ -1,7 +1,7 @@
 class ApiEndpoints {
 
 
-  static const baseUrl = 'http://192.168.31.137:8000/api/';
+  static const baseUrl = 'http://192.168.31.137/api/';
   static const login = 'login';
   static const logout = 'logout';
   static const currentUser = 'me';
@@ -10,6 +10,7 @@ class ApiEndpoints {
   static const clients = 'clients';
   static const contacts = 'contacts';
   static const users = 'users';
+  static const currentUsers = 'me';
   static const orders = 'orders';
   static const products = 'products';
 

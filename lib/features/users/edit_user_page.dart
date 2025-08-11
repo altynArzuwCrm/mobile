@@ -1,32 +1,31 @@
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/clients/domain/entities/client_entity.dart';
-import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
-import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
+import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
+import 'package:crm/features/users/presentation/cubits/user_details/user_details_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
-class EditContactPage extends StatefulWidget {
-  const EditContactPage({super.key, required this.client});
+class EditUserPage extends StatefulWidget {
+  const EditUserPage({super.key, required this.user});
 
-  final ClientEntity client;
+  final UserEntity user;
 
   @override
-  State<EditContactPage> createState() => _EditContactPageState();
+  State<EditUserPage> createState() => _EditUserPageState();
 }
 
-class _EditContactPageState extends State<EditContactPage> {
-  final clientDetailsCubit = locator<ClientDetailsCubit>();
+class _EditUserPageState extends State<EditUserPage> {
+  final userDetailsCubit = locator<UserDetailsCubit>();
   final formKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameCtrl;
@@ -46,11 +45,13 @@ class _EditContactPageState extends State<EditContactPage> {
   void initState() {
     super.initState();
 
-    _nameCtrl = TextEditingController(text: widget.client.name);
-    _surnameCtrl = TextEditingController(text: '');
-    _positionCtrl = TextEditingController(text: '');
+    _nameCtrl = TextEditingController(text: widget.user.name);
+    _surnameCtrl = TextEditingController(text: widget.user.username);
+    _positionCtrl = TextEditingController(
+      text: widget.user.roles?.first.displayName,
+    );
     _emailCtrl = TextEditingController(text: '');
-    _numberCtrl = TextEditingController(text: '');
+    _numberCtrl = TextEditingController(text: widget.user.phone);
     _locationCtrl = TextEditingController(text: '');
   }
 
@@ -101,20 +102,21 @@ class _EditContactPageState extends State<EditContactPage> {
                   SizedBox(height: 15),
                   CustomTextFieldWithTitle(
                     controller: _nameCtrl,
+
                     title: AppStrings.name,
-                    hintText: widget.client.name,
+                    hintText: widget.user.name,
                   ),
                   SizedBox(height: 20),
                   CustomTextFieldWithTitle(
                     controller: _surnameCtrl,
                     title: AppStrings.surname,
-                    hintText: 'Иванов',
+                    hintText: widget.user.username,
                   ),
                   SizedBox(height: 20),
                   CustomTextFieldWithTitle(
                     controller: _positionCtrl,
                     title: AppStrings.position,
-                    hintText: 'UI/UX Designer',
+                    hintText: widget.user.roles?.first.displayName ?? '',
                   ),
                   SizedBox(height: 20),
 
@@ -142,7 +144,7 @@ class _EditContactPageState extends State<EditContactPage> {
                           });
                         },
                         padding: EdgeInsets.zero,
-                        hintText: widget.client.companyName,
+                        hintText: 'Cadabra',
                         icon: Icon(
                           Icons.keyboard_arrow_down_outlined,
                           color: AppColors.gray,
@@ -216,31 +218,31 @@ class _EditContactPageState extends State<EditContactPage> {
                   CustomTextFieldWithTitle(
                     controller: _numberCtrl,
                     title: AppStrings.number,
-                    hintText: '+1 675 346 23-10',
+                    hintText: widget.user.phone,
                   ),
                   SizedBox(height: 35),
                   BlocProvider.value(
-                    value: clientDetailsCubit,
-                    child: BlocConsumer<ClientDetailsCubit, ClientDetailsState>(
+                    value: userDetailsCubit,
+                    child: BlocConsumer<UserDetailsCubit, UserDetailsState>(
                       listener: (context, state) {
-                        if (state is ClientDetailsLoaded) {
+                        if (state is UserDetailsLoaded) {
                           toastification.show(
                             context: context,
                             title: Text('успешно'),
                             autoCloseDuration: const Duration(seconds: 3),
                           );
 
-                          locator<ClientsCubit>().getAllClients(UserParams());
+                          locator<UserListCubit>().getAllUsers(UserParams());
 
                           context.pop();
                           clear();
-                        } else if (state is ClientDetailsError) {
+                        } else if (state is UserDetailsError) {
                           toastification.show(
                             context: context,
                             title: Text(AppStrings.error),
                             autoCloseDuration: const Duration(seconds: 5),
                           );
-                        } else if (state is ClientDetailsConnectionError) {
+                        } else if (state is UserDetailsConnectionError) {
                           toastification.show(
                             context: context,
                             title: Text(AppStrings.noInternet),
@@ -256,18 +258,17 @@ class _EditContactPageState extends State<EditContactPage> {
                                 formKey.currentState?.validate() ?? false;
 
                             if (isValid) {
-                              clientDetailsCubit.editClient(
-                                CreateClientParams(
-                                  id: widget.client.id,
+                              userDetailsCubit.editUser(
+                                CreateUserParams(
+                                  id: widget.user.id,
                                   name: _nameCtrl.text,
-                                  companyName: widget.client.companyName,
-                                  email: _emailCtrl.text,
+                                  username: _surnameCtrl.text,
                                   phone: _numberCtrl.text,
                                 ),
                               );
                             }
                           },
-                          isLoading: state is ClientDetailsLoading,
+                          isLoading: state is UserDetailsLoading,
                         );
                       },
                     ),

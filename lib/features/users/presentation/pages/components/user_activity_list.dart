@@ -1,8 +1,8 @@
 import 'package:crm/features/settings/presentation/widgets/employee_activity_card.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeActivityList extends StatelessWidget {
-  const EmployeeActivityList({super.key});
+class UserActivityList extends StatelessWidget {
+  const UserActivityList({super.key});
 
   @override
   Widget build(BuildContext context) {

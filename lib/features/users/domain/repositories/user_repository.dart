@@ -15,7 +15,7 @@ abstract class UserRepository {
 
   Future<Either<Failure, UserEntity>> editUser(CreateUserParams params);
 
-  Future<Either<Failure, bool>> deleteUser(int id);
+  Future<Either<Failure, List<UserEntity>>> deleteUser(int id);
 
   Future<Either<Failure, bool>> getUsersByRole();
 

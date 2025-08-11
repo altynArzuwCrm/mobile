@@ -4,7 +4,11 @@ import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class UserDataWidget extends StatelessWidget {
-  const UserDataWidget({super.key});
+  const UserDataWidget({super.key, required this.name, required this.job, required this.image});
+
+  final String? name;
+  final String? job;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +19,11 @@ class UserDataWidget extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: ImageWithShimmer(imageUrl: img, width: 60, height: 60),
+            child: ImageWithShimmer(imageUrl: image ?? img, width: 60, height: 60),
           ),
           SizedBox(height: 16),
           Text(
-            'Марина Амановна',
+          name ??  '',
             style: TextStyle(
               color: AppColors.darkBlue,
               fontWeight: FontWeight.w700,
@@ -30,7 +34,7 @@ class UserDataWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            'Дизайнер',
+          job ??  '',
             style: TextStyle(
               color: AppColors.darkBlue,
               fontWeight: FontWeight.w400,

@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, void>> login(LoginParams params) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      try {
+     try {
         final response = await remoteDataSource.login(params);
         return Right(response);
       } catch (error) {

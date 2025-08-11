@@ -240,8 +240,8 @@ class _SignInPageState extends State<SignInPage> {
                             context: context,
                             title: Text('Вы успешно вошли в систему'),
                             autoCloseDuration: const Duration(seconds: 3),
-                          );
-                          context.go(AppRoutes.mainPage);
+                          );//todo
+                          context.go(AppRoutes.mainStatistics);
                         } else if (state is AuthFailure) {
                           toastification.show(
                             context: context,

@@ -9,6 +9,8 @@ import 'core/config/theme/app_theme.dart';
 import 'core/constants/strings/app_strings.dart';
 import 'features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'features/users/presentation/cubits/user/user_cubit.dart';
+import 'features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'locator.dart';
 
 class AppStart extends StatelessWidget {
@@ -28,6 +30,12 @@ class AppStart extends StatelessWidget {
 
           BlocProvider<ProjectsBloc>(
             create: (context) => locator<ProjectsBloc>(),
+          ),
+          BlocProvider<UserCubit>(
+            create: (context) => locator<UserCubit>(),
+          ),
+          BlocProvider<UserListCubit>(
+            create: (context) => locator<UserListCubit>(),
           ),
 
         ],

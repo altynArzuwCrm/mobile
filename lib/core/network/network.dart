@@ -5,9 +5,13 @@ abstract class NetworkInfo {
 }
 class NetworkInfoImpl extends NetworkInfo {
 
+  final InternetConnectionChecker checker;
+
+  NetworkInfoImpl(this.checker);
+
   @override
   Future<bool> get  isConnected async{
-   final result = await InternetConnectionChecker.instance.hasConnection;
+   final result = await checker.hasConnection;
    return result;
   }
 }

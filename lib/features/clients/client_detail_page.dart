@@ -4,13 +4,34 @@ import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/settings/presentation/widgets/profile_item_widget.dart';
+import 'package:crm/features/users/user_details.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ContactDetailPage extends StatelessWidget {
-  const ContactDetailPage({super.key});
+import 'domain/entities/client_entity.dart';
+
+class ClientDetailPage extends StatefulWidget {
+  const ClientDetailPage({super.key, required this.client});
+
+  final ClientEntity client;
+
+  @override
+  State<ClientDetailPage> createState() => _ClientDetailPageState();
+}
+
+class _ClientDetailPageState extends State<ClientDetailPage> {
+  final clientDetails = locator<ClientDetailsCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    clientDetails.getClientDetails(widget.client.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +44,10 @@ class ContactDetailPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: AppBarIcon(
               onTap: () {
-                context.push(AppRoutes.editContact);
+                context.push(
+                  AppRoutes.editContact,
+                  extra: {'client': widget.client},
+                );
               },
               icon: IconAssets.edit,
             ),
@@ -31,87 +55,32 @@ class ContactDetailPage extends StatelessWidget {
         ],
       ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MainCardWidget(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.general,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColors.darkBlue,
-                  ),
+      body: BlocProvider.value(
+        value: clientDetails,
+        child: BlocBuilder<ClientDetailsCubit, ClientDetailsState>(
+          builder: (context, state) {
+            if (state is ClientDetailsLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ClientDetailsLoaded) {
+              final data = state.data;
+              return SingleChildScrollView(
+                child: UserDetailsWidget(
+                  name: data.name,
+                  surname: '',
+                  job: '',
+                  company: data.companyName,
+                  location: '',
+                  email: '',
+                  phone: '',
+                  birthday: '',
                 ),
-
-                SizedBox(height: 15),
-                ProfileItemWidget(title: AppStrings.name, name: 'Иван'),
-                SizedBox(height: 20),
-                ProfileItemWidget(title: AppStrings.surname, name: 'Иванов'),
-                SizedBox(height: 20),
-                ProfileItemWidget(
-                  title: AppStrings.position,
-                  name: 'UI/UX Designer',
-                ),
-                SizedBox(height: 20),
-                ProfileItemWidget(
-                  title: AppStrings.company,
-                  name: 'Cadabra',
-                  showDate: true,
-                  child: Icon(
-                    Icons.keyboard_arrow_down_outlined,
-                    color: AppColors.gray,
-                    size: 20,
-                  ),
-                ),
-                SizedBox(height: 20),
-                ProfileItemWidget(
-                  title: AppStrings.location,
-                  name: 'NYC, New York, USA',
-                  showDate: true,
-                  child: Icon(
-                    Icons.location_on_outlined,
-                    color: AppColors.gray,
-                    size: 20,
-                  ),
-                ),
-                SizedBox(height: 20),
-                ProfileItemWidget(
-                  title: AppStrings.birthday,
-                  name: 'May 19, 1996',
-                  showDate: true,
-                ),
-                SizedBox(height: 35),
-                Text(
-                  AppStrings.contacts,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-                SizedBox(height: 15),
-                ProfileItemWidget(
-                  title: AppStrings.email,
-                  name: 'evanyates@gmail.com',
-                ),
-                SizedBox(height: 20),
-                ProfileItemWidget(
-                  title: AppStrings.number,
-                  name: '+1 675 346 23-10',
-                ),
-                SizedBox(height: 35),
-                MainButton(
-                  buttonTile: AppStrings.back,
-                  onPressed: () {},
-                  isLoading: false,
-                ),
-              ],
-            ),
-          ),
+              );
+            } else if (state is ClientDetailsConnectionError) {
+              return Center(child: Text(AppStrings.noInternet));
+            } else {
+              return Center(child: Text(AppStrings.error));
+            }
+          },
         ),
       ),
     );

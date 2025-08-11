@@ -7,3 +7,10 @@ final class GetProjectById extends ProjectDetailsEvent{
 
   GetProjectById(this.id);
 }
+
+final class EditProjectById extends ProjectDetailsEvent{
+  final CreateProjectParams params;
+
+  EditProjectById(this.params);
+}
+
