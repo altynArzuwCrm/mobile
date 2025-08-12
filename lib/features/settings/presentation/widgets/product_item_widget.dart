@@ -1,11 +1,13 @@
 import 'package:crm/common/widgets/shimmer_image.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/features/details/presentation/widgets/main_card.dart';
+import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class ProductItemWidget extends StatefulWidget {
-  const ProductItemWidget({super.key});
+  const ProductItemWidget({super.key, required this.title});
+
+  final String? title;
 
   @override
   State<ProductItemWidget> createState() => _ProductItemWidgetState();
@@ -13,7 +15,6 @@ class ProductItemWidget extends StatefulWidget {
 
 class _ProductItemWidgetState extends State<ProductItemWidget> {
   var num = 1;
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,12 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Siberia 800',
+              widget.title ?? '',
               style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: AppColors.accent,
-                  overflow:TextOverflow.ellipsis
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                color: AppColors.accent,
+                overflow: TextOverflow.ellipsis,
               ),
               maxLines: 2,
             ),

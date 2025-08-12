@@ -1,4 +1,5 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/core/network/internet_bloc/internet_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:crm/features/statistics/presentation/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'components/item2.dart';
 
@@ -91,7 +93,9 @@ class _StatisticsPageState extends State<StatisticsPage>
               Padding(
                 padding: const EdgeInsets.only(right: 18.0),
                 child: AppBarIcon(
-                  onTap: () {},
+                  onTap: () {
+                    context.push(AppRoutes.notifications);
+                  },
                   icon: IconAssets.notifications,
                   color: AppColors.white,
                 ),

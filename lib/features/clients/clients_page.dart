@@ -3,7 +3,7 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/clients/presentation/pages/components/contacts.dart';
-import 'package:crm/features/orders/presentation/components/filter_widget.dart';
+import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';

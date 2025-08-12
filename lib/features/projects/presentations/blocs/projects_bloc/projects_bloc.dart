@@ -2,6 +2,7 @@ import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:crm/features/projects/domain/usecases/create_project_usecase.dart';
+import 'package:crm/features/projects/domain/usecases/delete_project_usecase.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/locator.dart';
 import 'package:equatable/equatable.dart';
@@ -18,15 +19,16 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
 
   final CreateProjectUseCase _createProjectUseCase = CreateProjectUseCase(repository: locator());
 
-  // final DeleteProjectUseCase _deleteProjectUseCase = DeleteProjectUseCase(
-  //   repository: locator(),
-  // );
+  final DeleteProjectUseCase _deleteProjectUseCase = DeleteProjectUseCase(
+    repository: locator(),
+  );
 
   final NetworkInfo _networkInfo;
 
   ProjectsBloc(this._networkInfo) : super(ProjectsLoading()) {
     on<GetAllProjects>(_onGetAllProjects);
     on<CreateProject>(_onCreateProject);
+    on<DeleteProject>(_onDeleteProject);
   }
 
   bool canLoad = true;
@@ -87,25 +89,25 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
       },
       (data) {
 
-        emit(ProjectsLoaded(_projects));
+        //emit(ProjectsLoaded(_projects));
       },
     );
   }
 
-  // Future<void> _onDeleteProject(
-  //   DeleteProject event,
-  //   Emitter<ProjectsState> emit,
-  // ) async {
-  //   final result = await _deleteProjectUseCase.execute(event.id);
-  //   result.fold(
-  //     (failure) {
-  //       if (failure is ConnectionFailure) {}
-  //       if (failure is ServerFailure) {}
-  //     },
-  //     (data) {
-  //
-  //       emit(ProjectsLoaded(_projects));
-  //     },
-  //   );
-  // }
+  Future<void> _onDeleteProject(
+    DeleteProject event,
+    Emitter<ProjectsState> emit,
+  ) async {
+    final result = await _deleteProjectUseCase.execute(event.id);
+    result.fold(
+      (failure) {
+        if (failure is ConnectionFailure) {}
+        if (failure is ServerFailure) {}
+      },
+      (data) {
+
+      //  emit(ProjectsLoaded(_projects));
+      },
+    );
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';

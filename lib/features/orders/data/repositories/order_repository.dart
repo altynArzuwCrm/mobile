@@ -1,6 +1,7 @@
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
+import 'package:crm/features/orders/data/models/comment_model.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
@@ -14,14 +15,13 @@ class OrderRepository {
   OrderRepository(this.networkInfo, this.remoteDataSource);
 
   Future<Either<Failure, List<OrderModel>>> getAllOrders(
-    CreateOrderParams params,
+    OrderParams params,
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.getAllOrders(params);
-        final result = response.map((e) => e).toList();
-        return Right(result);
+      final response = await remoteDataSource.getAllOrders(params);
+      return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
       }
@@ -136,13 +136,13 @@ class OrderRepository {
     }
   }
 
-  Future<Either<Failure, bool>> getOrderComments(
-    CreateOrderParams params,
+  Future<Either<Failure, List<CommentModel>>> getOrderComments(
+    int orderId,
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.getOrderComments(params);
+        final response = await remoteDataSource.getOrderComments(orderId);
         return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
@@ -152,13 +152,13 @@ class OrderRepository {
     }
   }
 
-  Future<Either<Failure, bool>> postOrderComment(
-    CreateOrderParams params,
+  Future<Either<Failure, List<CommentModel>>> createOrderComment(
+    CommentParams params,
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.postOrderComment(params);
+        final response = await remoteDataSource.createOrderComment(params);
         return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
@@ -168,11 +168,11 @@ class OrderRepository {
     }
   }
 
-  Future<Either<Failure, bool>> deleteOrderComment(int id) async {
+  Future<Either<Failure, List<CommentModel>>> deleteOrderComment(int id, int orderId) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.deleteOrderComment(id);
+        final response = await remoteDataSource.deleteOrderComment(id, orderId);
         return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));

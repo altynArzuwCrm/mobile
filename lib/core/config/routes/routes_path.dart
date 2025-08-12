@@ -10,14 +10,13 @@ abstract final class AppRoutes {
 
 
 
-  static const String mainPage = '/mainPage';
   static const String orderPage = '/orderPage';
   static const String statisticsPage = '/statisticsPage';
   static const String settingsPage = '/settingsPage';
   static const String userOrderPage = '/userOrderPage';
 
 
-  static const String details = '/details';
+  static const String orderDetails = '/details';
   static const String profile = '/profile';
   static const String warehouse = '/warehouse';
   static const String projects = '/projects';
@@ -32,5 +31,6 @@ abstract final class AppRoutes {
   static const String editUserData = '/employeeProfileEdit';
   static const String support = '/support';
   static const String mainStatistics = '/mainStatistics';
+  static const String notifications = '/notifications';
 
 }

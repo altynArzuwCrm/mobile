@@ -1,6 +1,5 @@
+import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/features/details/presentation/widgets/main_card.dart'
-    show MainCardWidget;
 import 'package:flutter/material.dart';
 
 class ProjectDetailOrderWidget extends StatelessWidget {

@@ -8,6 +8,7 @@ class AppStrings {
   static const String products = "Товары";
   static const String projects = "Проекты";
   static const String project = "Проект";
+  static const String notifications = "Уведомления";
 
   static const String signIn = "Войти в портал";
   static const String email = "Email";

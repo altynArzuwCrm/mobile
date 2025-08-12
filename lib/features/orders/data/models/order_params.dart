@@ -37,12 +37,12 @@ class CreateOrderParams {
   final List<int> roles;
 
   CreateOrderParams(
-      this.name,
-      this.password,
-      this.phone,
-      this.isActive,
-      this.roles,
-      );
+    this.name,
+    this.password,
+    this.phone,
+    this.isActive,
+    this.roles,
+  );
 
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
@@ -52,6 +52,22 @@ class CreateOrderParams {
     params['phone'] = phone;
     params['is_active'] = isActive;
     params['roles'] = roles;
+
+    return params;
+  }
+}
+
+class CommentParams {
+  final int orderId;
+  final String text;
+
+  CommentParams({required this.orderId, required this.text});
+
+  Map<String, dynamic> toQueryParameters() {
+    final Map<String, dynamic> params = {};
+
+    params['order_id'] = orderId;
+    params['text'] = text;
 
     return params;
   }

@@ -1,7 +1,9 @@
+import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
+import 'package:crm/features/stages/data/models/stage_model.dart';
 
 abstract class StageRemoteDataSources {
-  Future<void> getAllStages();
+  Future<List<StageModel>> getAllStages();
 
   Future<void> getStageById();
 
@@ -25,6 +27,20 @@ class StageRemoteDataSourceImpl extends StageRemoteDataSources {
 
   StageRemoteDataSourceImpl(this.apiProvider);
 
+
+  @override
+  Future<List<StageModel>> getAllStages() async {
+    final response = await apiProvider.get(
+      endPoint: ApiEndpoints.stages,
+    );
+
+    final responseBody = response.data as List;
+
+    final result = responseBody.map((e) => StageModel.fromJson(e)).toList();
+
+    return result;
+  }
+
   @override
   Future<void> createStage() async {
     // TODO: implement createStage
@@ -37,11 +53,6 @@ class StageRemoteDataSourceImpl extends StageRemoteDataSources {
     throw UnimplementedError();
   }
 
-  @override
-  Future<void> getAllStages() async {
-    // TODO: implement getAllStages
-    throw UnimplementedError();
-  }
 
   @override
   Future<void> getAllUsersByStageRoles() async {

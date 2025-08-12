@@ -26,11 +26,11 @@ class ProjectModel {
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
     id: json["id"],
     title: json["title"] ?? '',
-    deadline: json["deadline"] != null ? formatDateTime(DateTime.parse(json["deadline"])) : '',
+    deadline: json["deadline"] != null ? formatDate(DateTime.parse(json["deadline"])) : '',
     totalPrice: json["total_price"],
     paymentAmount: json["payment_amount"],
     createdAt: json["created_at"] != null
-        ? formatDateTime(DateTime.parse(json["created_at"]))
+        ? formatDate(DateTime.parse(json["created_at"]))
         : '',
     updatedAt: DateTime.parse(json["updated_at"]),
     orders: List<OrderModel>.from(
@@ -109,7 +109,7 @@ class OrderModel {
     productId: json["product_id"],
     stageId: json["stage_id"],
     quantity: json["quantity"],
-    deadline: json["deadline"] != null ? formatDateTime(DateTime.parse(json["deadline"])) : '',
+    deadline: json["deadline"] != null ? formatDate(DateTime.parse(json["deadline"])) : '',
 
     price: json["price"],
     reason: json["reason"],
@@ -117,7 +117,7 @@ class OrderModel {
     archivedAt: json["archived_at"],
     isArchived: json["is_archived"],
     createdAt: json["created_at"] != null
-        ? formatDateTime(DateTime.parse(json["created_at"]))
+        ? formatDate(DateTime.parse(json["created_at"]))
         : '',
 
     updatedAt: DateTime.parse(json["updated_at"]),

@@ -1,8 +1,9 @@
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/details/presentation/components/project.dart';
 import 'package:crm/features/settings/presentation/widgets/edit_project_info_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../../../orders/presentation/pages/components/detail_components/project.dart' show Project;
 
 class EditProjectPage extends StatelessWidget {
   const EditProjectPage({super.key});

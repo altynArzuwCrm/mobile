@@ -1,12 +1,18 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/orders/presentation/components/add_order_widget.dart';
-import 'package:crm/features/orders/presentation/components/filter_widget.dart';
+import 'package:crm/features/orders/data/models/order_params.dart';
+import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/order_card.dart';
 import 'package:crm/features/orders/presentation/widgets/type_chip.dart';
+import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'components/add_order_widget.dart';
+import 'components/filter_widget.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -19,6 +25,15 @@ class _OrdersPageState extends State<OrdersPage> {
   int isSelected = 0;
   int isSelected2 = 1;
   final Set<int> selectedIndices = {};
+  final stageCubit = locator<StageCubit>();
+  final ordersCubit = locator<OrdersCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    stageCubit.getAllStages();
+    ordersCubit.getAllOrders(OrderParams());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +41,9 @@ class _OrdersPageState extends State<OrdersPage> {
       appBar: AppBar(
         title: Text(AppStrings.orders),
         actions: [
-          selectedIndices.isNotEmpty ?
-          AppBarIcon(onTap: () {}, icon: IconAssets.delete)
-
-          : SizedBox.shrink()
-          ,
+          selectedIndices.isNotEmpty
+              ? AppBarIcon(onTap: () {}, icon: IconAssets.delete)
+              : SizedBox.shrink(),
           SizedBox(width: 7),
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
@@ -44,25 +57,41 @@ class _OrdersPageState extends State<OrdersPage> {
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 15)),
               SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    itemCount: AppStrings.categories.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: CategoryBtn(
-                          title: AppStrings.categories[index],
-                          isSelected: index == isSelected,
-                          onTap: () {
-                            setState(() {
-                              isSelected = index;
-                            });
-                          },
-                        ),
-                      );
+                child: BlocProvider.value(
+                  value: stageCubit,
+                  child: BlocBuilder<StageCubit, StageState>(
+                    builder: (context, state) {
+                      if (state is StageLoading) {
+                        return SizedBox(height: 40,);
+                      } else if (state is StageLoaded) {
+                        final data = state.data;
+                        return SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final item = data[index];
+
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: CategoryBtn(
+                                  title: item.displayName,
+                                  isSelected: index == isSelected,
+                                  onTap: () {
+                                    setState(() {
+                                      isSelected = index;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
                     },
                   ),
                 ),
@@ -93,36 +122,57 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
+              BlocBuilder<OrdersCubit, OrdersState>(
+                builder: (context, state) {
+                  if (state is OrdersLoading) {
+                    return SliverToBoxAdapter(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  else if(state is OrdersLoaded){
+                    final data = state.data;
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final isSelectedItem = selectedIndices.contains(index);
+                        final hasAnySelected = selectedIndices.isNotEmpty;
+                        final item = data[index];
 
-                  final isSelectedItem = selectedIndices.contains(index);
-                  final hasAnySelected = selectedIndices.isNotEmpty;
+                        return OrderCard(
+                          isSelected: isSelectedItem,
+                          hasSelected: hasAnySelected,
+                          model: item,
+                          onTap: () {
+                            setState(() {
+                              // If already selected, deselect. Else, select.
+                              if (hasAnySelected) {
+                                if (isSelectedItem) {
+                                  selectedIndices.remove(index);
+                                } else {
+                                  selectedIndices.add(index);
+                                }
+                              }
+                            });
+                          },
+                          onLongPress: () {
+                            setState(() {
+                              selectedIndices.add(index);
+                            });
+                          },
+                        );
+                      }, childCount: data.length),
+                    );
 
-
-                  return OrderCard(
-                    isSelected: isSelectedItem,
-                    hasSelected: hasAnySelected,
-                    onTap: () {
-                      setState(() {
-                        // If already selected, deselect. Else, select.
-                        if (hasAnySelected) {
-                          if (isSelectedItem) {
-                            selectedIndices.remove(index);
-                          } else {
-                            selectedIndices.add(index);
-                          }
-                        }
-                      });
-                    },
-                    onLongPress: () {
-                      setState(() {
-                        selectedIndices.add(index);
-                      });
-                    },
-                  );
-
-                }, childCount: 10),
+                  }
+                  else if (state is OrdersConnectionError) {
+                    return SliverToBoxAdapter(
+                      child: Center(child: Text(AppStrings.noInternet)),
+                    );
+                  } else {
+                    return SliverToBoxAdapter(
+                      child: Center(child: Text(AppStrings.error)),
+                    );
+                  }
+                },
               ),
               SliverToBoxAdapter(child: SizedBox(height: 70)),
             ],

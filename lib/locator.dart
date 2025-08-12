@@ -1,3 +1,6 @@
+import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
+import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
+import 'package:crm/features/stages/data/repositories/stage_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -20,11 +23,22 @@ import 'features/clients/data/repositories/client_repository_impl.dart';
 import 'features/clients/domain/repositories/client_repository.dart';
 import 'features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'features/clients/presentation/cubits/clinets/clients_cubit.dart';
+import 'features/notifications/data/datasources/notification_remote_datasource.dart';
+import 'features/notifications/data/repository/notification_repository.dart';
+import 'features/notifications/presentation/cubits/notifications/notification_cubit.dart';
+import 'features/orders/data/repositories/order_repository.dart';
+import 'features/orders/presentation/cubits/comment/comment_cubit.dart';
+import 'features/orders/presentation/cubits/order_details/order_detail_cubit.dart';
+import 'features/orders/presentation/cubits/orders/orders_cubit.dart';
+import 'features/products/data/datasources/product_datasource.dart';
+import 'features/products/data/repositories/product_repository.dart';
+import 'features/products/presentation/cubits/products/products_cubit.dart';
 import 'features/projects/data/datasources/remote/project_remote_datasource.dart';
 import 'features/projects/data/repository_impl/project_repository_impl.dart';
 import 'features/projects/domain/repositories/project_repository.dart';
 import 'features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'features/stages/presentation/cubits/stage_cubit.dart';
 import 'features/users/data/datasources/remote/user_datasources.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
@@ -36,11 +50,8 @@ final locator = GetIt.instance;
 String documentsDir = '';
 
 Future<void> initLocator() async {
-
   final internetChecker = InternetConnectionChecker.createInstance(
-    addresses: [
-      AddressCheckOption(uri: Uri.parse('https://www.google.com/')),
-    ],
+    addresses: [AddressCheckOption(uri: Uri.parse('https://www.google.com/'))],
   );
 
   const secureStorage = FlutterSecureStorage(
@@ -51,7 +62,9 @@ Future<void> initLocator() async {
 
   locator.registerLazySingleton<Store>(() => Store(locator()));
 
-  locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(internetChecker));
+  locator.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(internetChecker),
+  );
 
   locator.registerFactory<ApiProvider>(() => ApiProviderImpl());
 
@@ -80,6 +93,21 @@ Future<void> initLocator() async {
     () => ClientRemoteDataSourceImpl(locator()),
   );
 
+  locator.registerLazySingleton<StageRemoteDataSources>(
+    () => StageRemoteDataSourceImpl(locator()),
+  );
+  locator.registerLazySingleton<OrderRemoteDataSource>(
+    () => OrderRemoteDataSourceImpl(locator()),
+  );
+
+  locator.registerLazySingleton<ProductRemoteDataSource>(
+    () => ProductRemoteDataSourceImpl(locator()),
+  );
+
+  locator.registerLazySingleton<NotificationRemoteDatasource>(
+    () => NotificationRemoteDataSourceImpl(locator()),
+  );
+
   ///repository
 
   locator.registerLazySingleton<AuthenticationRepository>(
@@ -94,6 +122,18 @@ Future<void> initLocator() async {
   );
   locator.registerLazySingleton<ClientRepository>(
     () => ClientRepositoryImpl(locator(), locator()),
+  );
+  locator.registerLazySingleton<StageRepository>(
+    () => StageRepository(locator(), locator()),
+  );
+  locator.registerLazySingleton<OrderRepository>(
+    () => OrderRepository(locator(), locator()),
+  );
+  locator.registerLazySingleton<ProductRepository>(
+    () => ProductRepository(locator(), locator()),
+  );
+  locator.registerLazySingleton<NotificationRepository>(
+    () => NotificationRepository(locator(), locator()),
   );
 
   ///usecase
@@ -113,4 +153,10 @@ Future<void> initLocator() async {
   locator.registerSingleton<UserDetailsCubit>(UserDetailsCubit());
   locator.registerSingleton<ClientsCubit>(ClientsCubit());
   locator.registerSingleton<ClientDetailsCubit>(ClientDetailsCubit());
+  locator.registerSingleton<StageCubit>(StageCubit(locator()));
+  locator.registerSingleton<OrdersCubit>(OrdersCubit(locator()));
+  locator.registerSingleton<OrderDetailCubit>(OrderDetailCubit(locator()));
+  locator.registerSingleton<CommentCubit>(CommentCubit(locator()));
+  locator.registerSingleton<ProductsCubit>(ProductsCubit(locator()));
+  locator.registerSingleton<NotificationCubit>(NotificationCubit(locator()));
 }

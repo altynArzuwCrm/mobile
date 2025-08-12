@@ -1,10 +1,11 @@
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
+import 'package:crm/features/orders/data/models/comment_model.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 
 abstract class OrderRemoteDataSource {
-  Future<List<OrderModel>> getAllOrders(CreateOrderParams params);
+  Future<List<OrderModel>> getAllOrders(OrderParams params);
 
   Future<OrderModel> getOrderById(int id);
 
@@ -20,11 +21,11 @@ abstract class OrderRemoteDataSource {
 
   Future<bool> getOrderStatusLogs(CreateOrderParams params);
 
-  Future<bool> getOrderComments(CreateOrderParams params);
+  Future<List<CommentModel>> getOrderComments(int orderId);
 
-  Future<bool> postOrderComment(CreateOrderParams params);
+  Future<List<CommentModel>> createOrderComment(CommentParams params);
 
-  Future<bool> deleteOrderComment(int id);
+  Future<List<CommentModel>> deleteOrderComment(int id, int orderId);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -33,7 +34,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   OrderRemoteDataSourceImpl(this.apiProvider);
 
   @override
-  Future<List<OrderModel>> getAllOrders(CreateOrderParams params) async {
+  Future<List<OrderModel>> getAllOrders(OrderParams params) async {
     final response = await apiProvider.get(
       endPoint: ApiEndpoints.orders,
       query: params.toQueryParameters(),
@@ -117,16 +118,19 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     }
   }
 
-  @override
-  Future<bool> deleteOrderComment(int id) async {
-    // TODO: implement deleteOrderComment
-    throw UnimplementedError();
-  }
 
   @override
-  Future<bool> getOrderComments(CreateOrderParams params) async {
-    // TODO: implement getOrderComments
-    throw UnimplementedError();
+  Future<List<CommentModel>> getOrderComments(int orderId) async {
+    final response = await apiProvider.get(
+      endPoint: ApiEndpoints.comments,
+      query: {"order_id": orderId},
+    );
+
+    final responseBody = response.data as List;
+
+    final result = responseBody.map((e) => CommentModel.fromJson(e)).toList();
+
+    return result;
   }
 
   @override
@@ -136,8 +140,33 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<bool> postOrderComment(CreateOrderParams params) async {
-    // TODO: implement postOrderComment
-    throw UnimplementedError();
+  Future<List<CommentModel>> createOrderComment(CommentParams params) async {
+    final response = await apiProvider.post(
+      endPoint: ApiEndpoints.comments,
+      data: params.toQueryParameters(),
+    );
+
+    if (response.statusCode == 201) {
+      final comments = await getOrderComments(params.orderId);
+      return comments;
+    } else {
+      return [];
+    }
+  }
+
+
+  @override
+  Future<List<CommentModel>> deleteOrderComment(int id, int orderId) async {
+    final response = await apiProvider.post(
+      endPoint: '${ApiEndpoints.comments}/$id',
+      query: {"order_id": orderId},
+    );
+
+    if (response.statusCode == 204) {
+      final comments = await getOrderComments(id);
+      return comments;
+    } else {
+      return [];
+    }
   }
 }

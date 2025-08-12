@@ -1,7 +1,7 @@
+import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/details/presentation/widgets/main_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

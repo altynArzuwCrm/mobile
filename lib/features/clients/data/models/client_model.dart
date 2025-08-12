@@ -23,7 +23,7 @@ class ClientModel {
     name: json["name"]??'',
     companyName: json["company_name"]??'',
     createdAt:  json["created_at"] != null
-        ? formatDateTime(DateTime.parse(json["created_at"]))
+        ? formatDate(DateTime.parse(json["created_at"]))
         : '',
     updatedAt: DateTime.parse(json["updated_at"]),
     contacts: json["contacts"] != null ? List<ContactModel>.from(

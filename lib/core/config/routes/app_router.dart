@@ -11,14 +11,15 @@ import 'package:crm/features/clients/client_detail_page.dart';
 import 'package:crm/features/clients/clients_page.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/edit_client_page.dart';
-import 'package:crm/features/details/presentation/pages/details_page.dart';
+import 'package:crm/features/notifications/presentation/pages/notification_page.dart';
+import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
 import 'package:crm/features/projects/presentations/pages/projects_page.dart';
 import 'package:crm/features/projects/presentations/pages/edit_project_page.dart';
 import 'package:crm/features/projects/presentations/pages/project_details_page.dart';
 import 'package:crm/features/settings/presentation/pages/settings_page.dart';
 import 'package:crm/features/settings/presentation/pages/support/support_page.dart';
-import 'package:crm/features/settings/presentation/pages/warehouse_page.dart';
+import 'package:crm/features/products/presentation/pages/products_page.dart';
 import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
 import 'package:crm/features/statistics/presentation/pages/statistics_page.dart'
     show StatisticsPage;
@@ -136,9 +137,17 @@ final goRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRoutes.details,
+      path: AppRoutes.notifications,
       builder: (context, state) {
-        return DetailsPage();
+        return NotificationPage();
+      },
+    ),
+    GoRoute(
+      path: '${AppRoutes.orderDetails}/:id',
+      builder: (context, state) {
+        final projectId = state.pathParameters['id'] ?? '';
+        final id = int.parse(projectId);
+        return OrderDetailsPage(id:id);
       },
     ),
     GoRoute(

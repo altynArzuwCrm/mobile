@@ -20,8 +20,7 @@ class ProductRepository {
     if (isConnected) {
       try {
         final response = await remoteDataSource.getAllProducts(params);
-        final result = response.map((e) => e).toList();
-        return Right(result);
+        return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
       }

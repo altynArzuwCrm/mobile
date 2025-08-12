@@ -13,6 +13,9 @@ class ApiEndpoints {
   static const currentUsers = 'me';
   static const orders = 'orders';
   static const products = 'products';
+  static const stages = 'stages';
+  static const comments = 'comments';
+  static const notifications = 'notifications';
 
 
 

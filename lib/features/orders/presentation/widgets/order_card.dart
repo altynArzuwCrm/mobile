@@ -1,6 +1,7 @@
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
+import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'custom_dropdown.dart';
@@ -14,12 +15,14 @@ class OrderCard extends StatefulWidget {
     this.onLongPress,
     this.isSelected = false,
     this.hasSelected = false,
+    required this.model,
   });
 
   final void Function()? onTap;
   final VoidCallback? onLongPress;
   final bool isSelected;
   final bool hasSelected;
+  final OrderModel model;
 
   @override
   State<OrderCard> createState() => _OrderCardState();
@@ -63,7 +66,7 @@ class _OrderCardState extends State<OrderCard> {
                       selectedCategory = val;
                     });
                   },
-                  hintText: 'Дизайн',
+                  hintText: widget.model.stage?.displayName,
 
                   items: const [
                     DropdownMenuItem(value: 'a', child: Text("Moscow")),
@@ -83,7 +86,7 @@ class _OrderCardState extends State<OrderCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.orderTitle,
+                  widget.model.project?.title ?? '',
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
@@ -162,7 +165,7 @@ class _OrderCardState extends State<OrderCard> {
                     SizedBox(height: 2),
 
                     Text(
-                      '1d 2h',
+                      widget.model.deadline,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -231,7 +234,9 @@ class _OrderCardState extends State<OrderCard> {
                 ),
                 TextButton(
                   onPressed: () {
-                    context.push(AppRoutes.details);
+                    context.push(
+                      '${AppRoutes.orderDetails}/${widget.model.id}',
+                    );
                   },
                   child: Text(
                     AppStrings.moreDetails,
