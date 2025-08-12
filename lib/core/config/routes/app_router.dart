@@ -232,7 +232,20 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.editProfile,
       builder: (context, state) {
-        return EditProfilePage();
+        if (state.extra != null && state.extra is Map<String, dynamic>) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          final UserEntity user = extra['user'];
+
+          return EditProfilePage(user: user);
+        }
+
+        return Scaffold(
+          appBar: AppBar(),
+          body: Center(
+            child: Text(AppStrings.error),
+          ),
+        );
       },
     ),
     GoRoute(

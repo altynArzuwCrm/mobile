@@ -16,6 +16,7 @@ class ApiEndpoints {
   static const stages = 'stages';
   static const comments = 'comments';
   static const notifications = 'notifications';
+  static const roles = 'roles';
 
 
 

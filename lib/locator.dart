@@ -38,6 +38,9 @@ import 'features/projects/data/repository_impl/project_repository_impl.dart';
 import 'features/projects/domain/repositories/project_repository.dart';
 import 'features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'features/roles/data/datasources/role_remote_datasource.dart';
+import 'features/roles/data/repository/role_repository.dart';
+import 'features/roles/presentation/cubits/roles/roles_cubit.dart';
 import 'features/stages/presentation/cubits/stage_cubit.dart';
 import 'features/users/data/datasources/remote/user_datasources.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
@@ -107,6 +110,9 @@ Future<void> initLocator() async {
   locator.registerLazySingleton<NotificationRemoteDatasource>(
     () => NotificationRemoteDataSourceImpl(locator()),
   );
+  locator.registerLazySingleton<RoleRemoteDatasource>(
+    () => RoleRemoteDatasourceImpl(locator()),
+  );
 
   ///repository
 
@@ -136,6 +142,10 @@ Future<void> initLocator() async {
     () => NotificationRepository(locator(), locator()),
   );
 
+  locator.registerLazySingleton<RoleRepository>(
+    () => RoleRepository(locator(), locator()),
+  );
+
   ///usecase
 
   locator.registerLazySingleton(() => LoginUseCase(repository: locator()));
@@ -159,4 +169,5 @@ Future<void> initLocator() async {
   locator.registerSingleton<CommentCubit>(CommentCubit(locator()));
   locator.registerSingleton<ProductsCubit>(ProductsCubit(locator()));
   locator.registerSingleton<NotificationCubit>(NotificationCubit(locator()));
+  locator.registerSingleton<RolesCubit>(RolesCubit(locator()));
 }

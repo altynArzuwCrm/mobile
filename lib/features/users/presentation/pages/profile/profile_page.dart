@@ -1,5 +1,4 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
-import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
@@ -20,11 +19,22 @@ class ProfilePage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.profile),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: AppBarIcon(onTap: () {
-              context.push(AppRoutes.editProfile);
-            }, icon: IconAssets.edit),
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, state) {
+              if (state is UserLoaded) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AppBarIcon(
+                    onTap: () {
+                      context.push(AppRoutes.editProfile,extra: {"user": state.data});
+                    },
+                    icon: IconAssets.edit,
+                  ),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            },
           ),
         ],
       ),
@@ -41,10 +51,8 @@ class ProfilePage extends StatelessWidget {
                 return UserProfileWidget(
                   name: data.name,
                   surname: data.username,
-                  job: data.roles?.first.displayName ?? '',
-                  email: '',
-                  phone: '',
-                  birthday: '',
+                  jobs: data.roles?.map((e) => e.displayName).toList() ?? [],
+                  phone: data.phone,
                 );
               } else if (state is UserConnectionError) {
                 return Center(child: Text(AppStrings.noInternet));
@@ -64,62 +72,46 @@ class UserProfileWidget extends StatelessWidget {
     super.key,
     required this.name,
     required this.surname,
-    required this.job,
-    required this.email,
     required this.phone,
-    required this.birthday,
+    required this.jobs,
   });
 
   final String name;
   final String surname;
-  final String job;
-  final String email;
   final String phone;
-  final String birthday;
+  final List<String> jobs;
 
   @override
   Widget build(BuildContext context) {
-    return MainCardWidget(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppStrings.general,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: AppColors.darkBlue,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppStrings.general,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: AppColors.darkBlue,
+          ),
+        ),
+        SizedBox(height: 15),
+        ProfileItemWidget(title: AppStrings.name, name: name),
+        SizedBox(height: 20),
+        ProfileItemWidget(title: AppStrings.number, name: phone),
+        SizedBox(height: 20),
+        Column(
+          children: List.generate(
+            jobs.length,
+            (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ProfileItemWidget(
+                title: AppStrings.position,
+                name: jobs[index],
+              ),
             ),
           ),
-
-          SizedBox(height: 2),
-          ProfileItemWidget(title: AppStrings.name, name: name),
-          SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.surname, name: surname),
-          SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.position, name: job),
-          SizedBox(height: 20),
-          ProfileItemWidget(
-            title: AppStrings.birthday,
-            name: birthday,
-            showDate: true,
-          ),
-          SizedBox(height: 35),
-          Text(
-            AppStrings.contacts,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: AppColors.darkBlue,
-            ),
-          ),
-          SizedBox(height: 4),
-          ProfileItemWidget(title: AppStrings.email, name: email),
-          SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.number, name: phone),
-          SizedBox(height: 20),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
