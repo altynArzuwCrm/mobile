@@ -7,11 +7,13 @@ import 'package:crm/features/auth/presentation/pages/confirm_password_page.dart'
 import 'package:crm/features/auth/presentation/pages/new_password_page.dart';
 import 'package:crm/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:crm/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:crm/features/clients/client_detail_page.dart';
-import 'package:crm/features/clients/clients_page.dart';
+import 'package:crm/features/clients/presentation/pages/client_detail_page.dart';
+import 'package:crm/features/clients/presentation/pages/clients_page.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
-import 'package:crm/features/clients/edit_client_page.dart';
+import 'package:crm/features/clients/presentation/pages/edit_client_page.dart';
 import 'package:crm/features/notifications/presentation/pages/notification_page.dart';
+import 'package:crm/features/orders/data/models/order_model.dart';
+import 'package:crm/features/orders/presentation/pages/edit_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
 import 'package:crm/features/projects/presentations/pages/projects_page.dart';
@@ -24,11 +26,11 @@ import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
 import 'package:crm/features/statistics/presentation/pages/statistics_page.dart'
     show StatisticsPage;
 import 'package:crm/features/users/domain/entities/user_entity.dart';
-import 'package:crm/features/users/edit_user_page.dart';
+import 'package:crm/features/users/presentation/pages/edit_user_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/edit_profile_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/profile_page.dart';
-import 'package:crm/features/users/user_page.dart';
-import 'package:crm/features/users/user_details.dart';
+import 'package:crm/features/users/presentation/pages/user_page.dart';
+import 'package:crm/features/users/presentation/pages/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -183,6 +185,9 @@ final goRouter = GoRouter(
         return EditProjectPage();
       },
     ),
+
+
+
     GoRoute(
       path: AppRoutes.contacts,
       builder: (context, state) {
@@ -190,6 +195,25 @@ final goRouter = GoRouter(
       },
     ),
 
+    GoRoute(
+      path: AppRoutes.editOrderPage,
+      builder: (context, state) {
+        if (state.extra != null && state.extra is Map<String, dynamic>) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          final OrderModel order = extra['order'];
+
+          return EditOrderPage(order: order);
+        }
+
+        return Scaffold(
+          appBar: AppBar(),
+          body: Center(
+            child: Text(AppStrings.error),
+          ),
+        );
+      },
+    ),
     GoRoute(
       path: AppRoutes.clientDetails,
       builder: (context, state) {

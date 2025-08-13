@@ -57,43 +57,40 @@ class _OrdersPageState extends State<OrdersPage> {
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 15)),
               SliverToBoxAdapter(
-                child: BlocProvider.value(
-                  value: stageCubit,
-                  child: BlocBuilder<StageCubit, StageState>(
-                    builder: (context, state) {
-                      if (state is StageLoading) {
-                        return SizedBox(height: 40,);
-                      } else if (state is StageLoaded) {
-                        final data = state.data;
-                        return SizedBox(
-                          height: 40,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              final item = data[index];
+                child: BlocBuilder<StageCubit, StageState>(
+                  builder: (context, state) {
+                    if (state is StageLoading) {
+                      return SizedBox(height: 40,);
+                    } else if (state is StageLoaded) {
+                      final data = state.data;
+                      return SizedBox(
+                        height: 40,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
 
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: CategoryBtn(
-                                  title: item.displayName,
-                                  isSelected: index == isSelected,
-                                  onTap: () {
-                                    setState(() {
-                                      isSelected = index;
-                                    });
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    },
-                  ),
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: CategoryBtn(
+                                title: item.displayName,
+                                isSelected: index == isSelected,
+                                onTap: () {
+                                  setState(() {
+                                    isSelected = index;
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 15)),

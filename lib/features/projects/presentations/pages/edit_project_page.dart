@@ -3,7 +3,7 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/settings/presentation/widgets/edit_project_info_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../orders/presentation/pages/components/detail_components/project.dart' show Project;
+import '../../../orders/presentation/pages/components/detail_components/project.dart' show ProjectWidget;
 
 class EditProjectPage extends StatelessWidget {
   const EditProjectPage({super.key});
@@ -29,7 +29,7 @@ class EditProjectPage extends StatelessWidget {
                         EditProjectInfoWidget(),
 
                         SizedBox(height: 20),
-                        Project(title: AppStrings.project),
+                        ProjectWidget(title: AppStrings.project),
                         SizedBox(height: 20),
                       ],
                     ),

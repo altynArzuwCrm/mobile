@@ -3,6 +3,7 @@ import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/usecase/usecase.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
+import 'package:crm/features/users/domain/usecases/edit_user_usecase.dart';
 import 'package:crm/features/users/domain/usecases/get_all_users_usecase.dart';
 import 'package:crm/features/users/domain/usecases/get_current_user_usecase.dart';
 import 'package:crm/locator.dart';
@@ -16,6 +17,8 @@ class UserCubit extends Cubit<UserState> {
   final GetCurrentUserUseCase _currentUserUseCase = GetCurrentUserUseCase(
     repository: locator(),
   );
+  final EditUserUseCase _editUserUseCase = EditUserUseCase(repository: locator());
+
 
 
   Future<void> getCurrentUser() async {
@@ -32,6 +35,24 @@ class UserCubit extends Cubit<UserState> {
       (right) {
         emit(UserLoaded(right));
       },
+    );
+  }
+
+  Future<void> editUser(CreateUserParams params ) async {
+    emit(UserLoading());
+    final result = await _editUserUseCase.execute(params);
+
+    result.fold(
+          (error) {
+        if (error is ConnectionFailure) {
+          emit(UserConnectionError());
+        } else {
+          emit(UserError());
+        }
+      },
+          (right) {
+            getCurrentUser();
+            },
     );
   }
 

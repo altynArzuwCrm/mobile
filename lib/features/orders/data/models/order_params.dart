@@ -30,28 +30,34 @@ class OrderParams {
 }
 
 class CreateOrderParams {
-  final String name;
-  final String? password;
-  final String phone;
-  final bool isActive;
-  final List<int> roles;
+  final int? id;
+  final String? title;
+  final String? description;
+  final String? stage;
+  final int? clientId;
+  final int? productId;
+  final int? quantity;
 
-  CreateOrderParams(
-    this.name,
-    this.password,
-    this.phone,
-    this.isActive,
-    this.roles,
+  CreateOrderParams({
+    this.title,
+    this.description,
+    this.stage,
+    this.clientId,
+    this.productId,
+    this.quantity,
+    this.id,
+  }
   );
 
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
 
-    params['name'] = name;
-    if (password != null) params['password'] = password?.trim();
-    params['phone'] = phone;
-    params['is_active'] = isActive;
-    params['roles'] = roles;
+    params['title'] = title;
+    params['description'] = description;
+    params['stage'] = stage;
+    params['client_id'] = clientId;
+    params['product_id'] = productId;
+    params['quantity'] = quantity;
 
     return params;
   }

@@ -10,11 +10,12 @@ class RolesCubit extends Cubit<RolesState> {
 
   final RoleRepository repository;
 
-  Future<void> getAllRoles() async {
+  Future<void> getAllRoles({Set<int>? preselectedRoleIds}) async {
     final result = await repository.getAllRoles();
 
     result.fold((error) {}, (data) {
-      emit(RolesLoaded(data));
+      emit(RolesLoaded(data,
+        selectedRoleIds: preselectedRoleIds ?? {},));
     });
   }
 
@@ -35,6 +36,7 @@ class RolesCubit extends Cubit<RolesState> {
           selectedRoleIds: updatedSelection,
         ),
       );
+
     }
   }
 }

@@ -8,7 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GeneralInfo extends StatelessWidget {
-  const GeneralInfo({super.key, required this.name, required this.deadline, required this.price, required this.createdTime});
+  const GeneralInfo({
+    super.key,
+    required this.name,
+    required this.deadline,
+    required this.price,
+    required this.createdTime,
+  });
 
   final String? name;
   final String? deadline;
@@ -21,107 +27,117 @@ class GeneralInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            AppStrings.allInfo,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              color: AppColors.darkBlue,
+            ),
+          ),
+          SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                AppStrings.allInfo,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  color: AppColors.darkBlue,
+              Expanded(
+                flex: 7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.client,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.normalGray,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    PersonImgWithTitleWidget(image: img, name: name ?? ''),
+                  ],
                 ),
               ),
-
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: AppColors.bgColor,
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.keyboard_arrow_up),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              SizedBox(width: 10,),
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.sum,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.normalGray,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '$price тмт',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: 15),
-          Text(
-            AppStrings.client,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.normalGray,
-            ),
-          ),
-          SizedBox(height: 8),
-          PersonImgWithTitleWidget(image: img, name: name??''),
+          SizedBox(height: 25),
 
-          SizedBox(height: 22),
-          Text(
-            AppStrings.responsible,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.normalGray,
-            ),
-          ),
-          SizedBox(height: 8),
-          PersonImgWithTitleWidget(image: img, name: 'Black Sliva'),
-          SizedBox(height: 22),
-          Text(
-            AppStrings.dedline,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.normalGray,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-           deadline??'',
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: AppColors.darkBlue,
-            ),
-          ),
-          SizedBox(height: 22),
-          Text(
-            AppStrings.sum,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.normalGray,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            '$price тмт',
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: AppColors.darkBlue,
-            ),
-          ),
-          SizedBox(height: 15),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset(
-                IconAssets.calendar,
-                width: 22,
-                height: 20,
-                fit: BoxFit.contain,
+              Expanded(
+                flex: 7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.normalGray,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      createdTime ?? '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(width: 24),
-              Text(
-                createdTime??'',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: AppColors.gray,
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.dedline,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColors.normalGray,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      deadline ?? '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

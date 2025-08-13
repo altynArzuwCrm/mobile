@@ -2,39 +2,41 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/roles/presentation/cubits/roles/roles_cubit.dart';
-import 'package:crm/features/roles/presentation/pages/roles_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
+import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
-import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user_details/user_details_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../../domain/entities/user_entity.dart';
-
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key, required this.user});
+class EditUserPage extends StatefulWidget {
+  const EditUserPage({super.key, required this.user});
 
   final UserEntity user;
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<EditUserPage> createState() => _EditUserPageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
-  late final TextEditingController _nameCtrl;
-  late final TextEditingController _phoneCtrl;
+class _EditUserPageState extends State<EditUserPage> {
+  final userDetailsCubit = locator<UserDetailsCubit>();
   final formKey = GlobalKey<FormState>();
 
+  late final TextEditingController _nameCtrl;
+
+  late final TextEditingController _phoneCtrl;
   final rolesCubit = locator<RolesCubit>();
   List<int> _selectedRoles = [];
-
   @override
   void initState() {
     super.initState();
+
     _nameCtrl = TextEditingController(text: widget.user.name);
+
     _phoneCtrl = TextEditingController(text: widget.user.phone);
 
     final userRoleIds = widget.user.roles?.map((role) => role.id).toSet();
@@ -54,6 +56,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _nameCtrl.clear();
     _phoneCtrl.clear();
     _selectedRoles.clear();
+
   }
 
   @override
@@ -84,10 +87,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       SizedBox(height: 15),
                       CustomTextFieldWithTitle(
                         controller: _nameCtrl,
+
                         title: AppStrings.name,
                         hintText: widget.user.name,
+
                       ),
+
                       SizedBox(height: 20),
+
                       CustomTextFieldWithTitle(
                         controller: _phoneCtrl,
                         title: AppStrings.number,
@@ -105,6 +112,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       SizedBox(height: 7),
+
                       BlocProvider.value(
                         value: rolesCubit,
                         child: BlocBuilder<RolesCubit, RolesState>(
@@ -131,9 +139,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     ),
                                     trailing: isSelected
                                         ? Icon(
-                                            Icons.check_circle,
-                                            color: AppColors.primary,
-                                          )
+                                      Icons.check_circle,
+                                      color: AppColors.primary,
+                                    )
                                         : const Icon(Icons.circle_outlined),
                                     selected: isSelected,
                                     onTap: () {
@@ -147,30 +155,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           },
                         ),
                       ),
+
                     ],
                   ),
                 ),
               ),
             ),
 
-            BlocConsumer<UserCubit, UserState>(
+            BlocConsumer<UserDetailsCubit, UserDetailsState>(
               listener: (context, state) {
-                if (state is UserLoaded) {
+                if (state is UserDetailsLoaded) {
                   toastification.show(
                     context: context,
-                    title: Text('Успешно'),
+                    title: Text('успешно'),
                     autoCloseDuration: const Duration(seconds: 3),
                   );
 
+                  locator<UserListCubit>().getAllUsers(UserParams());
+
                   context.pop();
                   clear();
-                } else if (state is UserError) {
+                } else if (state is UserDetailsError) {
                   toastification.show(
                     context: context,
                     title: Text(AppStrings.error),
                     autoCloseDuration: const Duration(seconds: 5),
                   );
-                } else if (state is UserConnectionError) {
+                } else if (state is UserDetailsConnectionError) {
                   toastification.show(
                     context: context,
                     title: Text(AppStrings.noInternet),
@@ -187,21 +198,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                     if (isValid) {
                       String username = _nameCtrl.text.toLowerCase().replaceAll(" ", "");
-                      locator<UserCubit>().editUser(
+
+                      userDetailsCubit.editUser(
                         CreateUserParams(
                           id: widget.user.id,
                           name: _nameCtrl.text,
                           username: username,
                           phone: _phoneCtrl.text,
-                          roles: _selectedRoles,
                         ),
                       );
                     }
                   },
-                  isLoading: state is UserLoading,
+                  isLoading: state is UserDetailsLoading,
                 );
               },
             ),
+
           ],
         ),
       ),

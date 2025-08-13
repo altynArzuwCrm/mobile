@@ -39,28 +39,25 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: BlocBuilder<UserCubit, UserState>(
-            builder: (context, state) {
-              if (state is UserLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is UserLoaded) {
-                final data = state.data;
-                return UserProfileWidget(
-                  name: data.name,
-                  surname: data.username,
-                  jobs: data.roles?.map((e) => e.displayName).toList() ?? [],
-                  phone: data.phone,
-                );
-              } else if (state is UserConnectionError) {
-                return Center(child: Text(AppStrings.noInternet));
-              } else {
-                return Center(child: Text(AppStrings.error));
-              }
-            },
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: BlocBuilder<UserCubit, UserState>(
+          builder: (context, state) {
+            if (state is UserLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is UserLoaded) {
+              final data = state.data;
+              return UserProfileWidget(
+                name: data.name,
+                jobs: data.roles?.map((e) => e.displayName).toList() ?? [],
+                phone: data.phone,
+              );
+            } else if (state is UserConnectionError) {
+              return Center(child: Text(AppStrings.noInternet));
+            } else {
+              return Center(child: Text(AppStrings.error));
+            }
+          },
         ),
       ),
     );
@@ -71,47 +68,47 @@ class UserProfileWidget extends StatelessWidget {
   const UserProfileWidget({
     super.key,
     required this.name,
-    required this.surname,
     required this.phone,
     required this.jobs,
   });
 
   final String name;
-  final String surname;
   final String phone;
   final List<String> jobs;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppStrings.general,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            color: AppColors.darkBlue,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.general,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: AppColors.darkBlue,
+            ),
           ),
-        ),
-        SizedBox(height: 15),
-        ProfileItemWidget(title: AppStrings.name, name: name),
-        SizedBox(height: 20),
-        ProfileItemWidget(title: AppStrings.number, name: phone),
-        SizedBox(height: 20),
-        Column(
-          children: List.generate(
-            jobs.length,
-            (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: ProfileItemWidget(
-                title: AppStrings.position,
-                name: jobs[index],
+          SizedBox(height: 15),
+          ProfileItemWidget(title: AppStrings.name, name: name),
+          SizedBox(height: 20),
+          ProfileItemWidget(title: AppStrings.number, name: phone),
+          SizedBox(height: 20),
+          Column(
+            children: List.generate(
+              jobs.length,
+              (index) => Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ProfileItemWidget(
+                  title: AppStrings.position,
+                  name: jobs[index],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

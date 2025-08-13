@@ -2,7 +2,6 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 class KTextField extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
@@ -70,7 +69,7 @@ class _KTextFieldState extends State<KTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       showCursor: true,
-      cursorColor: AppColors.white,
+      cursorColor: AppColors.primary,
       obscureText: widget.obscureText ?? false,
       contextMenuBuilder: kContextMenuBuilder,
       autofocus: widget.autofocus ?? false,
@@ -118,7 +117,7 @@ class _KTextFieldState extends State<KTextField> {
         prefixIcon: widget.prefixIcon != null
             ? Icon(
           widget.prefixIcon,
-          color: Colors.white,
+          color: Colors.black,
         )
             : null,
         suffixIcon: widget.suffixIcon != null
@@ -136,8 +135,8 @@ class _KTextFieldState extends State<KTextField> {
         prefixText: widget.prefixText,
         hintText: widget.hintText,
         hintStyle: widget.hintStyle ?? TextStyle(
-          color: AppColors.white,
-          fontSize: 14,
+          color: AppColors.gray,
+          fontSize: 16,
           fontWeight: FontWeight.w400,
           fontFamily: TextFonts.nunito,
         ),
@@ -150,18 +149,18 @@ class _KTextFieldState extends State<KTextField> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        focusColor: widget. borderColor ?? AppColors.white,
+        focusColor: widget. borderColor ?? AppColors.timeBorder,
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color:widget. borderColor ?? AppColors.white),
+          borderSide: BorderSide(color:widget. borderColor ?? AppColors.timeBorder),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget. borderColor ?? AppColors.white),
+          borderSide: BorderSide(color: widget. borderColor ?? AppColors.timeBorder),
           borderRadius: BorderRadius.circular(10),
         ),
         errorMaxLines: 2,
         prefixStyle: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 16,
           fontWeight: FontWeight.w500,
           fontFamily: TextFonts.nunito,
@@ -169,8 +168,8 @@ class _KTextFieldState extends State<KTextField> {
         ),
       ),
       style:widget. style ?? TextStyle(
-        color: AppColors.white,
-        fontSize: 14,
+        color: AppColors.black,
+        fontSize: 16,
         fontWeight: FontWeight.w400,
         fontFamily: TextFonts.nunito,
       ),
@@ -204,6 +203,7 @@ class PhoneNumField extends StatelessWidget {
       keyboardType: TextInputType.number,
       prefixText: '+993 | ',
       maxLength: 8,
+      hintText: hint,
       labelText: label ?? '',
       onChange: onChange,
       validator: (val) {

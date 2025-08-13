@@ -110,7 +110,23 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         SizedBox(height: 10),
 
-                        KTextField(controller: _nameCtrl, isSubmitted: false),
+                        KTextField(
+                          controller: _nameCtrl,
+                          isSubmitted: false,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                        ),
                         SizedBox(height: 25),
 
                         Text(
@@ -130,7 +146,19 @@ class _SignInPageState extends State<SignInPage> {
                           controller: _passwordCtrl,
                           isSubmitted: false,
                           obscureText: isVisible,
-
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -234,13 +262,13 @@ class _SignInPageState extends State<SignInPage> {
                     // ),
                     BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {
-                        log(state.toString(),name: 'state');
+                        log(state.toString(), name: 'state');
                         if (state is Authenticated) {
                           toastification.show(
                             context: context,
                             title: Text('Вы успешно вошли в систему'),
                             autoCloseDuration: const Duration(seconds: 3),
-                          );//todo
+                          ); //todo
                           context.go(AppRoutes.mainStatistics);
                         } else if (state is AuthFailure) {
                           toastification.show(

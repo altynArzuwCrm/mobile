@@ -26,6 +26,8 @@ class PersonImgWithTitleWidget extends StatelessWidget {
             fontSize: 16,
             color: AppColors.darkBlue,
           ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
       ],
     );

@@ -1,31 +1,32 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
+import 'package:crm/features/clients/presentation/pages/components/contacts.dart';
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
-import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
-import 'package:crm/features/users/presentation/pages/components/user_activity_list.dart';
-import 'package:crm/features/users/presentation/pages/components/user_list.dart';
+import 'package:crm/features/users/presentation/pages/components/add_user_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
-class UserPage extends StatefulWidget {
-  const UserPage({super.key});
+
+class ContactsPage extends StatefulWidget {
+  const ContactsPage({super.key});
 
   @override
-  State<UserPage> createState() => _UserPageState();
+  State<ContactsPage> createState() => _ContactsPageState();
 }
 
-class _UserPageState extends State<UserPage>
+class _ContactsPageState extends State<ContactsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final UserListCubit _userListCubit = locator<UserListCubit>();
+  final ClientsCubit _clientsCubit = locator<ClientsCubit>();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    _userListCubit.getAllUsers(UserParams());
+    _clientsCubit.getAllClients(UserParams());
   }
 
   @override
@@ -39,7 +40,7 @@ class _UserPageState extends State<UserPage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(AppStrings.members),
+        title: Text(AppStrings.contacts),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
@@ -51,15 +52,21 @@ class _UserPageState extends State<UserPage>
           child: TabBarHeader(
             tabController: _tabController,
             tabs: [
-              Tab(child: Center(child: Text(AppStrings.members, maxLines: 1))),
-              Tab(child: Center(child: Text(AppStrings.activity, maxLines: 1))),
+              Tab(child: Center(child: Text(AppStrings.contacts, maxLines: 1))),
+              Tab(
+                child: Center(child: Text(AppStrings.companies, maxLines: 1)),
+              ),
             ],
           ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [const UserList(), UserActivityList()],
+        children: const [ContactsList(), ContactsList()],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:_openAddUser,
+        child: Icon(Icons.add),
       ),
     );
   }
@@ -70,6 +77,16 @@ class _UserPageState extends State<UserPage>
       barrierColor: Colors.transparent,
       builder: (context) {
         return FilterWidget();
+      },
+    );
+  }
+
+  void _openAddUser() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return AddUserWidget();
       },
     );
   }

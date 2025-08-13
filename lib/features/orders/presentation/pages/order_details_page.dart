@@ -68,7 +68,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(height: 10),
-                                      DetailsAppbar(),
+                                      DetailsAppbar(order: data),
                                       SizedBox(height: 15),
 
                                       Padding(
@@ -88,7 +88,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                             SizedBox(height: 20),
                                             Product(title: data.product?.name),
                                             SizedBox(height: 20),
-                                            Project(title: data.project?.title),
+                                            ProjectWidget(title: data.project?.title),
                                             SizedBox(height: 20),
                                           ],
                                         ),

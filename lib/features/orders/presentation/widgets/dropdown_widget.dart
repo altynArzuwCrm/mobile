@@ -48,7 +48,7 @@ class CustomDropdownField extends StatelessWidget {
                   color: AppColors.gray,
                   size: 22,
                 ),
-            elevation: 5,
+            elevation: 8,
             value: value,
             hint: hintText != null
                 ? Text(hintText!, style: TextStyle(

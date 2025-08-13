@@ -11,6 +11,8 @@ class StageCubit extends Cubit<StageState> {
   final StageRepository repository;
 
   Future<void> getAllStages() async {
+    emit(StageLoading());
+
     final result = await repository.getAllStages();
 
     result.fold(
@@ -21,5 +23,12 @@ class StageCubit extends Cubit<StageState> {
         emit(StageLoaded(data));
       },
     );
+  }
+
+  void selectCategory(String? value) {
+    if (state is StageLoaded) {
+      final current = state as StageLoaded;
+      emit(current.copyWith(selectedCategory: value));
+    }
   }
 }

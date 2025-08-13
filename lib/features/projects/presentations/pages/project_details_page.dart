@@ -4,15 +4,16 @@ import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/features/orders/presentation/pages/components/detail_components/general_info.dart';
 import 'package:crm/features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'package:crm/features/settings/presentation/widgets/project_detail_order_widget.dart';
-import 'package:crm/features/settings/presentation/widgets/project_info_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../orders/presentation/pages/components/detail_components/project.dart' show Project;
+import '../../../orders/presentation/pages/components/detail_components/project.dart'
+    show ProjectWidget;
 
 class ProjectDetailsPage extends StatefulWidget {
   const ProjectDetailsPage({super.key, required this.id});
@@ -72,15 +73,14 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ProjectInfoWidget(
-                                  sum: data.paymentAmount,
+                                GeneralInfo(
+                                  name: 'client',
                                   deadline: data.deadline,
-                                  started: data.createdAt,
-                                  client: 'client',
+                                  price: data.paymentAmount,
+                                  createdTime: data.createdAt,
                                 ),
-
                                 SizedBox(height: 20),
-                                Project(title: data.title),
+                                ProjectWidget(title: data.title),
                                 SizedBox(height: 20),
 
                                 Text(
@@ -114,6 +114,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                                     title: item?.product.name ?? '',
                                     client: item?.client.name ?? '',
                                     deadline: item?.deadline ?? '',
+                                    id: item?.id,
                                   ),
                                 );
                               },

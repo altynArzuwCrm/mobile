@@ -95,6 +95,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _nameCtrl,
                           isSubmitted: false,
                           hintText: AppStrings.writeName,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                         ),
                         SizedBox(height: 25),
 
@@ -115,6 +128,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _surnameCtrl,
                           isSubmitted: false,
                           hintText: AppStrings.enterSurname,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                         ),
                         SizedBox(height: 25),
 
@@ -135,6 +161,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _positionCtrl,
                           isSubmitted: false,
                           hintText: AppStrings.enterPosition,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                         ),
                         SizedBox(height: 25),
 
@@ -155,6 +194,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _emailCtrl,
                           isSubmitted: false,
                           hintText: AppStrings.emailHint,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                         ),
                         SizedBox(height: 25),
 
@@ -175,7 +227,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _passwordCtrl,
                           isSubmitted: false,
                           obscureText: isVisible,
-
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
+                          borderColor: AppColors.white,
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: TextFonts.nunito,
+                          ),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {

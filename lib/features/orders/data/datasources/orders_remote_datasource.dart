@@ -70,7 +70,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   @override
   Future<OrderModel> editOrder(CreateOrderParams params) async {
     final response = await apiProvider.put(
-      endPoint: ApiEndpoints.orders,
+      endPoint: '${ApiEndpoints.orders}/${params.id}',
       data: params.toQueryParameters(),
     );
     final result = response.data;

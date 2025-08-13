@@ -86,7 +86,19 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _newPasswordCtrl,
                         isSubmitted: false,
                         obscureText: isVisibleNew,
-
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: TextFonts.nunito,
+                        ),
+                        borderColor: AppColors.white,
+                        hintStyle: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: TextFonts.nunito,
+                        ),
                         suffixIcon: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -123,7 +135,19 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         controller: _confirmPasswordCtrl,
                         isSubmitted: false,
                         obscureText: isVisible,
-
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: TextFonts.nunito,
+                        ),
+                        borderColor: AppColors.white,
+                        hintStyle: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: TextFonts.nunito,
+                        ),
                         suffixIcon: GestureDetector(
                           onTap: () {
                             setState(() {

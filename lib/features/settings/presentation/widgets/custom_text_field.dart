@@ -7,13 +7,16 @@ class CustomTextFieldWithTitle extends StatelessWidget {
     super.key,
     required this.controller,
     required this.title,
-    required this.hintText, this.suffixIcon,
+    required this.hintText,
+    this.suffixIcon,
+    this.isPhone = false,
   });
 
   final TextEditingController controller;
   final String title;
   final String hintText;
   final Widget? suffixIcon;
+  final bool isPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +33,14 @@ class CustomTextFieldWithTitle extends StatelessWidget {
         ),
 
         SizedBox(height: 7),
-        KTextField(
-          controller: controller,
-          isSubmitted: false,
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: AppColors.gray,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          style: TextStyle(
-            color: AppColors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          borderColor: AppColors.timeBorder,
-          suffixIcon: suffixIcon,
-        ),
+        isPhone
+            ? PhoneNumField(phoneCtrl: controller, isSubmitted: false,hint: hintText,)
+            : KTextField(
+                controller: controller,
+                isSubmitted: false,
+                hintText: hintText,
+                suffixIcon: suffixIcon,
+              ),
       ],
     );
   }
