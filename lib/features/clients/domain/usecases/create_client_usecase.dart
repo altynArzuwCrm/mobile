@@ -5,40 +5,52 @@ import 'package:crm/features/clients/domain/repositories/client_repository.dart'
 import 'package:dartz/dartz.dart';
 
 class CreateClientUseCase
-    extends BaseUseCase<CreateClientParams, ClientEntity> {
+    extends BaseUseCase<CreateClientParams, List<ClientEntity>> {
   final ClientRepository repository;
 
   CreateClientUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, ClientEntity>> execute(input) async {
+  Future<Either<Failure, List<ClientEntity>>> execute(input) async {
     return await repository.createClient(input);
   }
 }
 
 class CreateClientParams {
-  final int id;
+  final int? id;
   final String name;
   final String companyName;
-  final String email;
-  final String phone;
+  final List<ContactParam> contacts;
 
   CreateClientParams({
     required this.id,
     required this.name,
     required this.companyName,
-    required this.email,
-    required this.phone,
+    required this.contacts,
   });
 
   Map<String, dynamic> toQueryParameters() {
-    final Map<String, dynamic> params = {};
+    return {
+      "name": name,
+      "company_name": companyName,
+      "contacts": contacts.map((c) => c.toMap()).toList(),
+    };
+  }
+}
 
-    params['name'] = name;
-    params['company_name'] = companyName;
-    params['email'] = email;
-    params['phone'] = phone;
+class ContactParam {
+  final String type;
+  final String value;
 
-    return params;
+  ContactParam({
+    required this.type,
+    required this.value,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      "type": type,
+      "value": value,
+    };
   }
 }

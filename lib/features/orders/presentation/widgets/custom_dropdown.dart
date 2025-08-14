@@ -10,6 +10,7 @@ class CustomDropdown extends StatelessWidget {
   final Color? color;
   final Color? iconColor;
   final Color? bgColor;
+  final int? elevation;
   final EdgeInsetsGeometry? padding;
 
   const CustomDropdown({
@@ -17,7 +18,7 @@ class CustomDropdown extends StatelessWidget {
     required this.value,
     required this.onChanged,
     required this.items,
-    this.hintText, this.style, this.color, this.iconColor, this.padding, this.bgColor,
+    this.hintText, this.style, this.color, this.iconColor, this.padding, this.bgColor, this.elevation,
   });
 
   @override

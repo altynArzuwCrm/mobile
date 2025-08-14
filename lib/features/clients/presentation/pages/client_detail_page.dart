@@ -5,8 +5,8 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
+import 'package:crm/features/clients/presentation/widgets/client_details_page.dart';
 import 'package:crm/features/settings/presentation/widgets/profile_item_widget.dart';
-import 'package:crm/features/users/presentation/pages/user_details.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +62,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
               return Center(child: CircularProgressIndicator());
             } else if (state is ClientDetailsLoaded) {
               final data = state.data;
+
               return Column(
                 children: [
                   Expanded(
@@ -69,15 +70,14 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                       child: ClientDetailsWidget(
                         name: data.name,
                         company: data.companyName,
-                        email: '',
-                        phone: '',
+                        contacts: data.contacts ?? [],
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                     child: MainButton(
-                      buttonTile: AppStrings.save,
+                      buttonTile: AppStrings.back,
                       onPressed: () {
                         context.pop();
                       },
@@ -98,48 +98,3 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
   }
 }
 
-class ClientDetailsWidget extends StatelessWidget {
-  const ClientDetailsWidget({
-    super.key,
-    required this.name,
-    required this.company,
-    required this.email,
-    required this.phone,
-  });
-
-  final String name;
-  final String company;
-  final String email;
-  final String phone;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppStrings.general,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: AppColors.darkBlue,
-            ),
-          ),
-
-          SizedBox(height: 15),
-          ProfileItemWidget(title: AppStrings.name, name: name),
-          SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.company, name: company),
-
-          SizedBox(height: 20),
-
-          ProfileItemWidget(title: AppStrings.email, name: email),
-          SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.number, name: phone),
-        ],
-      ),
-    );
-  }
-}

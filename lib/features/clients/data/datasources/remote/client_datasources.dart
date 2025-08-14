@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
@@ -10,7 +12,7 @@ abstract class ClientRemoteDataSource {
 
   Future<ClientModel> getClientById(int id);
 
-  Future<ClientModel> createClient(CreateClientParams params);
+  Future<List<ClientModel>> createClient(CreateClientParams params);
 
   Future<ClientModel> editClient(CreateClientParams params);
 
@@ -21,6 +23,9 @@ abstract class ClientRemoteDataSource {
   Future<bool> editClientContact(ClientContactParams params);
 
   Future<bool> deleteClientContact(int id);
+
+  Future<List<String>> getCompanies();
+  Future<ClientModel> getCompanyDetails(String title);
 }
 
 class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
@@ -52,14 +57,18 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
   }
 
   @override
-  Future<ClientModel> createClient(CreateClientParams params) async {
+  Future<List<ClientModel>> createClient(CreateClientParams params) async {
     final response = await apiProvider.post(
       endPoint: ApiEndpoints.clients,
       data: params.toQueryParameters(),
     );
-    final result = response.data['data'];
+    if (response.statusCode == 201) {
+      final clients = await getAllClients(UserParams());
 
-    return ClientModel.fromJson(result);
+      return clients;
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -69,7 +78,6 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
 
       data: params.toQueryParameters(),
     );
-    print(params.toQueryParameters());
     final result = response.data;
     return ClientModel.fromJson(result);
   }
@@ -130,4 +138,25 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
       return false;
     }
   }
+
+  @override
+  Future<List<String>> getCompanies() async {
+    final response = await apiProvider.get(
+      endPoint: '${ApiEndpoints.clients}/companies',
+    );
+
+    final List<dynamic> data = response.data;
+
+    return data.map((e) => e.toString()).toList();
+  }
+
+  @override
+  Future<ClientModel> getCompanyDetails(String title) async {
+    final response = await apiProvider.get(
+      endPoint: '${ApiEndpoints.clients}/company/$title',
+    );
+    final result = response.data[0];
+    return ClientModel.fromJson(result);
+  }
+
 }

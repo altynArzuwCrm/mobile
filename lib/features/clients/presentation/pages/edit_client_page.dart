@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
@@ -5,9 +7,6 @@ import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
-import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
-import 'package:crm/common/widgets/main_card.dart';
-import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
@@ -33,9 +32,7 @@ class _EditContactPageState extends State<EditContactPage> {
 
   late final TextEditingController _companyNameCtrl;
 
-  late final TextEditingController _emailCtrl;
-
-  late final TextEditingController _phoneCtrl;
+  late List<ContactField> _contactControllers;
 
   String? selectedCategory;
 
@@ -45,16 +42,25 @@ class _EditContactPageState extends State<EditContactPage> {
 
     _nameCtrl = TextEditingController(text: widget.client.name);
     _companyNameCtrl = TextEditingController(text: widget.client.companyName);
-    _emailCtrl = TextEditingController(text: '');
-    _phoneCtrl = TextEditingController(text: '');
+
+    _contactControllers =
+        widget.client.contacts?.map((c) {
+          return ContactField(
+            type: c.type,
+            controller: TextEditingController(text: c.value),
+          );
+        }).toList() ??
+        [];
   }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
     _companyNameCtrl.dispose();
-    _emailCtrl.dispose();
-    _phoneCtrl.dispose();
+
+    for (var contactField in _contactControllers) {
+      contactField.controller.dispose();
+    }
 
     super.dispose();
   }
@@ -62,8 +68,6 @@ class _EditContactPageState extends State<EditContactPage> {
   clear() {
     _nameCtrl.clear();
     _companyNameCtrl.clear();
-    _emailCtrl.clear();
-    _phoneCtrl.clear();
   }
 
   @override
@@ -101,23 +105,17 @@ class _EditContactPageState extends State<EditContactPage> {
                       SizedBox(height: 20),
                       CustomTextFieldWithTitle(
                         controller: _companyNameCtrl,
-                        title: AppStrings.position,
+                        title: AppStrings.company,
                         hintText: widget.client.companyName,
                       ),
                       SizedBox(height: 20),
-                      CustomTextFieldWithTitle(
-                        controller: _emailCtrl,
-                        title: AppStrings.email,
-                        hintText: 'evanyates@gmail.com',
-                      ),
-                      SizedBox(height: 20),
-                      CustomTextFieldWithTitle(
-                        controller: _phoneCtrl,
-                        title: AppStrings.number,
-                        hintText: '',
-                        isPhone: true,
-                      ),
-                      SizedBox(height: 35),
+
+                      if (_contactControllers.isNotEmpty)
+                        ..._contactControllers.map(
+                          (field) => ContactWidget(contactField: field),
+                        ),
+
+                      SizedBox(height: 15),
                     ],
                   ),
                 ),
@@ -162,15 +160,22 @@ class _EditContactPageState extends State<EditContactPage> {
                       bool isValid = formKey.currentState?.validate() ?? false;
 
                       if (isValid) {
-                        clientDetailsCubit.editClient(
-                          CreateClientParams(
-                            id: widget.client.id,
-                            name: _nameCtrl.text,
-                            companyName: _companyNameCtrl.text,
-                            email: _emailCtrl.text,
-                            phone: _phoneCtrl.text,
-                          ),
+                        final contactsList = _contactControllers.map((c) {
+                          return ContactParam(
+                            type: c.type,
+                            value: c.controller.text,
+                          );
+                        }).toList();
+
+                        final param = CreateClientParams(
+                          id: widget.client.id,
+                          name: _nameCtrl.text,
+                          companyName: _companyNameCtrl.text,
+                          contacts: contactsList,
                         );
+
+
+                        clientDetailsCubit.editClient(param);
                       }
                     },
                     isLoading: state is ClientDetailsLoading,
@@ -181,6 +186,35 @@ class _EditContactPageState extends State<EditContactPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ContactField {
+  final String type;
+  final TextEditingController controller;
+
+  ContactField({required this.type, required this.controller});
+}
+
+class ContactWidget extends StatelessWidget {
+  const ContactWidget({super.key, required this.contactField});
+
+  final ContactField contactField;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTextFieldWithTitle(
+          controller: contactField.controller,
+          title: contactField.type,
+          hintText: '',
+          isPhone: contactField.type == 'phone' || contactField.type == 'whatsapp',
+        ),
+        SizedBox(height: 20),
+      ],
     );
   }
 }

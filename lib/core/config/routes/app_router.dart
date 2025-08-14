@@ -10,6 +10,7 @@ import 'package:crm/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:crm/features/clients/presentation/pages/client_detail_page.dart';
 import 'package:crm/features/clients/presentation/pages/clients_page.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
+import 'package:crm/features/clients/presentation/pages/company_detail_page.dart';
 import 'package:crm/features/clients/presentation/pages/edit_client_page.dart';
 import 'package:crm/features/notifications/presentation/pages/notification_page.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
@@ -150,6 +151,13 @@ final goRouter = GoRouter(
         final projectId = state.pathParameters['id'] ?? '';
         final id = int.parse(projectId);
         return OrderDetailsPage(id:id);
+      },
+    ),
+    GoRoute(
+      path: '${AppRoutes.companyDetails}/:title',
+      builder: (context, state) {
+        final title = state.pathParameters['title'] ?? '';
+        return CompanyDetailPage(title:title);
       },
     ),
     GoRoute(

@@ -97,6 +97,7 @@ class AppStrings {
   static const String phone = 'Phone';
   static const String coverDesign = 'Дизайн обложки';
   static const String addUser = 'Добавить  сотрудник';
+  static const String addClient = 'Добавить  контакт';
 
   static const String lorem = '''
     Lorem Ipsum, sometimes referred to as 'lipsum', is the placeholder text used in design when creating content. It helps designers plan out where the content will sit, without needing to wait for the content to be written and approved

@@ -1,49 +1,60 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
+import 'package:crm/core/network/network.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
+import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/delete_client_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/get_clients_usecase.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'clients_state.dart';
 
 class ClientsCubit extends Cubit<ClientsState> {
-  ClientsCubit() : super(ClientsLoading());
+  ClientsCubit(this._networkInfo) : super(ClientsLoading());
 
+  final GetClientsUseCase _clientsUseCase = GetClientsUseCase(
+    repository: locator(),
+  );
+  final DeleteClientUseCase _deleteClientUseCase = DeleteClientUseCase(
+    repository: locator(),
+  );
+  final CreateClientUseCase _createClientUseCase = CreateClientUseCase(
+    repository: locator(),
+  );
+  final NetworkInfo _networkInfo;
 
-  final GetClientsUseCase _clientsUseCase =  GetClientsUseCase(repository: locator());
-  final DeleteClientUseCase _deleteClientUseCase = DeleteClientUseCase(repository: locator());
+  List<ClientEntity> _clients = [];
+  bool canLoad = true;
 
   Future<void> getAllClients(UserParams params) async {
-    // final bool hasInternet = await _networkInfo.isConnected;
-    //
-    // if (!hasInternet && _users.isNotEmpty) {
-    //   canLoad = false;
-    //   return;
-    // } else if (hasInternet) {
-    //   canLoad = true;
-    // }
+    final bool hasInternet = await _networkInfo.isConnected;
+
+    if (!hasInternet && _clients.isNotEmpty) {
+      canLoad = false;
+      return;
+    } else if (hasInternet) {
+      canLoad = true;
+    }
 
     final result = await _clientsUseCase.execute(params);
 
     result.fold(
-          (error) {
+      (error) {
         if (error is ConnectionFailure) {
           emit(ClientsConnectionError());
         } else {
           emit(ClientsError());
         }
       },
-          (data) {
-        // canLoad = data.isNotEmpty;
-        // if (params.page == 1) {
-        //   _users = data;
-        // } else {
-        //   _users.addAll(data);
-        // }
-        emit(ClientsLoaded(data));
+      (data) {
+        canLoad = data.isNotEmpty;
+        if (params.page == 1) {
+          _clients = data;
+        } else {
+          _clients.addAll(data);
+        }
+        emit(ClientsLoaded(_clients));
       },
     );
   }
@@ -58,5 +69,13 @@ class ClientsCubit extends Cubit<ClientsState> {
     });
   }
 
+  Future<void> createClient(CreateClientParams params) async {
+    final result = await _createClientUseCase.execute(params);
 
+    result.fold((error) {}, (data) {
+      if (data.isNotEmpty) {
+        emit(ClientsLoaded(data));
+      }
+    });
+  }
 }

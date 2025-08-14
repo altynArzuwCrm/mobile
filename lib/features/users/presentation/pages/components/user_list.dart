@@ -43,14 +43,15 @@ class UserList extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(25, 15, 25, 85),
               itemBuilder: (context, index) {
                 final item = data[index];
-                return ContactsCard(
-                  data: UserListUiModel(
-                    name: item.name,
-                    job: item.roles?.first.displayName ??'',
-                    email: '',
-                    companyName: '',
-                    phone: item.phone,
-                  ),
+                return UserCard(
+                  data: item,
+                  // UserListUiModel(
+                  //   name: item.name,
+                  //   job: item.roles?.first.displayName ??'',
+                  //   email: '',
+                  //   companyName: '',
+                  //   phone: item.phone,
+                  // ),
                   onDelete: () {
                     locator<UserListCubit>().deleteUser(item.id);
                   },

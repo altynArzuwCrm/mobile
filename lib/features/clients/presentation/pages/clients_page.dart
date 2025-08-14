@@ -1,14 +1,15 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
-import 'package:crm/features/clients/presentation/pages/components/contacts.dart';
+import 'package:crm/features/clients/presentation/cubits/companies/company_cubit.dart';
+import 'package:crm/features/clients/presentation/pages/components/contacts_list.dart';
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
-import 'package:crm/features/users/presentation/pages/components/add_user_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+
+import 'components/add_client_widget.dart';
+import 'components/company_list.dart';
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({super.key});
@@ -20,13 +21,12 @@ class ContactsPage extends StatefulWidget {
 class _ContactsPageState extends State<ContactsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final ClientsCubit _clientsCubit = locator<ClientsCubit>();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    _clientsCubit.getAllClients(UserParams());
+    locator<CompanyCubit>().getCompanies();
   }
 
   @override
@@ -62,10 +62,10 @@ class _ContactsPageState extends State<ContactsPage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [ContactsList(), ContactsList()],
+        children: [ContactsList(), CompanyList()],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:_openAddUser,
+        onPressed: _openAddUser,
         child: Icon(Icons.add),
       ),
     );
@@ -86,7 +86,7 @@ class _ContactsPageState extends State<ContactsPage>
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return AddUserWidget();
+        return AddClientWidget();
       },
     );
   }

@@ -28,7 +28,7 @@ class ClientModel {
     updatedAt: DateTime.parse(json["updated_at"]),
     contacts: json["contacts"] != null ? List<ContactModel>.from(
       json["contacts"].map((x) => ContactModel.fromJson(x)),
-    ) : null,
+    ) : [],
   );
 
   Map<String, dynamic> toJson() => {

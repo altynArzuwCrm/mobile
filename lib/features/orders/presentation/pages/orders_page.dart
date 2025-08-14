@@ -2,6 +2,7 @@ import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
+import 'package:crm/features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/order_card.dart';
@@ -126,39 +127,42 @@ class _OrdersPageState extends State<OrdersPage> {
                       child: Center(child: CircularProgressIndicator()),
                     );
                   }
-                  else if(state is OrdersLoaded){
+                  else if (state is OrdersLoaded) {
                     final data = state.data;
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        final isSelectedItem = selectedIndices.contains(index);
-                        final hasAnySelected = selectedIndices.isNotEmpty;
-                        final item = data[index];
+                    return BlocProvider(
+                      create: (context) => OrderStageSelectionCubit(),
+                      child: SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final isSelectedItem = selectedIndices.contains(
+                              index);
+                          final hasAnySelected = selectedIndices.isNotEmpty;
+                          final item = data[index];
 
-                        return OrderCard(
-                          isSelected: isSelectedItem,
-                          hasSelected: hasAnySelected,
-                          model: item,
-                          onTap: () {
-                            setState(() {
-                              // If already selected, deselect. Else, select.
-                              if (hasAnySelected) {
-                                if (isSelectedItem) {
-                                  selectedIndices.remove(index);
-                                } else {
-                                  selectedIndices.add(index);
+                          return OrderCard(
+                            isSelected: isSelectedItem,
+                            hasSelected: hasAnySelected,
+                            model: item,
+                            onTap: () {
+                              setState(() {
+                                // If already selected, deselect. Else, select.
+                                if (hasAnySelected) {
+                                  if (isSelectedItem) {
+                                    selectedIndices.remove(index);
+                                  } else {
+                                    selectedIndices.add(index);
+                                  }
                                 }
-                              }
-                            });
-                          },
-                          onLongPress: () {
-                            setState(() {
-                              selectedIndices.add(index);
-                            });
-                          },
-                        );
-                      }, childCount: data.length),
+                              });
+                            },
+                            onLongPress: () {
+                              setState(() {
+                                selectedIndices.add(index);
+                              });
+                            },
+                          );
+                        }, childCount: data.length),
+                      ),
                     );
-
                   }
                   else if (state is OrdersConnectionError) {
                     return SliverToBoxAdapter(

@@ -23,6 +23,8 @@ import 'features/clients/data/repositories/client_repository_impl.dart';
 import 'features/clients/domain/repositories/client_repository.dart';
 import 'features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'features/clients/presentation/cubits/clinets/clients_cubit.dart';
+import 'features/clients/presentation/cubits/companies/company_cubit.dart';
+import 'features/clients/presentation/cubits/company_details/company_detail_cubit.dart';
 import 'features/notifications/data/datasources/notification_remote_datasource.dart';
 import 'features/notifications/data/repository/notification_repository.dart';
 import 'features/notifications/presentation/cubits/notifications/notification_cubit.dart';
@@ -161,7 +163,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<UserCubit>(UserCubit());
   locator.registerSingleton<UserListCubit>(UserListCubit(locator()));
   locator.registerSingleton<UserDetailsCubit>(UserDetailsCubit());
-  locator.registerSingleton<ClientsCubit>(ClientsCubit());
+  locator.registerSingleton<ClientsCubit>(ClientsCubit(locator()));
   locator.registerSingleton<ClientDetailsCubit>(ClientDetailsCubit());
   locator.registerSingleton<StageCubit>(StageCubit(locator()));
   locator.registerSingleton<OrdersCubit>(OrdersCubit(locator()));
@@ -170,4 +172,6 @@ Future<void> initLocator() async {
   locator.registerSingleton<ProductsCubit>(ProductsCubit(locator()));
   locator.registerSingleton<NotificationCubit>(NotificationCubit(locator()));
   locator.registerSingleton<RolesCubit>(RolesCubit(locator()));
+  locator.registerSingleton<CompanyCubit>(CompanyCubit());
+  locator.registerSingleton<CompanyDetailCubit>(CompanyDetailCubit());
 }
