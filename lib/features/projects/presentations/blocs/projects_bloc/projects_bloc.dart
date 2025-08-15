@@ -17,7 +17,9 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     repository: locator(),
   );
 
-  final CreateProjectUseCase _createProjectUseCase = CreateProjectUseCase(repository: locator());
+  final CreateProjectUseCase _createProjectUseCase = CreateProjectUseCase(
+    repository: locator(),
+  );
 
   final DeleteProjectUseCase _deleteProjectUseCase = DeleteProjectUseCase(
     repository: locator(),
@@ -72,10 +74,9 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
   }
 
   Future<void> _onCreateProject(
-      CreateProject event,
+    CreateProject event,
     Emitter<ProjectsState> emit,
   ) async {
-
     final result = await _createProjectUseCase.execute(event.params);
 
     result.fold(
@@ -88,26 +89,28 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         }
       },
       (data) {
-
         //emit(ProjectsLoaded(_projects));
+        _projects.insert(0, data);
       },
     );
   }
 
   Future<void> _onDeleteProject(
-    DeleteProject event,
-    Emitter<ProjectsState> emit,
-  ) async {
+      DeleteProject event,
+      Emitter<ProjectsState> emit,
+      ) async {
     final result = await _deleteProjectUseCase.execute(event.id);
-    result.fold(
-      (failure) {
-        if (failure is ConnectionFailure) {}
-        if (failure is ServerFailure) {}
-      },
-      (data) {
 
-      //  emit(ProjectsLoaded(_projects));
-      },
-    );
+    result.fold((failure) {
+    }, (data) {
+      if (data) {
+        final updatedProjects = List<ProjectEntity>.from(_projects)
+          ..removeWhere((e) => e.id == event.id);
+
+        _projects = updatedProjects;
+        emit(ProjectsLoaded(updatedProjects));
+      }
+    });
   }
+
 }

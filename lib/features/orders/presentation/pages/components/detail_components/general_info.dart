@@ -45,7 +45,7 @@ class GeneralInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppStrings.client,
+                      'Название проекта',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -53,7 +53,15 @@ class GeneralInfo extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    PersonImgWithTitleWidget(image: img, name: name ?? ''),
+                    // PersonImgWithTitleWidget(image: img, name: name ?? ''),
+                    Text(
+                      name ?? '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
                   ],
                 ),
               ),

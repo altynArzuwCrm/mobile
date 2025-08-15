@@ -34,5 +34,6 @@ abstract final class AppRoutes {
   static const String notifications = '/notifications';
   static const String editOrderPage = '/editOrderPage';
   static const String companyDetails = '/companyDetails';
+  static const String addUser = '/addUser';
 
 }

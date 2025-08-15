@@ -1,16 +1,15 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
-import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'package:crm/features/users/presentation/pages/components/user_activity_list.dart';
 import 'package:crm/features/users/presentation/pages/components/user_list.dart';
-import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import 'components/add_user_widget.dart';
+import 'components/add_user_page.dart';
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
@@ -21,13 +20,13 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final UserListCubit _userListCubit = locator<UserListCubit>();
+  // final UserListCubit _userListCubit = locator<UserListCubit>();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    _userListCubit.getAllUsers(UserParams());
+    // _userListCubit.getAllUsers(UserParams());
   }
 
   @override
@@ -64,7 +63,9 @@ class _UserPageState extends State<UserPage>
         children: [const UserList(), UserActivityList()],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:_openAddUser,
+        onPressed:(){
+          context.push(AppRoutes.addUser);
+        },
         child: Icon(Icons.add),
       ),
     );
@@ -76,15 +77,6 @@ class _UserPageState extends State<UserPage>
       barrierColor: Colors.transparent,
       builder: (context) {
         return FilterWidget();
-      },
-    );
-  }
-  void _openAddUser() {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        return AddUserWidget();
       },
     );
   }

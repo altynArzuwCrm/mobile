@@ -45,7 +45,7 @@ class CreateUserParams {
     this.password,
     this.phone,
     this.isActive = true,
-    this.roles = const [1, 2],
+    this.roles,
   });
 
   Map<String, dynamic> toQueryParameters() {

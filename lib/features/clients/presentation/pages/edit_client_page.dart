@@ -132,8 +132,9 @@ class _EditContactPageState extends State<EditContactPage> {
                     title: Text('успешно'),
                     autoCloseDuration: const Duration(seconds: 3),
                   );
+                  final updatedClient = state.data;
+                  locator<ClientsCubit>().updateClientLocally(updatedClient);
 
-                  locator<ClientsCubit>().getAllClients(UserParams());
 
                   context.pop();
                   clear();

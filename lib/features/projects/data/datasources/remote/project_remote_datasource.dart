@@ -23,7 +23,10 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
 
   @override
   Future<ProjectModel> createProject(CreateProjectParams params) async {
-    final response = await apiProvider.post(endPoint: ApiEndpoints.projects);
+    final response = await apiProvider.post(endPoint: ApiEndpoints.projects,
+      data: params.toQueryParameters(),
+
+    );
     final result = response.data;
     return ProjectModel.fromJson(result);
   }
@@ -31,7 +34,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
   @override
   Future<bool> deleteProject(int id) async {
     final response = await apiProvider.delete(
-      endPoint: '${ApiEndpoints.projects}$id',
+      endPoint: '${ApiEndpoints.projects}/$id',
     );
     if (response.statusCode == 200) {
       return true;

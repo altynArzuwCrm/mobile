@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/main_card.dart';
@@ -47,7 +49,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBarIcon(
                     onTap: () {
-                      context.push(AppRoutes.editUserData,extra: {'user':widget.user});
+                      context.push(AppRoutes.editUserData,extra: {'user': state.data});
                     },
                     icon: IconAssets.edit,
                   ),

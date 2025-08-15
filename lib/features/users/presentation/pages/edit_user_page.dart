@@ -31,6 +31,7 @@ class _EditUserPageState extends State<EditUserPage> {
   late final TextEditingController _phoneCtrl;
   final rolesCubit = locator<RolesCubit>();
   List<int> _selectedRoles = [];
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +57,6 @@ class _EditUserPageState extends State<EditUserPage> {
     _nameCtrl.clear();
     _phoneCtrl.clear();
     _selectedRoles.clear();
-
   }
 
   @override
@@ -90,7 +90,6 @@ class _EditUserPageState extends State<EditUserPage> {
 
                         title: AppStrings.name,
                         hintText: widget.user.name,
-
                       ),
 
                       SizedBox(height: 20),
@@ -100,7 +99,6 @@ class _EditUserPageState extends State<EditUserPage> {
                         title: AppStrings.number,
                         hintText: '',
                         isPhone: true,
-
                       ),
                       SizedBox(height: 20),
                       Text(
@@ -125,8 +123,8 @@ class _EditUserPageState extends State<EditUserPage> {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   final role = data[index];
-                                  final isSelected =
-                                  state.selectedRoleIds.contains(role.id);
+                                  final isSelected = state.selectedRoleIds
+                                      .contains(role.id);
 
                                   return ListTile(
                                     title: Text(
@@ -139,9 +137,9 @@ class _EditUserPageState extends State<EditUserPage> {
                                     ),
                                     trailing: isSelected
                                         ? Icon(
-                                      Icons.check_circle,
-                                      color: AppColors.primary,
-                                    )
+                                            Icons.check_circle,
+                                            color: AppColors.primary,
+                                          )
                                         : const Icon(Icons.circle_outlined),
                                     selected: isSelected,
                                     onTap: () {
@@ -155,7 +153,6 @@ class _EditUserPageState extends State<EditUserPage> {
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -171,7 +168,8 @@ class _EditUserPageState extends State<EditUserPage> {
                     autoCloseDuration: const Duration(seconds: 3),
                   );
 
-                  locator<UserListCubit>().getAllUsers(UserParams());
+                  final updatedUser = state.data;
+                  locator<UserListCubit>().updateUserLocally(updatedUser);
 
                   context.pop();
                   clear();
@@ -193,27 +191,37 @@ class _EditUserPageState extends State<EditUserPage> {
                 return MainButton(
                   buttonTile: AppStrings.save,
                   onPressed: () {
-                    bool isValid =
-                        formKey.currentState?.validate() ?? false;
+                    bool isValid = formKey.currentState?.validate() ?? false;
 
                     if (isValid) {
-                      String username = _nameCtrl.text.toLowerCase().replaceAll(" ", "");
+                      final rolesState = rolesCubit.state;
+                      Set<int> selectedRoles = {};
 
-                      userDetailsCubit.editUser(
-                        CreateUserParams(
-                          id: widget.user.id,
-                          name: _nameCtrl.text,
-                          username: username,
-                          phone: _phoneCtrl.text,
-                        ),
+                      if (rolesState is RolesLoaded) {
+                        selectedRoles = rolesState.selectedRoleIds;
+                      }
+
+                      String username = _nameCtrl.text.toLowerCase().replaceAll(
+                        " ",
+                        "",
                       );
+                      if (selectedRoles.isNotEmpty) {
+                        userDetailsCubit.editUser(
+                          CreateUserParams(
+                            id: widget.user.id,
+                            name: _nameCtrl.text,
+                            username: username,
+                            phone: _phoneCtrl.text,
+                            roles: selectedRoles.toList(),
+                          ),
+                        );
+                      }
                     }
                   },
                   isLoading: state is UserDetailsLoading,
                 );
               },
             ),
-
           ],
         ),
       ),

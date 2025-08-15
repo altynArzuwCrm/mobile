@@ -16,14 +16,16 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this.networkInfo, this.remoteDataSource);
 
   @override
-  Future<Either<Failure, UserEntity>> createUser(
+  Future<Either<Failure, List<UserEntity>>> createUser(
     CreateUserParams params,
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
         final response = await remoteDataSource.createUser(params);
-        return Right(response.toEntity());
+        final result = response.map((e) => e.toEntity()).toList();
+
+        return Right(result);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
       }

@@ -27,6 +27,7 @@ import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
 import 'package:crm/features/statistics/presentation/pages/statistics_page.dart'
     show StatisticsPage;
 import 'package:crm/features/users/domain/entities/user_entity.dart';
+import 'package:crm/features/users/presentation/pages/components/add_user_page.dart';
 import 'package:crm/features/users/presentation/pages/edit_user_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/edit_profile_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/profile_page.dart';
@@ -137,6 +138,12 @@ final goRouter = GoRouter(
       path: AppRoutes.confirmPassword,
       builder: (context, state) {
         return ConfirmPasswordPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.addUser,
+      builder: (context, state) {
+        return AddUserPage();
       },
     ),
     GoRoute(

@@ -6,14 +6,13 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/presentation/pages/components/detail_components/general_info.dart';
 import 'package:crm/features/projects/presentations/blocs/project_details/project_details_bloc.dart';
+import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/settings/presentation/widgets/project_detail_order_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../orders/presentation/pages/components/detail_components/project.dart'
-    show ProjectWidget;
 
 class ProjectDetailsPage extends StatefulWidget {
   const ProjectDetailsPage({super.key, required this.id});
@@ -46,11 +45,29 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               padding: const EdgeInsets.only(right: 18.0),
               child: AppBarIcon(
                 onTap: () {
-                  context.push(AppRoutes.editProject);
+                  final state = detailBloc.state;
+                  if(state is ProjectDetailLoaded){
+                    locator<ProjectsBloc>().add(DeleteProject(widget.id));
+                    context.pop();
+                  }
+
+                },
+                icon: IconAssets.delete,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 18.0),
+              child: AppBarIcon(
+                onTap: () {
+                  final state = detailBloc.state;
+                  if(state is ProjectDetailLoaded){
+                    context.push(AppRoutes.editProject);
+                  }
                 },
                 icon: IconAssets.edit,
               ),
             ),
+
           ],
         ),
         body: BlocProvider.value(
@@ -74,14 +91,14 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GeneralInfo(
-                                  name: 'client',
+                                  name: data.title,
                                   deadline: data.deadline,
                                   price: data.paymentAmount,
                                   createdTime: data.createdAt,
                                 ),
                                 SizedBox(height: 20),
-                                ProjectWidget(title: data.title),
-                                SizedBox(height: 20),
+                                // ProjectWidget(title: data.title),
+                                // SizedBox(height: 20),
 
                                 Text(
                                   AppStrings.orders,

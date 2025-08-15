@@ -1,11 +1,11 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/features/users/domain/usecases/edit_user_usecase.dart';
 import 'package:crm/features/users/domain/usecases/get_user_by_id_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_details_state.dart';
 

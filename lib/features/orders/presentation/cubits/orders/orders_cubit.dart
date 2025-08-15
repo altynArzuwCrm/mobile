@@ -3,6 +3,7 @@ import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/data/repositories/order_repository.dart';
+import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:meta/meta.dart';
 
 part 'orders_state.dart';
@@ -12,7 +13,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   final OrderRepository repository;
 
-  Future<void> getAllOrders(OrderParams params) async {
+  void getAllOrders(OrderParams params) async {
     emit(OrdersLoading());
     final result = await repository.getAllOrders(params);
 
@@ -28,5 +29,26 @@ class OrdersCubit extends Cubit<OrdersState> {
         emit(OrdersLoaded(data));
       },
     );
+  }
+
+  void updateOrderStageLocally(OrderModel updatedOrder) {
+    if (state is OrdersLoaded) {
+      final currentOrders = List<OrderModel>.from((state as OrdersLoaded).data);
+
+      final index = currentOrders.indexWhere((o) => o.id == updatedOrder.id);
+      if (index != -1) {
+        currentOrders[index] = updatedOrder;
+        emit(OrdersLoaded(currentOrders));
+      }
+    }
+  }
+
+
+  void updateOrderStage(String stage, int orderId) async {
+    final result = await repository.editOrderStage(stage, orderId);
+
+    result.fold((error) {}, (data) {
+      updateOrderStageLocally(data);
+    });
   }
 }

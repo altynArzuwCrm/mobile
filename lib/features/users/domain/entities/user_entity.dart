@@ -2,7 +2,7 @@ class UserEntity {
   final int id;
   final String name;
   final String username;
-  final String phone;
+  final String? phone;
   final String? image;
   final bool isActive;
   final List<RoleEntity>? roles;

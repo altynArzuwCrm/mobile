@@ -4,7 +4,7 @@ class UserModel {
   final int id;
   final String name;
   final String username;
-  final String phone;
+  final String? phone;
   final String? image;
   final bool isActive;
   final List<RoleModel>? roles;
@@ -23,7 +23,7 @@ class UserModel {
     id: json["id"],
     name: json["name"] ?? '',
     username: json["username"] ?? '',
-    phone: json["phone"] ?? '',
+    phone: json["phone"],
     image: json["image"],
     isActive: json["is_active"] == 1 ? true : false,
     roles: json["roles"] != null

@@ -11,7 +11,7 @@ abstract class UserRepository {
 
   Future<Either<Failure, UserEntity>> getUserById(int id);
 
-  Future<Either<Failure, UserEntity>> createUser(CreateUserParams params);
+  Future<Either<Failure, List<UserEntity>>> createUser(CreateUserParams params);
 
   Future<Either<Failure, UserEntity>> editUser(CreateUserParams params);
 

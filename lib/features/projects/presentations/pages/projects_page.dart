@@ -4,7 +4,6 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/core/network/internet_bloc/internet_bloc.dart';
-import 'package:crm/features/orders/presentation/pages/components/add_order_widget.dart' show AddOrderWidget;
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
@@ -13,6 +12,8 @@ import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'add_project_page.dart';
 
 class ProjectsPage extends StatefulWidget {
   const ProjectsPage({super.key});
@@ -202,7 +203,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return AddOrderWidget();
+        return AddProjectWidget();
       },
     );
   }

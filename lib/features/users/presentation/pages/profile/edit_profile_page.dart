@@ -6,6 +6,7 @@ import 'package:crm/features/roles/presentation/pages/roles_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,7 +94,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         title: AppStrings.number,
                         hintText: '',
                         isPhone: true,
-
                       ),
                       SizedBox(height: 20),
                       Text(
@@ -117,8 +117,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   final role = data[index];
-                                  final isSelected =
-                                  state.selectedRoleIds.contains(role.id);
+                                  final isSelected = state.selectedRoleIds
+                                      .contains(role.id);
 
                                   return ListTile(
                                     title: Text(
@@ -161,9 +161,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     title: Text('Успешно'),
                     autoCloseDuration: const Duration(seconds: 3),
                   );
+                  //locator<UserListCubit>().getAllUsers(UserParams());
 
                   context.pop();
                   clear();
+
                 } else if (state is UserError) {
                   toastification.show(
                     context: context,
@@ -182,11 +184,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 return MainButton(
                   buttonTile: AppStrings.save,
                   onPressed: () {
-                    bool isValid =
-                        formKey.currentState?.validate() ?? false;
+                    bool isValid = formKey.currentState?.validate() ?? false;
 
                     if (isValid) {
-                      String username = _nameCtrl.text.toLowerCase().replaceAll(" ", "");
+                      String username = _nameCtrl.text.toLowerCase().replaceAll(
+                        " ",
+                        "",
+                      );
                       locator<UserCubit>().editUser(
                         CreateUserParams(
                           id: widget.user.id,

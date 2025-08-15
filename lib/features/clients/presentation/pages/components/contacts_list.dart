@@ -146,6 +146,5 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

@@ -73,7 +73,7 @@ class UserProfileWidget extends StatelessWidget {
   });
 
   final String name;
-  final String phone;
+  final String? phone;
   final List<String> jobs;
 
   @override
@@ -92,8 +92,10 @@ class UserProfileWidget extends StatelessWidget {
           ),
           SizedBox(height: 15),
           ProfileItemWidget(title: AppStrings.name, name: name),
+          if(phone != null)
           SizedBox(height: 20),
-          ProfileItemWidget(title: AppStrings.number, name: phone),
+          if(phone != null)
+          ProfileItemWidget(title: AppStrings.number, name: phone??''),
           SizedBox(height: 20),
           Column(
             children: List.generate(

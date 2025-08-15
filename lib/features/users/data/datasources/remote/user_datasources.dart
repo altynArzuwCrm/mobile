@@ -10,7 +10,7 @@ abstract class UserRemoteDataSource {
 
   Future<UserModel> getUserById(int id);
 
-  Future<UserModel> createUser(CreateUserParams params);
+  Future<List<UserModel>> createUser(CreateUserParams params);
 
   Future<UserModel> editUser(CreateUserParams params);
 
@@ -27,14 +27,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   UserRemoteDataSourceImpl(this.apiProvider);
 
   @override
-  Future<UserModel> createUser(CreateUserParams params) async {
+  Future<List<UserModel>> createUser(CreateUserParams params) async {
     final response = await apiProvider.post(
       endPoint: ApiEndpoints.users,
       data: params.toQueryParameters(),
     );
-    final result = response.data['data'];
 
-    return UserModel.fromJson(result);
+    if (response.statusCode == 200) {
+      final users = await getAllUsers(UserParams());
+
+      return users;
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -72,12 +77,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       data: params.toQueryParameters(),
     );
 
-    final result = response.data;
-    // if(response.statusCode == 200){
-    //   await getAllUsers(UserParams());
-    // }
+    if (response.statusCode == 200) {
+      final user = await getUserById(params.id!);
 
-    return UserModel.fromJson(result);
+      return user;
+    } else {
+      throw 'Exception ${response.statusCode}';
+    }
   }
 
   @override

@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:crm/features/roles/data/models/role_model.dart';
 import 'package:crm/features/roles/data/repository/role_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'roles_state.dart';
 
@@ -11,6 +11,8 @@ class RolesCubit extends Cubit<RolesState> {
   final RoleRepository repository;
 
   Future<void> getAllRoles({Set<int>? preselectedRoleIds}) async {
+
+    emit(RolesLoading());
     final result = await repository.getAllRoles();
 
     result.fold((error) {}, (data) {

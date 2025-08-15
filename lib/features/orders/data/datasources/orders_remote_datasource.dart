@@ -15,7 +15,7 @@ abstract class OrderRemoteDataSource {
 
   Future<bool> deleteOrder(int id);
 
-  Future<bool> editOrderStage(CreateOrderParams params);
+  Future<OrderModel> editOrderStage(String stage, int orderId);
 
   Future<bool> moveOrderToNextStage(CreateOrderParams params);
 
@@ -91,17 +91,14 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<bool> editOrderStage(CreateOrderParams params) async {
-    final response = await apiProvider.post(
-      endPoint: ApiEndpoints.orders,
-      data: params.toQueryParameters(),
+  Future<OrderModel> editOrderStage(String stage, int orderId) async {
+    final response = await apiProvider.put(
+      endPoint: '${ApiEndpoints.orders}/$orderId/stage',
+      data: {'stage': stage},
     );
 
-    if (response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
-    }
+    final result = response.data['order'];
+    return OrderModel.fromJson(result);
   }
 
   @override
@@ -117,7 +114,6 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       return false;
     }
   }
-
 
   @override
   Future<List<CommentModel>> getOrderComments(int orderId) async {
@@ -153,7 +149,6 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       return [];
     }
   }
-
 
   @override
   Future<List<CommentModel>> deleteOrderComment(int id, int orderId) async {

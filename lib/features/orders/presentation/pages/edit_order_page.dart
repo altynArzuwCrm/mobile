@@ -121,7 +121,6 @@ class _EditOrderPageState extends State<EditOrderPage> {
                               onChanged: (val) {
                                 stagesCubit.selectCategory(val);
                                 selectedStage = val;
-                                print(selectedStage);
                               },
                               backgroundColor: AppColors.bgColor,
                               padding: EdgeInsets.zero,

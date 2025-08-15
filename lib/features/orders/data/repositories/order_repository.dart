@@ -20,8 +20,8 @@ class OrderRepository {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-      final response = await remoteDataSource.getAllOrders(params);
-      return Right(response);
+        final response = await remoteDataSource.getAllOrders(params);
+        return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
       }
@@ -90,15 +90,18 @@ class OrderRepository {
     }
   }
 
-  Future<Either<Failure, bool>> editOrderStage(CreateOrderParams params) async {
+  Future<Either<Failure, OrderModel>> editOrderStage(
+    String stage,
+    int orderId,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      try {
-        final response = await remoteDataSource.editOrderStage(params);
+      // try {
+        final response = await remoteDataSource.editOrderStage(stage, orderId);
         return Right(response);
-      } catch (error) {
-        return Left(ServerFailure('[Server]: $error'));
-      }
+      // } catch (error) {
+      //   return Left(ServerFailure('[Server]: $error'));
+      // }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -168,7 +171,10 @@ class OrderRepository {
     }
   }
 
-  Future<Either<Failure, List<CommentModel>>> deleteOrderComment(int id, int orderId) async {
+  Future<Either<Failure, List<CommentModel>>> deleteOrderComment(
+    int id,
+    int orderId,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {

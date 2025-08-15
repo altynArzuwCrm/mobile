@@ -25,7 +25,7 @@ class CreateProjectParams {
   final String? status;
 
   CreateProjectParams(
-    this.status, {
+      { this.status,
     required this.title,
     required this.description,
     required this.id,

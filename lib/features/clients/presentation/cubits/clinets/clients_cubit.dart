@@ -59,6 +59,14 @@ class ClientsCubit extends Cubit<ClientsState> {
     );
   }
 
+  void updateClientLocally(ClientEntity client) {
+    final index = _clients.indexWhere((u) => u.id == client.id);
+    if (index != -1) {
+      _clients[index] = client;
+      emit(ClientsLoaded(List<ClientEntity>.from(_clients)));
+    }
+  }
+
   Future<void> deleteClient(int id) async {
     final result = await _deleteClientUseCase.execute(id);
 
@@ -77,5 +85,12 @@ class ClientsCubit extends Cubit<ClientsState> {
         emit(ClientsLoaded(data));
       }
     });
+  }
+
+  void selectClient(String? value) {
+    if (state is ClientsLoaded) {
+      final current = state as ClientsLoaded;
+      emit(current.copyWith(selectedClient: value));
+    }
   }
 }

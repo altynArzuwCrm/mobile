@@ -3,6 +3,7 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
+import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -80,9 +81,13 @@ class OrderCard extends StatelessWidget {
                               // context.read<OrderDetailCubit>().updateOrder(
                               //   CreateOrderParams(id: model.id, stageName: val),
                               // );
+                              locator<OrdersCubit>().updateOrderStage(
+                                val ?? '',
+                                model.id,
+                              );
                             },
                             bgColor: AppColors.white,
-                            elevation:  12,
+                            elevation: 12,
                             hintText: model.stage?.displayName,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,

@@ -166,6 +166,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<ClientsCubit>(ClientsCubit(locator()));
   locator.registerSingleton<ClientDetailsCubit>(ClientDetailsCubit());
   locator.registerSingleton<StageCubit>(StageCubit(locator()));
+
   locator.registerSingleton<OrdersCubit>(OrdersCubit(locator()));
   locator.registerSingleton<OrderDetailCubit>(OrderDetailCubit(locator()));
   locator.registerSingleton<CommentCubit>(CommentCubit(locator()));

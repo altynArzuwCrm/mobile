@@ -1,6 +1,5 @@
 part of 'roles_cubit.dart';
 
-@immutable
 sealed class RolesState {}
 
 final class RolesLoading extends RolesState {}

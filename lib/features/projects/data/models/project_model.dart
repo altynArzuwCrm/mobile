@@ -33,9 +33,9 @@ class ProjectModel {
         ? formatDate(DateTime.parse(json["created_at"]))
         : '',
     updatedAt: DateTime.parse(json["updated_at"]),
-    orders: List<OrderModel>.from(
+    orders: json["orders"] != null ? List<OrderModel>.from(
       json["orders"].map((x) => OrderModel.fromJson(x)),
-    ),
+    ) : [],
   );
 
   Map<String, dynamic> toJson() => {
