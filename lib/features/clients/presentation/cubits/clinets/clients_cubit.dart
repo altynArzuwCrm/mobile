@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
@@ -6,6 +8,7 @@ import 'package:crm/features/clients/domain/usecases/delete_client_usecase.dart'
 import 'package:crm/features/clients/domain/usecases/get_clients_usecase.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'clients_state.dart';
@@ -26,6 +29,8 @@ class ClientsCubit extends Cubit<ClientsState> {
 
   List<ClientEntity> _clients = [];
   bool canLoad = true;
+  // String?  selectedClientId ;
+
 
   Future<void> getAllClients(UserParams params) async {
     final bool hasInternet = await _networkInfo.isConnected;
@@ -52,11 +57,14 @@ class ClientsCubit extends Cubit<ClientsState> {
         if (params.page == 1) {
           _clients = data;
         } else {
-          _clients.addAll(data);
+          final existingIds = _clients.map((c) => c.id).toSet();
+          final newItems = data.where((c) => !existingIds.contains(c.id)).toList();
+          _clients.addAll(newItems);
         }
         emit(ClientsLoaded(_clients));
       },
     );
+
   }
 
   void updateClientLocally(ClientEntity client) {
@@ -87,10 +95,16 @@ class ClientsCubit extends Cubit<ClientsState> {
     });
   }
 
-  void selectClient(String? value) {
-    if (state is ClientsLoaded) {
-      final current = state as ClientsLoaded;
-      emit(current.copyWith(selectedClient: value));
-    }
-  }
+  // void selectClient(String? clientId) {
+  //   // if (state is ClientsLoaded) {
+  //   //   final current = state as ClientsLoaded;
+  //   //   emit(current.copyWith(selectedClient: clientId));
+  //   // }
+  //   // emit(ClientsLoaded(_clients));
+  //   selectedClientId = clientId;
+  // }
+  // void clearSelection() {
+  //   selectedClientId = null;
+  // //  emit(ClientsLoaded(_clients));
+  // }
 }

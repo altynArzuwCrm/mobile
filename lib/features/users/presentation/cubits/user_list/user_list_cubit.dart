@@ -54,7 +54,11 @@ class UserListCubit extends Cubit<UserListState> {
         if (params.page == 1) {
           _users = List<UserEntity>.from(data);
         } else {
-          _users = List<UserEntity>.from(_users)..addAll(data);
+          final existingIds = _users.map((c) => c.id).toSet();
+          final newItems = data
+              .where((c) => !existingIds.contains(c.id))
+              .toList();
+          _users = List<UserEntity>.from(_users)..addAll(newItems);
         }
         emit(UserListLoaded(List<UserEntity>.from(_users)));
       },
@@ -68,7 +72,6 @@ class UserListCubit extends Cubit<UserListState> {
       emit(UserListLoaded(List<UserEntity>.from(_users)));
     }
   }
-
 
   Future<void> deleteUser(int id) async {
     final result = await _deleteUserUseCase.execute(id);

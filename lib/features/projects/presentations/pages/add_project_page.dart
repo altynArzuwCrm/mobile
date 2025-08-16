@@ -12,6 +12,7 @@ import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects
 import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -27,26 +28,48 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
   final TextEditingController _nameCtrl = TextEditingController();
   final TextEditingController _descriptionCtrl = TextEditingController();
 
-  final stagesCubit = locator<StageCubit>();
-  final clientsCubit = locator<ClientsCubit>();
   final formKey = GlobalKey<FormState>();
 
   String? selectedStage;
-  String? selectedClient;
+  String? selectedClientId;
 
   @override
   void initState() {
     super.initState();
-    clientsCubit.getAllClients(UserParams());
-    stagesCubit.getAllStages();
+    _resetForm();
+
   }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
     _descriptionCtrl.dispose();
-
+    // clientsCubit.selectClient(null);
     super.dispose();
+  }
+  void _resetForm() {
+    _nameCtrl.clear();
+    _descriptionCtrl.clear();
+    selectedClientId = null;
+    selectedStage = null;
+    // clientsCubit.selectClient(null);
+  }
+  void _onSubmit() {
+    final isValid = formKey.currentState?.validate() ?? false;
+
+    if (!isValid || selectedClientId == null || selectedStage == null) return;
+
+    final newProject = CreateProjectParams(
+      status: selectedStage!,
+      title: _nameCtrl.text.trim(),
+      description: _descriptionCtrl.text.trim(),
+      id: int.parse(selectedClientId!),
+    );
+
+    locator<ProjectsBloc>().add(CreateProject(newProject));
+
+    _resetForm();
+    context.pop();
   }
 
   @override
@@ -71,7 +94,153 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15),
+                      Text(
+                        AppStrings.customer,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppColors.gray,
+                        ),
+                      ),
+                      SizedBox(height: 7),
 
+                      BlocProvider.value(
+                        value: locator<ClientsCubit>(),
+                        child: BlocBuilder<ClientsCubit, ClientsState>(
+                          builder: (context, state) {
+                            final inputDecoration = InputDecoration(
+                              hintText: state is ClientsLoading
+                                  ? "Loading clients..."
+                                  : state is ClientsError
+                                  ? "Failed to load"
+                                  : "Select client",
+                              filled: true,
+                              fillColor: AppColors.white,
+                              suffixIcon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AppColors.gray,
+                                size: 30,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 14,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.timeBorder,
+                                  // highlight color when focused
+                                  width: 1,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.timeBorder,
+                                  // highlight color when focused
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.timeBorder,
+                                  width: 1,
+                                ),
+                              ),
+                            );
+
+                            if (state is ClientsLoaded) {
+                              return EasyAutocomplete(
+                                suggestions: state.data.map((c) => c.name).toList(),
+                                initialValue: '',
+                                onChanged: (value) {
+                                  final matches = state.data.where((c) => c.name == value).toList();
+                                  if (matches.isNotEmpty) {
+                                    final client = matches.first;
+                                  //  clientsCubit.selectClient(client.id.toString());
+                                    selectedClientId = client.id.toString();
+                                  } else {
+                                    selectedClientId = null;
+                                  }
+                                },
+                                validator: (_) {
+                                  if (selectedClientId == null) {
+                                    return 'Выберите клиента';
+                                  }
+                                  return null;
+                                },
+                                decoration: inputDecoration,
+                              );
+
+
+                            } else {
+                              return IgnorePointer(
+                                ignoring: true,
+                                child: EasyAutocomplete(
+                                  suggestions: const <String>[],
+                                  initialValue: '',
+                                  onChanged: (_) {},
+                                  decoration: inputDecoration,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Статус',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppColors.gray,
+                        ),
+                      ),
+                      SizedBox(height: 7),
+                      BlocBuilder<StageCubit, StageState>(
+                        builder: (context, state) {
+                          if (state is StageLoaded) {
+                            return CustomDropdownField(
+                              value: state.selectedCategory,
+                              onChanged: (val) {
+                               locator<StageCubit>().selectCategory(val);
+                                selectedStage = val;
+
+                              },
+                              backgroundColor: AppColors.white,
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AppColors.gray,
+                                size: 30,
+                              ),
+                              items: state.data
+                                  .map(
+                                    (stage) => DropdownMenuItem(
+                                      value: stage.name,
+                                      child: Text(stage.displayName),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          } else {
+                            return CustomDropdownField(
+                              value: null,
+                              onChanged: (v) {},
+                              backgroundColor: AppColors.white,
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AppColors.gray,
+                                size: 30,
+                              ),
+                              items: const [],
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(height: 20),
                       TextFieldTitle(
                         title: AppStrings.projectTitle,
                         child: KTextField(
@@ -112,99 +281,9 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                           borderColor: AppColors.timeBorder,
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                        'Статус',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: AppColors.gray,
-                        ),
-                      ),
-                      SizedBox(height: 7),
-                      BlocBuilder<StageCubit, StageState>(
-                        builder: (context, state) {
-                          if (state is StageLoading) {
-                            return const SizedBox.shrink();
-                          } else if (state is StageError) {
-                            return const Text(AppStrings.error);
-                          } else if (state is StageLoaded) {
-                            return CustomDropdownField(
-                              value: state.selectedCategory,
-                              onChanged: (val) {
-                                stagesCubit.selectCategory(val);
-                                selectedStage = val;
-                              },
-                              backgroundColor: AppColors.white,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.gray,
-                                size: 30,
-                              ),
-                              items: state.data
-                                  .map(
-                                    (stage) => DropdownMenuItem(
-                                      value: stage.name,
-                                      child: Text(stage.displayName),
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        AppStrings.customer,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: AppColors.gray,
-                        ),
-                      ),
-                      SizedBox(height: 7),
-                      BlocProvider.value(
-                        value: clientsCubit,
-                        child: BlocBuilder<ClientsCubit, ClientsState>(
-                          builder: (context, state) {
-                            if (state is ClientsLoading) {
-                              return const SizedBox.shrink();
-                            } else if (state is ClientsError) {
-                              return const Text(AppStrings.error);
-                            } else if (state is ClientsLoaded) {
-                              return CustomDropdownField(
-                                value: state.selectedClient,
-                                onChanged: (val) {
-                                  clientsCubit.selectClient(val);
-                                  selectedClient = val;
-                                },
-                                backgroundColor: AppColors.white,
-                                padding: EdgeInsets.zero,
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                  color: AppColors.gray,
-                                  size: 30,
-                                ),
-                                items: state.data
-                                    .map(
-                                      (client) => DropdownMenuItem(
-                                        value: client.id.toString(),
-                                        child: Text(client.name),
-                                      ),
-                                    )
-                                    .toList(),
-                              );
-                            } else {
-                              return const SizedBox.shrink();
-                            }
-                          },
-                        ),
-                      ),
 
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
+
                       Divider(color: AppColors.divider, thickness: 1),
                       SizedBox(height: 10),
                     ],
@@ -218,23 +297,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7),
             child: MainButton(
               buttonTile: AppStrings.create,
-              onPressed: () {
-                bool isValid = formKey.currentState?.validate() ?? false;
-                if (isValid &&
-                    selectedClient != null &&
-                    selectedStage != null) {
-                  final newProject = CreateProjectParams(
-                    status: selectedStage,
-                    title: _nameCtrl.text.trim(),
-                    description: _descriptionCtrl.text.trim(),
-                    id: int.parse(selectedClient ?? ''),
-                  );
-
-                  locator<ProjectsBloc>().add(CreateProject(newProject));
-
-                  context.pop();
-                }
-              },
+              onPressed: _onSubmit,
               isLoading: false,
             ),
           ),
@@ -243,4 +306,5 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
       ),
     );
   }
+
 }

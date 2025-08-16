@@ -45,7 +45,7 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
   void _onRefresh() async {
     _currentPage = 1;
     _clientsCubit.getAllClients(UserParams(page: _currentPage));
-    // _refreshController.refreshCompleted();
+    _refreshController.refreshCompleted();
   }
 
   void _onLoad() async {

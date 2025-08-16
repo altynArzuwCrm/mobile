@@ -1,9 +1,6 @@
 part of 'projects_bloc.dart';
 
-sealed class ProjectsState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+sealed class ProjectsState {}
 
 final class ProjectsLoading extends ProjectsState {}
 

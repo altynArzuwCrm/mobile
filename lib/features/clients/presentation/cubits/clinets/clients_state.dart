@@ -1,6 +1,9 @@
 part of 'clients_cubit.dart';
 
-sealed class ClientsState {}
+sealed class ClientsState extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
 final class ClientsLoading extends ClientsState {}
 

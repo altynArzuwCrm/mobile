@@ -65,7 +65,11 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         if (event.params.page == 1) {
           _projects = data;
         } else {
-          _projects.addAll(data);
+          final existingIds = _projects.map((c) => c.id).toSet();
+          final newItems = data
+              .where((c) => !existingIds.contains(c.id))
+              .toList();
+          _projects.addAll(newItems);
         }
 
         emit(ProjectsLoaded(_projects));
@@ -89,20 +93,19 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         }
       },
       (data) {
-        //emit(ProjectsLoaded(_projects));
         _projects.insert(0, data);
+        emit(ProjectsLoaded(List<ProjectEntity>.from(_projects)));
       },
     );
   }
 
   Future<void> _onDeleteProject(
-      DeleteProject event,
-      Emitter<ProjectsState> emit,
-      ) async {
+    DeleteProject event,
+    Emitter<ProjectsState> emit,
+  ) async {
     final result = await _deleteProjectUseCase.execute(event.id);
 
-    result.fold((failure) {
-    }, (data) {
+    result.fold((failure) {}, (data) {
       if (data) {
         final updatedProjects = List<ProjectEntity>.from(_projects)
           ..removeWhere((e) => e.id == event.id);
@@ -112,5 +115,4 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
       }
     });
   }
-
 }

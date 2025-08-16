@@ -31,7 +31,7 @@ class CustomDropdownField extends StatelessWidget {
     return Padding(
       padding: padding ?? const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         height: 50,
         decoration: BoxDecoration(
           color: effectiveBackground,
