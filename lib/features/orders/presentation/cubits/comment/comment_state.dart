@@ -1,6 +1,5 @@
 part of 'comment_cubit.dart';
 
-@immutable
 sealed class CommentState {}
 
 final class CommentLoading extends CommentState {}

@@ -21,7 +21,7 @@ class ProjectDetailsBloc
 
   ProjectDetailsBloc() : super(ProjectDetailLoading()) {
     on<GetProjectById>(_onGetProjectDetail);
-    on<EditProjectById>(_onEditProject);
+    on<EditProject>(_onEditProject);
   }
 
   Future<void> _onGetProjectDetail(
@@ -46,7 +46,7 @@ class ProjectDetailsBloc
   }
 
   Future<void> _onEditProject(
-      EditProjectById event,
+      EditProject event,
     Emitter<ProjectDetailsState> emit,
   ) async {
     emit(ProjectDetailLoading());

@@ -1,10 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/data/repositories/order_repository.dart';
-import 'package:crm/features/projects/domain/entities/project_entity.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'orders_state.dart';
 

@@ -14,6 +14,13 @@ final class CreateProject extends ProjectsEvent{
   CreateProject(this.params);
 }
 
+final class UpdateProjectLocally extends ProjectsEvent{
+  final ProjectEntity project;
+
+  UpdateProjectLocally(this.project);
+}
+
+
 final class DeleteProject extends ProjectsEvent{
   final int id;
 

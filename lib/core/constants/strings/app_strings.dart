@@ -6,6 +6,7 @@ class AppStrings {
   static const String noInternet = "No internet connection";
   static const String orders = "Заказы";
   static const String products = "Товары";
+  static const String product = "Продукт";
   static const String projects = "Проекты";
   static const String project = "Проект";
   static const String notifications = "Уведомления";
@@ -46,6 +47,7 @@ class AppStrings {
   static const String additionalFile = 'Дополнительные файлы';
   static const String orderDetail = 'О заказе';
   static const String projectTitle = 'Название проекта';
+  static const String count = 'Количество';
   static const List<String> categories = [
     'Все',
     'Оформление',

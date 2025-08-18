@@ -1,12 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/edit_client_usecase.dart';
 import 'package:crm/features/clients/domain/usecases/get_client_by_id_usecase.dart';
-import 'package:crm/features/clients/domain/usecases/get_clients_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'client_details_state.dart';
 

@@ -102,7 +102,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
     return GestureDetector(
       onTap: _pickDateTime,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppColors.timeBorder),

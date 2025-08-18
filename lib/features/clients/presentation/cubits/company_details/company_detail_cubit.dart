@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/domain/usecases/get_company_details_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'company_detail_state.dart';
 

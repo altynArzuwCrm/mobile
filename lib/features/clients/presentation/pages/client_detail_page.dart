@@ -1,12 +1,10 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/main_btn.dart' show MainButton;
 import 'package:crm/core/config/routes/routes_path.dart';
-import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'package:crm/features/clients/presentation/widgets/client_details_page.dart';
-import 'package:crm/features/settings/presentation/widgets/profile_item_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

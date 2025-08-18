@@ -10,7 +10,6 @@ import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/projects/domain/usecases/create_project_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +35,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
   @override
   void initState() {
     super.initState();
-    _resetForm();
-
+    //  _resetForm();
   }
 
   @override
@@ -47,6 +45,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
     // clientsCubit.selectClient(null);
     super.dispose();
   }
+
   void _resetForm() {
     _nameCtrl.clear();
     _descriptionCtrl.clear();
@@ -54,6 +53,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
     selectedStage = null;
     // clientsCubit.selectClient(null);
   }
+
   void _onSubmit() {
     final isValid = formKey.currentState?.validate() ?? false;
 
@@ -63,7 +63,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
       status: selectedStage!,
       title: _nameCtrl.text.trim(),
       description: _descriptionCtrl.text.trim(),
-      id: int.parse(selectedClientId!),
+      clientId: int.parse(selectedClientId!),
     );
 
     locator<ProjectsBloc>().add(CreateProject(newProject));
@@ -152,13 +152,17 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
 
                             if (state is ClientsLoaded) {
                               return EasyAutocomplete(
-                                suggestions: state.data.map((c) => c.name).toList(),
+                                suggestions: state.data
+                                    .map((c) => c.name)
+                                    .toList(),
                                 initialValue: '',
                                 onChanged: (value) {
-                                  final matches = state.data.where((c) => c.name == value).toList();
+                                  final matches = state.data
+                                      .where((c) => c.name == value)
+                                      .toList();
                                   if (matches.isNotEmpty) {
                                     final client = matches.first;
-                                  //  clientsCubit.selectClient(client.id.toString());
+                                    //  clientsCubit.selectClient(client.id.toString());
                                     selectedClientId = client.id.toString();
                                   } else {
                                     selectedClientId = null;
@@ -172,8 +176,6 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                                 },
                                 decoration: inputDecoration,
                               );
-
-
                             } else {
                               return IgnorePointer(
                                 ignoring: true,
@@ -204,9 +206,8 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                             return CustomDropdownField(
                               value: state.selectedCategory,
                               onChanged: (val) {
-                               locator<StageCubit>().selectCategory(val);
+                                locator<StageCubit>().selectCategory(val);
                                 selectedStage = val;
-
                               },
                               backgroundColor: AppColors.white,
                               padding: EdgeInsets.zero,
@@ -306,5 +307,4 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
       ),
     );
   }
-
 }

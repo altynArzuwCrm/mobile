@@ -5,7 +5,6 @@ import 'package:crm/features/projects/domain/usecases/create_project_usecase.dar
 import 'package:crm/features/projects/domain/usecases/delete_project_usecase.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'projects_event.dart';
@@ -31,6 +30,7 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<GetAllProjects>(_onGetAllProjects);
     on<CreateProject>(_onCreateProject);
     on<DeleteProject>(_onDeleteProject);
+    on<UpdateProjectLocally>(_updateProjectLocally);
   }
 
   bool canLoad = true;
@@ -114,5 +114,16 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         emit(ProjectsLoaded(updatedProjects));
       }
     });
+  }
+
+  void _updateProjectLocally(
+    UpdateProjectLocally event,
+    Emitter<ProjectsState> emit,
+  ) {
+    final index = _projects.indexWhere((u) => u.id == event.project.id);
+    if (index != -1) {
+      _projects[index] = event.project;
+      emit(ProjectsLoaded(List<ProjectEntity>.from(_projects)));
+    }
   }
 }

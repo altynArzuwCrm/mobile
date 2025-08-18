@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
@@ -8,7 +7,6 @@ import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart'
 import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

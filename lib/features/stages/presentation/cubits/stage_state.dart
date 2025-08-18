@@ -1,6 +1,5 @@
 part of 'stage_cubit.dart';
 
-@immutable
 sealed class StageState {}
 
 final class StageLoading extends StageState {}

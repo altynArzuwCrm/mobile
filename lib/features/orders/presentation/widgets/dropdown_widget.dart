@@ -39,6 +39,7 @@ class CustomDropdownField extends StatelessWidget {
           border: Border.all(color: effectiveBorderColor),
         ),
         child: DropdownButtonHideUnderline(
+
           child: DropdownButton<String>(
             isExpanded: true,
             icon:

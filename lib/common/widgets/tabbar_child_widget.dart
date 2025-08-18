@@ -3,6 +3,7 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/presentation/cubits/comment/comment_cubit.dart';
+import 'package:crm/features/orders/presentation/pages/components/detail_components/comments_list.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,7 +52,13 @@ class _TabChildWidgetState extends State<TabChildWidget> {
                     context,
                   ),
                 ),
-                widget.delegate,
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25.0,
+                    vertical: 20,
+                  ),
+                  sliver: const CommentsList(),
+                ),
                 if (widget.isComment)
                   SliverToBoxAdapter(child: SizedBox(height: 150)),
               ],

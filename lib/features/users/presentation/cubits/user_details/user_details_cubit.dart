@@ -1,4 +1,3 @@
-
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
@@ -16,7 +15,9 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
     repository: locator(),
   );
 
-  final EditUserUseCase _editUserUseCase = EditUserUseCase(repository: locator());
+  final EditUserUseCase _editUserUseCase = EditUserUseCase(
+    repository: locator(),
+  );
 
   Future<void> getUserDetails(int id) async {
     emit(UserDetailsLoading());
@@ -37,7 +38,7 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
     );
   }
 
-  Future<void> editUser(CreateUserParams params ) async {
+  Future<void> editUser(CreateUserParams params) async {
     emit(UserDetailsLoading());
     final result = await _editUserUseCase.execute(params);
 

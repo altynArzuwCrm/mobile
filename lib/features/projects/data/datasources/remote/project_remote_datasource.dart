@@ -46,7 +46,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
   @override
   Future<ProjectModel> editProject(CreateProjectParams params) async {
     final response = await apiProvider.put(
-      endPoint: ApiEndpoints.projects,
+      endPoint:  '${ApiEndpoints.projects}/${params.id}',
       data: params.toQueryParameters(),
     );
     final result = response.data;

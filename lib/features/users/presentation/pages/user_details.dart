@@ -1,13 +1,8 @@
-import 'dart:developer';
 
 import 'package:crm/common/widgets/appbar_icon.dart';
-import 'package:crm/common/widgets/main_btn.dart';
-import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
-import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/settings/presentation/widgets/profile_item_widget.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/presentation/cubits/user_details/user_details_cubit.dart';
 import 'package:crm/features/users/presentation/pages/profile/profile_page.dart' show UserProfileWidget;
@@ -49,6 +44,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBarIcon(
                     onTap: () {
+                      //todo client
                       context.push(AppRoutes.editUserData,extra: {'user': state.data});
                     },
                     icon: IconAssets.edit,

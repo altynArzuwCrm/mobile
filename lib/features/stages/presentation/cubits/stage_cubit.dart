@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
 import 'package:crm/features/stages/data/repositories/stage_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'stage_state.dart';
 

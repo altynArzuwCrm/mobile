@@ -1,11 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/local/token_store.dart';
 import 'package:crm/core/usecase/usecase.dart';
 import 'package:crm/features/auth/domain/usecases/login_usecase.dart';
 import 'package:crm/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:crm/locator.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_event.dart';
 

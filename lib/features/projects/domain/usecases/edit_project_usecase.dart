@@ -16,6 +16,6 @@ class EditProjectUseCase
   Future<Either<Failure, ProjectEntity>> execute(
     CreateProjectParams input,
   ) async {
-    return await repository.createProject(input);
+    return await repository.editProject(input);
   }
 }

@@ -1,12 +1,9 @@
-import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/notifications/presentation/cubits/notifications/notification_cubit.dart';
 import 'package:crm/features/notifications/presentation/widgets/notification_item_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

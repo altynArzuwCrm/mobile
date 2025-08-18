@@ -21,14 +21,16 @@ class CreateProjectUseCase
 class CreateProjectParams {
   final String title;
   final String description;
-  final int id;
+  final int clientId;
   final String? status;
+  final int? id;
 
-  CreateProjectParams(
-      { this.status,
+  CreateProjectParams({
+    this.status,
     required this.title,
     required this.description,
-    required this.id,
+    required this.clientId,
+    this.id,
   });
 
   Map<String, dynamic> toQueryParameters() {
@@ -36,7 +38,7 @@ class CreateProjectParams {
 
     params['title'] = title;
     params['description'] = description;
-    params['client_id'] = id;
+    params['client_id'] = clientId;
     if (status != null) params['status'] = status;
 
     return params;

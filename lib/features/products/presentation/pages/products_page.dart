@@ -53,14 +53,14 @@ class _WareHousePageState extends State<WareHousePage> {
                 children: [
                   ListView.separated(
                     itemCount: data.length,
-                    padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                     itemBuilder: (context, index) {
                       final item = data[index];
 
                       return ProductItemWidget(title: item.name);
                     },
                     separatorBuilder: (context, index) {
-                      return SizedBox(height: 15);
+                      return SizedBox(height: 5);
                     },
                   ),
                   Positioned(

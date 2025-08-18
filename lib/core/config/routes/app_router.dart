@@ -17,6 +17,7 @@ import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/presentation/pages/edit_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
+import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:crm/features/projects/presentations/pages/projects_page.dart';
 import 'package:crm/features/projects/presentations/pages/edit_project_page.dart';
 import 'package:crm/features/projects/presentations/pages/project_details_page.dart';
@@ -157,14 +158,14 @@ final goRouter = GoRouter(
       builder: (context, state) {
         final projectId = state.pathParameters['id'] ?? '';
         final id = int.parse(projectId);
-        return OrderDetailsPage(id:id);
+        return OrderDetailsPage(id: id);
       },
     ),
     GoRoute(
       path: '${AppRoutes.companyDetails}/:title',
       builder: (context, state) {
         final title = state.pathParameters['title'] ?? '';
-        return CompanyDetailPage(title:title);
+        return CompanyDetailPage(title: title);
       },
     ),
     GoRoute(
@@ -197,11 +198,26 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.editProject,
       builder: (context, state) {
-        return EditProjectPage();
+        if (state.extra != null && state.extra is Map<String, dynamic>) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          final ProjectEntity project = extra['project'];
+          final stageId = state.pathParameters['stageId'] ?? '';
+          final clientId = state.pathParameters['clientId'] ?? '';
+
+          return EditProjectPage(
+            project: project,
+            clientId: clientId,
+            stageId: stageId,
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(),
+          body: Center(child: Text(AppStrings.error)),
+        );
       },
     ),
-
-
 
     GoRoute(
       path: AppRoutes.contacts,
@@ -223,9 +239,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),
@@ -242,9 +256,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),
@@ -261,9 +273,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),
@@ -281,9 +291,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),
@@ -307,9 +315,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),
@@ -327,9 +333,7 @@ final goRouter = GoRouter(
 
         return Scaffold(
           appBar: AppBar(),
-          body: Center(
-            child: Text(AppStrings.error),
-          ),
+          body: Center(child: Text(AppStrings.error)),
         );
       },
     ),

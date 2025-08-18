@@ -1,6 +1,5 @@
 part of 'orders_cubit.dart';
 
-@immutable
 sealed class OrdersState {}
 
 final class OrdersLoading extends OrdersState {}

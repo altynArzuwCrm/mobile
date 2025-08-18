@@ -3,7 +3,7 @@ import 'package:crm/core/utils/time_format.dart';
 
 class NotificationModel {
   final int orderId;
-  final int projectId;
+  final int? projectId;
   final String title;
   final int actionUserId;
   final String actionUserName;

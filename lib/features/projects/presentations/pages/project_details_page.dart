@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-
 class ProjectDetailsPage extends StatefulWidget {
   const ProjectDetailsPage({super.key, required this.id});
 
@@ -46,11 +45,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               child: AppBarIcon(
                 onTap: () {
                   final state = detailBloc.state;
-                  if(state is ProjectDetailLoaded){
+                  if (state is ProjectDetailLoaded) {
                     locator<ProjectsBloc>().add(DeleteProject(widget.id));
                     context.pop();
                   }
-
                 },
                 icon: IconAssets.delete,
               ),
@@ -60,14 +58,20 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               child: AppBarIcon(
                 onTap: () {
                   final state = detailBloc.state;
-                  if(state is ProjectDetailLoaded){
-                    context.push(AppRoutes.editProject);
+                  if (state is ProjectDetailLoaded) {
+                    context.push(
+                      AppRoutes.editProject,
+                      extra: {"project": state.data,
+                      //
+                      // "stageId":state.data.s,
+                      // "clientId":''
+                      },
+                    );
                   }
                 },
                 icon: IconAssets.edit,
               ),
             ),
-
           ],
         ),
         body: BlocProvider.value(
@@ -97,9 +101,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                                   createdTime: data.createdAt,
                                 ),
                                 SizedBox(height: 20),
+
                                 // ProjectWidget(title: data.title),
                                 // SizedBox(height: 20),
-
                                 Text(
                                   AppStrings.orders,
                                   style: TextStyle(

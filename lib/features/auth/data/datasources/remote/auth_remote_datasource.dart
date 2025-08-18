@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/local/token_store.dart';
 import 'package:crm/core/network/api_provider.dart';
-import 'package:crm/features/auth/data/models/user_model.dart';
 import 'package:crm/features/auth/domain/usecases/login_usecase.dart';
 import 'package:crm/locator.dart' show locator;
 
