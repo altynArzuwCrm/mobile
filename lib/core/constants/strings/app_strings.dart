@@ -55,12 +55,7 @@ class AppStrings {
     'Печать',
     'Печать',
   ];
-  static const List<String> categories2 = [
-    'В работе ',
-    'Просрочено',
-    'В ожидании',
-    'Завершено',
-  ];
+
 
   static const String customer = 'Клиент';
   static const String addOrder = 'Добавить заказ';

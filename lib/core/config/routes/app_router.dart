@@ -14,6 +14,7 @@ import 'package:crm/features/clients/presentation/pages/company_detail_page.dart
 import 'package:crm/features/clients/presentation/pages/edit_client_page.dart';
 import 'package:crm/features/notifications/presentation/pages/notification_page.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
+import 'package:crm/features/orders/presentation/pages/components/add_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/edit_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
@@ -145,6 +146,12 @@ final goRouter = GoRouter(
       path: AppRoutes.addUser,
       builder: (context, state) {
         return AddUserPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.addOrder,
+      builder: (context, state) {
+        return AddOrderPage();
       },
     ),
     GoRoute(

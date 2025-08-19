@@ -5,6 +5,8 @@ class OrderParams {
   final String? sortOrder;
   final int perPage;
   final bool? isActive;
+  final String? stage;
+  final String? status;
 
   const OrderParams({
     this.page,
@@ -13,6 +15,8 @@ class OrderParams {
     this.sortOrder,
     this.perPage = 30,
     this.isActive,
+    this.stage,
+    this.status,
   });
 
   Map<String, dynamic> toQueryParameters() {
@@ -23,6 +27,8 @@ class OrderParams {
     if (sortBy != null) params['sort_by'] = sortBy;
     if (sortOrder != null) params['sort_order'] = sortOrder;
     if (isActive != null) params['is_active'] = isActive;
+    if (stage != null) params['stage'] = stage;
+    if (status != null) params['assignment_status'] = status;
     params['per_page'] = perPage;
 
     return params;

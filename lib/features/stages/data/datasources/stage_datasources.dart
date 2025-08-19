@@ -1,6 +1,7 @@
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
+import 'package:crm/features/users/data/models/user_model.dart';
 
 abstract class StageRemoteDataSources {
   Future<List<StageModel>> getAllStages();
@@ -19,7 +20,7 @@ abstract class StageRemoteDataSources {
 
   Future<void> getUsersByStageRoles();
 
-  Future<void> getAllUsersByStageRoles();
+  Future<List<UserModel>> getAllUsersByStageRoles();
 }
 
 class StageRemoteDataSourceImpl extends StageRemoteDataSources {
@@ -55,7 +56,10 @@ class StageRemoteDataSourceImpl extends StageRemoteDataSources {
 
 
   @override
-  Future<void> getAllUsersByStageRoles() async {
+  Future<List<UserModel>> getAllUsersByStageRoles() async {
+
+
+
     // TODO: implement getAllUsersByStageRoles
     throw UnimplementedError();
   }

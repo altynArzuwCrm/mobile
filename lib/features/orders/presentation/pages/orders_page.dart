@@ -1,18 +1,22 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
+import 'package:crm/features/orders/data/models/status_model.dart';
 import 'package:crm/features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/order_card.dart';
 import 'package:crm/features/orders/presentation/widgets/type_chip.dart';
 import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'components/add_order_widget.dart';
+import 'components/add_order_page.dart';
 import 'components/filter_widget.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -23,8 +27,11 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  int isSelected = 0;
-  int isSelected2 = 1;
+  int isStageSelected = 0;
+  int isStatusSelected = 0;
+  String? selectedStage;
+  String? selectedStatus;
+
   final Set<int> selectedIndices = {};
   final stageCubit = locator<StageCubit>();
   final ordersCubit = locator<OrdersCubit>();
@@ -34,6 +41,7 @@ class _OrdersPageState extends State<OrdersPage> {
     super.initState();
     stageCubit.getAllStages();
     ordersCubit.getAllOrders(OrderParams());
+    locator<UserCubit>().getCurrentUser();
   }
 
   @override
@@ -61,7 +69,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 child: BlocBuilder<StageCubit, StageState>(
                   builder: (context, state) {
                     if (state is StageLoading) {
-                      return SizedBox(height: 40,);
+                      return SizedBox(height: 40);
                     } else if (state is StageLoaded) {
                       final data = state.data;
                       return SizedBox(
@@ -71,20 +79,50 @@ class _OrdersPageState extends State<OrdersPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           itemCount: data.length,
                           itemBuilder: (context, index) {
-                            final item = data[index];
 
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: CategoryBtn(
-                                title: item.displayName,
-                                isSelected: index == isSelected,
-                                onTap: () {
-                                  setState(() {
-                                    isSelected = index;
-                                  });
-                                },
-                              ),
-                            );
+                            if (index == 0) {
+                              // First static item
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: CategoryBtn(
+                                  title: "Все",
+                                  isSelected: isStageSelected == 0,
+                                  onTap: () {
+                                    setState(() {
+                                      isStageSelected = 0;
+                                      selectedStage = null; // or any default value you use
+                                    });
+                                    ordersCubit.getAllOrders(
+                                      OrderParams(
+                                        stage: selectedStage,
+                                        status: selectedStatus,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              final item = data[index - 1]; // shift by 1
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: CategoryBtn(
+                                  title: item.displayName,
+                                  isSelected: index == isStageSelected,
+                                  onTap: () {
+                                    setState(() {
+                                      isStageSelected = index;
+                                      selectedStage = item.name;
+                                    });
+                                    ordersCubit.getAllOrders(
+                                      OrderParams(
+                                        stage: selectedStage,
+                                        status: selectedStatus,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
                           },
                         ),
                       );
@@ -101,17 +139,26 @@ class _OrdersPageState extends State<OrdersPage> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    itemCount: AppStrings.categories2.length,
+                    itemCount: StatusModel.statuses.length,
                     itemBuilder: (context, index) {
+                      final item = StatusModel.statuses[index];
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: TypeChip(
-                          title: AppStrings.categories2[index],
-                          isSelected: isSelected2 == index,
+                          title: item.name,
+                          isSelected: isStatusSelected == index,
                           onTap: () {
                             setState(() {
-                              isSelected2 = index;
+                              isStatusSelected = index;
+                              selectedStatus = item.status;
                             });
+
+                            ordersCubit.getAllOrders(
+                              OrderParams(
+                                stage: selectedStage,
+                                status: selectedStatus,
+                              ),
+                            );
                           },
                         ),
                       );
@@ -126,15 +173,15 @@ class _OrdersPageState extends State<OrdersPage> {
                     return SliverToBoxAdapter(
                       child: Center(child: CircularProgressIndicator()),
                     );
-                  }
-                  else if (state is OrdersLoaded) {
+                  } else if (state is OrdersLoaded) {
                     final data = state.data;
                     return BlocProvider(
                       create: (context) => OrderStageSelectionCubit(),
                       child: SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
                           final isSelectedItem = selectedIndices.contains(
-                              index);
+                            index,
+                          );
                           final hasAnySelected = selectedIndices.isNotEmpty;
                           final item = data[index];
 
@@ -144,7 +191,6 @@ class _OrdersPageState extends State<OrdersPage> {
                             model: item,
                             onTap: () {
                               setState(() {
-                                // If already selected, deselect. Else, select.
                                 if (hasAnySelected) {
                                   if (isSelectedItem) {
                                     selectedIndices.remove(index);
@@ -163,8 +209,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         }, childCount: data.length),
                       ),
                     );
-                  }
-                  else if (state is OrdersConnectionError) {
+                  } else if (state is OrdersConnectionError) {
                     return SliverToBoxAdapter(
                       child: Center(child: Text(AppStrings.noInternet)),
                     );
@@ -182,7 +227,9 @@ class _OrdersPageState extends State<OrdersPage> {
             right: 15,
             bottom: 100,
             child: FloatingActionButton(
-              onPressed: _openAddOrder,
+              onPressed: (){
+                context.push(AppRoutes.addOrder);
+              },
               child: Icon(Icons.add),
             ),
           ),
@@ -201,13 +248,13 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-  void _openAddOrder() {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        return AddOrderWidget();
-      },
-    );
-  }
+  // void _openAddOrder() {
+  //   showDialog(
+  //     context: context,
+  //     barrierColor: Colors.transparent,
+  //     builder: (context) {
+  //       return AddOrderWidget();
+  //     },
+  //   );
+  // }
 }
