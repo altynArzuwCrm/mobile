@@ -7,7 +7,7 @@ import 'package:crm/features/orders/presentation/cubits/order_details/order_deta
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
-import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

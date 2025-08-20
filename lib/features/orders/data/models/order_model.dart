@@ -93,20 +93,20 @@ class OrderModel {
 class Product {
   final int id;
   final String name;
-  final int hasDesignStage;
-  final int hasPrintStage;
-  final int hasWorkshopStage;
-  final int hasEngravingStage;
+  // final int? hasDesignStage;
+  // final int? hasPrintStage;
+  // final int hasWorkshopStage;
+  // final int hasEngravingStage;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   Product({
     required this.id,
     required this.name,
-    required this.hasDesignStage,
-    required this.hasPrintStage,
-    required this.hasWorkshopStage,
-    required this.hasEngravingStage,
+    // required this.hasDesignStage,
+    // required this.hasPrintStage,
+    // required this.hasWorkshopStage,
+    // required this.hasEngravingStage,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -114,10 +114,10 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     name: json["name"],
-    hasDesignStage: json["has_design_stage"],
-    hasPrintStage: json["has_print_stage"],
-    hasWorkshopStage: json["has_workshop_stage"],
-    hasEngravingStage: json["has_engraving_stage"],
+    // hasDesignStage: json["has_design_stage"] ?? null,
+    // hasPrintStage: json["has_print_stage"]?? null,
+    // hasWorkshopStage: json["has_workshop_stage"],
+    // hasEngravingStage: json["has_engraving_stage"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -125,10 +125,10 @@ class Product {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "has_design_stage": hasDesignStage,
-    "has_print_stage": hasPrintStage,
-    "has_workshop_stage": hasWorkshopStage,
-    "has_engraving_stage": hasEngravingStage,
+    // "has_design_stage": hasDesignStage,
+    // "has_print_stage": hasPrintStage,
+    // "has_workshop_stage": hasWorkshopStage,
+    // "has_engraving_stage": hasEngravingStage,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };

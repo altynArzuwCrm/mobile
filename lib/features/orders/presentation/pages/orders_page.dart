@@ -9,14 +9,13 @@ import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/order_card.dart';
 import 'package:crm/features/orders/presentation/widgets/type_chip.dart';
-import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'components/add_order_page.dart';
 import 'components/filter_widget.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -102,7 +101,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 ),
                               );
                             } else {
-                              final item = data[index - 1]; // shift by 1
+                              final item = data[index - 1];
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: CategoryBtn(
@@ -248,13 +247,4 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-  // void _openAddOrder() {
-  //   showDialog(
-  //     context: context,
-  //     barrierColor: Colors.transparent,
-  //     builder: (context) {
-  //       return AddOrderWidget();
-  //     },
-  //   );
-  // }
 }

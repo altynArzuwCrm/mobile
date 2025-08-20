@@ -13,13 +13,14 @@ class SelectableCardRow extends StatefulWidget {
 }
 
 class _SelectableCardRowState extends State<SelectableCardRow> {
-  int? selectedIndex;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 8, // smaller horizontal gap
-      runSpacing: 8, // smaller vertical gap if wrapped
+      alignment: WrapAlignment.spaceBetween,
+      spacing: 8,
+      runSpacing: 8,
       children: [
         for (int i = 0; i < widget.options.length; i++)
           GestureDetector(
@@ -29,12 +30,11 @@ class _SelectableCardRowState extends State<SelectableCardRow> {
             },
             child: ConstrainedBox(
               constraints: const BoxConstraints(minWidth: 120, maxWidth: 160),
-              // smaller cards
               child: MainCardWidget(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 12,
-                ), // reduced padding
+                ),
                 color: selectedIndex == i
                     ? Colors.blue.shade50
                     : AppColors.white,

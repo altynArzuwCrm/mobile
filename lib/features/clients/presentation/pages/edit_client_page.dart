@@ -1,4 +1,3 @@
-
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
@@ -133,7 +132,6 @@ class _EditContactPageState extends State<EditContactPage> {
                   final updatedClient = state.data;
                   locator<ClientsCubit>().updateClientLocally(updatedClient);
 
-
                   context.pop();
                   clear();
                 } else if (state is ClientDetailsError) {
@@ -173,7 +171,6 @@ class _EditContactPageState extends State<EditContactPage> {
                           contacts: contactsList,
                         );
 
-
                         clientDetailsCubit.editClient(param);
                       }
                     },
@@ -210,7 +207,8 @@ class ContactWidget extends StatelessWidget {
           controller: contactField.controller,
           title: contactField.type,
           hintText: '',
-          isPhone: contactField.type == 'phone' || contactField.type == 'whatsapp',
+          isPhone:
+              contactField.type == 'phone' || contactField.type == 'whatsapp',
         ),
         SizedBox(height: 20),
       ],

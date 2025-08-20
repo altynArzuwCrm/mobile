@@ -7,7 +7,6 @@ import 'package:crm/features/clients/domain/usecases/delete_client_usecase.dart'
 import 'package:crm/features/clients/domain/usecases/get_clients_usecase.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'clients_state.dart';
@@ -28,6 +27,7 @@ class ClientsCubit extends Cubit<ClientsState> {
 
   List<ClientEntity> _clients = [];
   bool canLoad = true;
+
   // String?  selectedClientId ;
 
 
@@ -88,9 +88,12 @@ class ClientsCubit extends Cubit<ClientsState> {
     final result = await _createClientUseCase.execute(params);
 
     result.fold((error) {}, (data) {
-      if (data.isNotEmpty) {
-        emit(ClientsLoaded(data));
-      }
+      // if (data.isNotEmpty) {
+
+      _clients.insert(0, data);
+        emit(ClientsLoaded(List.from(_clients)));
+
+      // }
     });
   }
 

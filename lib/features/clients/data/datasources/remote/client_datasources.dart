@@ -11,7 +11,7 @@ abstract class ClientRemoteDataSource {
 
   Future<ClientModel> getClientById(int id);
 
-  Future<List<ClientModel>> createClient(CreateClientParams params);
+  Future<ClientModel> createClient(CreateClientParams params);
 
   Future<ClientModel> editClient(CreateClientParams params);
 
@@ -56,18 +56,20 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
   }
 
   @override
-  Future<List<ClientModel>> createClient(CreateClientParams params) async {
+  Future<ClientModel> createClient(CreateClientParams params) async {
     final response = await apiProvider.post(
       endPoint: ApiEndpoints.clients,
       data: params.toQueryParameters(),
     );
-    if (response.statusCode == 201) {
-      final clients = await getAllClients(UserParams());
-
-      return clients;
-    } else {
-      return [];
-    }
+    // if (response.statusCode == 201) {
+    //   final clients = await getAllClients(UserParams());
+    //
+    //   return clients;
+    // } else {
+    //   return [];
+    // }
+    final result = response.data["data"];
+    return ClientModel.fromJson(result);
   }
 
   @override

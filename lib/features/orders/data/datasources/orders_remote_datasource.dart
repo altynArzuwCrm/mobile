@@ -62,7 +62,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       endPoint: ApiEndpoints.orders,
       data: params.toQueryParameters(),
     );
-    final result = response.data['data'];
+    final result = response.data;
 
     return OrderModel.fromJson(result);
   }

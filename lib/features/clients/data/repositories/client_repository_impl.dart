@@ -17,16 +17,16 @@ class ClientRepositoryImpl implements ClientRepository {
   ClientRepositoryImpl(this.networkInfo, this.remoteDataSource);
 
   @override
-  Future<Either<Failure, List<ClientEntity>>> createClient(
+  Future<Either<Failure, ClientEntity>> createClient(
     CreateClientParams params,
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       // try {
       final response = await remoteDataSource.createClient(params);
-      final result = response.map((e) => e.toEntity()).toList();
+      // final result = response.map((e) => e.toEntity()).toList();
 
-      return Right(result);
+      return Right(response.toEntity());
       // } catch (error) {
       //   return  Left(ServerFailure('[Server]: $error'));
       // }

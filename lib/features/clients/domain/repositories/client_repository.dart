@@ -9,7 +9,7 @@ import 'package:dartz/dartz.dart';
 abstract class ClientRepository {
   Future<Either<Failure, List<ClientEntity>>> getAllClients(UserParams params);
   Future<Either<Failure, ClientEntity>> getClientById(int id);
-  Future<Either<Failure, List<ClientEntity>>> createClient(CreateClientParams params);
+  Future<Either<Failure, ClientEntity>> createClient(CreateClientParams params);
   Future<Either<Failure, ClientEntity>> editClient(CreateClientParams params);
   Future<Either<Failure, List<ClientEntity>>> deleteClient(int id);
 

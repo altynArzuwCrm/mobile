@@ -37,6 +37,7 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
   List<ProjectEntity> _projects = [];
   List<int> selectedToRemove = [];
 
+
   Future<void> _onGetAllProjects(
     GetAllProjects event,
     Emitter<ProjectsState> emit,

@@ -16,13 +16,11 @@ class SingleOrderItem extends StatelessWidget {
     required this.onSelectDate,
     required this.priceCtrl,
     required this.countCtrl,
-    required this.productCtrl,
     required this.onSelectProduct,
   });
 
   final TextEditingController priceCtrl;
   final TextEditingController countCtrl;
-  final TextEditingController productCtrl;
   final ValueChanged onSelectDate;
   final ValueChanged onSelectProduct;
 
@@ -45,7 +43,7 @@ class SingleOrderItem extends StatelessWidget {
                   builder: (context, state) {
                     final inputDecoration = InputDecoration(
                       hintText: state is ProductsLoading
-                          ? "Loading projects..."
+                          ? "Loading product..."
                           : state is ClientsError
                           ? "Failed to load"
                           : "Select product",
@@ -106,7 +104,7 @@ class SingleOrderItem extends StatelessWidget {
 
                         validator: (v) {
                           if (v == null) {
-                            return 'Выберите проект';
+                            return 'Выберите продукт';
                           }
                           return null;
                         },

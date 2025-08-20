@@ -9,7 +9,7 @@ import 'package:crm/features/orders/presentation/widgets/dialog_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/projects/domain/usecases/create_project_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
-import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';

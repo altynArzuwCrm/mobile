@@ -1,13 +1,15 @@
+import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
+import 'package:crm/features/assignments/data/models/assign_order_params.dart';
 
 abstract class AssignmentDataSources {
   Future<void> getOrderAssignments();
 
   Future<void> getOrderAssignmentById();
 
-  Future<void> assignOrderToUser();
+  Future<bool> assignOrderToUser(AssignOrderParams params);
 
-  Future<void> bulkAssignOrders();
+  Future<bool> bulkAssignOrders(BulkAssignOrderParams params);
 
   Future<void> updateOrderAssignmentStatus();
 
@@ -26,15 +28,29 @@ class AssignmentDataSourcesImpl extends AssignmentDataSources {
   AssignmentDataSourcesImpl(this.apiProvider);
 
   @override
-  Future<void> assignOrderToUser() async {
-    // TODO: implement assignOrderToUser
-    throw UnimplementedError();
+  Future<bool> assignOrderToUser(AssignOrderParams params) async {
+    final response = await apiProvider.post(
+      endPoint: '${ApiEndpoints.orders}/${params.userId}/assign',
+      data: params.toQueryParameters(),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
-  Future<void> bulkAssignOrders() async {
-    // TODO: implement bulkAssignOrders
-    throw UnimplementedError();
+  Future<bool> bulkAssignOrders(BulkAssignOrderParams params) async {
+    final response = await apiProvider.post(
+      endPoint: '${ApiEndpoints.orders}/${params.id}/bulk-assign',
+      data: params.toJson(),
+    );
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override

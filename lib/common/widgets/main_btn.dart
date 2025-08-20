@@ -6,6 +6,7 @@ class MainButton extends StatelessWidget {
     super.key,
     required this.buttonTile,
     this.height,
+    this.width,
     required this.onPressed,
     this.isDisable,
     this.hasIcon,
@@ -17,6 +18,7 @@ class MainButton extends StatelessWidget {
   final bool? isDisable;
   final String buttonTile;
   final double? height;
+  final double? width;
   final bool? hasIcon;
   final Color? btnColor;
   final double? elevation;
@@ -28,7 +30,7 @@ class MainButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height ?? 48,
-      width: double.infinity,
+      width:width ?? double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: WidgetStateProperty.all(elevation),

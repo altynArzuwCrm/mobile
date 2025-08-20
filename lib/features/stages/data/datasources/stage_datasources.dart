@@ -20,7 +20,7 @@ abstract class StageRemoteDataSources {
 
   Future<void> getUsersByStageRoles();
 
-  Future<List<UserModel>> getAllUsersByStageRoles();
+  Future<Map<StageModel, List<UserModel>>> getAllUsersByStageRoles();
 }
 
 class StageRemoteDataSourceImpl extends StageRemoteDataSources {
@@ -56,13 +56,36 @@ class StageRemoteDataSourceImpl extends StageRemoteDataSources {
 
 
   @override
-  Future<List<UserModel>> getAllUsersByStageRoles() async {
+  Future<Map<StageModel, List<UserModel>>> getAllUsersByStageRoles() async {
+    final responses = await Future.wait([
+      apiProvider.get(endPoint: ApiEndpoints.stages),
+      apiProvider.get(endPoint: '${ApiEndpoints.stages}/users-by-roles/all'),
+    ]);
 
+    final stagesResponse = responses[0];
+    final usersResponse  = responses[1];
 
+    // Parse data
+    final usersData = usersResponse.data as Map<String, dynamic>;
+    final stagesData = (stagesResponse.data as List)
+        .map((e) => StageModel.fromJson(e))
+        .toList();
 
-    // TODO: implement getAllUsersByStageRoles
-    throw UnimplementedError();
+    // Build map
+    final Map<StageModel, List<UserModel>> stageUsersMap = {};
+
+    for (var stage in stagesData) {
+      final stageUsersJson = usersData[stage.id.toString()] as List?;
+      if (stageUsersJson != null && stageUsersJson.isNotEmpty) {
+        stageUsersMap[stage] =
+            stageUsersJson.map((e) => UserModel.fromJson(e)).toList();
+      }
+    }
+
+    return stageUsersMap;
   }
+
+
 
   @override
   Future<void> getAvailableRoles() async {

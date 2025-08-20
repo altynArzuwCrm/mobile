@@ -4,7 +4,7 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
-import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';

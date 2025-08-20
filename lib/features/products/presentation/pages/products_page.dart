@@ -1,7 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/orders/presentation/pages/components/add_order_page.dart';
+import 'package:crm/features/orders/presentation/pages/add_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/products/data/models/product_params.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';

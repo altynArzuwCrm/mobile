@@ -1,3 +1,5 @@
+import 'package:crm/features/assignments/data/models/assign_order_params.dart';
+
 class OrderParams {
   final int? page;
   final String? search;
@@ -41,19 +43,29 @@ class CreateOrderParams {
   final String? description;
   final String? stage;
   final int? clientId;
+  final int? projectId;
   final int? productId;
   final int? quantity;
+  final int? price;
+  final DateTime? deadline;
+  final List<AssignOrderParams>? assignments;
+  final List<MultipleProductParams>? products;
 
   CreateOrderParams({
+    this.id,
+
     this.title,
     this.description,
     this.stage,
     this.clientId,
+    this.projectId,
     this.productId,
     this.quantity,
-    this.id,
-  }
-  );
+    this.price,
+    this.deadline,
+    this.assignments,
+    this.products,
+  });
 
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
@@ -62,8 +74,40 @@ class CreateOrderParams {
     params['description'] = description;
     params['stage'] = stage;
     params['client_id'] = clientId;
+    params['project_id'] = projectId;
     params['product_id'] = productId;
     params['quantity'] = quantity;
+    params['price'] = price;
+    params['deadline'] = deadline?.toIso8601String();
+    params['assignments'] =
+        assignments?.map((e) => e.toQueryParameters()).toList() ?? [];
+    params['products'] =
+        products?.map((e) => e.toQueryParameters()).toList() ?? [];
+
+    return params;
+  }
+}
+
+class MultipleProductParams {
+  final String productName;
+  final int quantity;
+  final int price;
+  final DateTime? deadline;
+
+  MultipleProductParams({
+    required this.productName,
+    required this.quantity,
+    required this.price,
+    required this.deadline,
+  });
+
+  Map<String, dynamic> toQueryParameters() {
+    final Map<String, dynamic> params = {};
+
+    params['product_name'] = productName;
+    params['quantity'] = quantity;
+    params['price'] = price;
+    params['deadline'] = deadline?.toIso8601String();
 
     return params;
   }

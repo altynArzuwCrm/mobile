@@ -3,6 +3,7 @@ import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
+import 'package:crm/features/users/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 
 class StageRepository {
@@ -14,12 +15,12 @@ class StageRepository {
   Future<Either<Failure, List<StageModel>>> getAllStages() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.getAllStages();
         return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -123,7 +124,7 @@ class StageRepository {
     }
   }
 
-  Future<Either<Failure, void>> getAllUsersByStageRoles() async {
+  Future<Either<Failure, Map<StageModel, List<UserModel>>>> getAllUsersByStageRoles() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {

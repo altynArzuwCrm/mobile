@@ -1,7 +1,7 @@
 class ApiEndpoints {
 
 
-  static const baseUrl = 'http://192.168.31.137/api/';
+  static const baseUrl = 'http://192.168.31.138/api/';
   static const login = 'login';
   static const logout = 'logout';
   static const currentUser = 'me';

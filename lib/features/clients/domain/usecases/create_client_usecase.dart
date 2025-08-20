@@ -5,13 +5,13 @@ import 'package:crm/features/clients/domain/repositories/client_repository.dart'
 import 'package:dartz/dartz.dart';
 
 class CreateClientUseCase
-    extends BaseUseCase<CreateClientParams, List<ClientEntity>> {
+    extends BaseUseCase<CreateClientParams, ClientEntity> {
   final ClientRepository repository;
 
   CreateClientUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, List<ClientEntity>>> execute(input) async {
+  Future<Either<Failure, ClientEntity>> execute(input) async {
     return await repository.createClient(input);
   }
 }

@@ -9,7 +9,7 @@ import 'package:crm/features/orders/presentation/pages/components/filter_widget.
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/settings/presentation/widgets/project_card.dart';
-import 'package:crm/features/stages/presentation/cubits/stage_cubit.dart';
+import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +144,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
                   right: 15,
                   bottom: 100,
                   child: FloatingActionButton(
-                    onPressed: _openAddOrder,
+                    onPressed: _openAddProject,
                     child: Icon(Icons.add),
                   ),
                 );
@@ -224,7 +224,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
     );
   }
 
-  void _openAddOrder() {
+  void _openAddProject() {
     showDialog(
       context: context,
       barrierColor: Colors.transparent,

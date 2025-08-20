@@ -19,6 +19,11 @@ class TokenInterceptor extends Interceptor {
       ApiEndpoints.currentUser,
       ApiEndpoints.users,
       ApiEndpoints.orders,
+      ApiEndpoints.stages,
+      ApiEndpoints.products,
+      ApiEndpoints.notifications,
+      ApiEndpoints.clients,
+      ApiEndpoints.roles,
     ];
     return apiPathsRequiringToken.contains(options.path);
   }

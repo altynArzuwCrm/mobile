@@ -1,3 +1,4 @@
+import 'package:crm/features/assignments/data/datasources/assignment_datasources.dart';
 import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
 import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
 import 'package:crm/features/stages/data/repositories/stage_repository.dart';
@@ -12,6 +13,8 @@ import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
 import 'core/network/internet_bloc/internet_bloc.dart';
 import 'core/network/network.dart';
+import 'features/assignments/data/repositories/assignment_repository.dart';
+import 'features/assignments/presentation/cubits/assign_cubit.dart';
 import 'features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/authentication_repository.dart';
@@ -43,7 +46,8 @@ import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'features/roles/data/datasources/role_remote_datasource.dart';
 import 'features/roles/data/repository/role_repository.dart';
 import 'features/roles/presentation/cubits/roles/roles_cubit.dart';
-import 'features/stages/presentation/cubits/stage_cubit.dart';
+import 'features/stages/presentation/cubits/all_stages/stage_cubit.dart';
+import 'features/stages/presentation/cubits/stage_with_users/stage_with_users_cubit.dart';
 import 'features/users/data/datasources/remote/user_datasources.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
@@ -116,6 +120,10 @@ Future<void> initLocator() async {
     () => RoleRemoteDatasourceImpl(locator()),
   );
 
+  // locator.registerLazySingleton<AssignmentDataSources>(
+  //   () => AssignmentDataSourcesImpl(locator()),
+  // );
+
   ///repository
 
   locator.registerLazySingleton<AuthenticationRepository>(
@@ -148,6 +156,10 @@ Future<void> initLocator() async {
     () => RoleRepository(locator(), locator()),
   );
 
+  // locator.registerLazySingleton<AssignmentRepository>(
+  //   () => AssignmentRepository(locator(), locator()),
+  // );
+
   ///usecase
 
   locator.registerLazySingleton(() => LoginUseCase(repository: locator()));
@@ -167,7 +179,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<ClientDetailsCubit>(ClientDetailsCubit());
   locator.registerSingleton<StageCubit>(StageCubit(locator()));
 
-  locator.registerSingleton<OrdersCubit>(OrdersCubit(locator()));
+  locator.registerSingleton<OrdersCubit>(OrdersCubit(locator(), locator()));
   locator.registerSingleton<OrderDetailCubit>(OrderDetailCubit(locator()));
   locator.registerSingleton<CommentCubit>(CommentCubit(locator()));
   locator.registerSingleton<ProductsCubit>(ProductsCubit(locator()));
@@ -175,4 +187,10 @@ Future<void> initLocator() async {
   locator.registerSingleton<RolesCubit>(RolesCubit(locator()));
   locator.registerSingleton<CompanyCubit>(CompanyCubit());
   locator.registerSingleton<CompanyDetailCubit>(CompanyDetailCubit());
+  locator.registerSingleton<StageWithUsersCubit>(StageWithUsersCubit(locator()));
+
+  // locator.registerSingleton<AssignCubit>(AssignCubit(locator()));
+
+
+
 }

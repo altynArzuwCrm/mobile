@@ -10,7 +10,7 @@ import 'core/constants/strings/app_strings.dart';
 import 'features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
-import 'features/stages/presentation/cubits/stage_cubit.dart';
+import 'features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'features/users/presentation/cubits/user/user_cubit.dart';
 import 'features/users/presentation/cubits/user_details/user_details_cubit.dart';
 import 'features/users/presentation/cubits/user_list/user_list_cubit.dart';
