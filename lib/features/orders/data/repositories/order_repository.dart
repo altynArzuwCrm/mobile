@@ -49,12 +49,12 @@ class OrderRepository {
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.createOrder(params);
         return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -96,12 +96,12 @@ class OrderRepository {
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.editOrderStage(stage, orderId);
         return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

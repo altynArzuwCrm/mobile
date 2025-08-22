@@ -4,8 +4,11 @@ class OrderItemModel {
   final TextEditingController productCtrl;
   final TextEditingController countCtrl;
   final TextEditingController priceCtrl;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   DateTime? deadline;
   String? selectedProductId;
+
 
   OrderItemModel({
     String? initialProduct,

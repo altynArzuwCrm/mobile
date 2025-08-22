@@ -20,6 +20,7 @@ class OrderModel {
   final Project? project;
   final Product? product;
   final ClientModel? client;
+  // final StageModel? stage;
   final StageModel? stage;
 
   OrderModel({
@@ -53,7 +54,7 @@ class OrderModel {
     deadline: json["deadline"] != null
         ? formatDate(DateTime.parse(json["deadline"]))
         : '',
-    price: json["price"],
+    price: json["price"] != null ? json["price"].toString() : null,
     reason: json["reason"],
     reasonStatus: json["reason_status"],
     archivedAt: json["archived_at"],
@@ -65,7 +66,7 @@ class OrderModel {
     project: json["project"] !=  null ? Project.fromJson(json["project"]) : null,
     product:json["product"] != null ? Product.fromJson(json["product"]) : null,
     client: json["client"] != null ? ClientModel.fromJson(json["client"]) : null,
-    stage: json["stage"] != null ? StageModel.fromJson(json["stage"]) : null,
+    stage: json["stage"] != null && json["stage"] is! String ? StageModel.fromJson(json["stage"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -137,10 +138,10 @@ class Product {
 class Project {
   final int id;
   final String title;
-  final DateTime deadline;
+  final DateTime? deadline;
   final String totalPrice;
   final String paymentAmount;
-  final DateTime createdAt;
+  final String createdAt;
   final DateTime updatedAt;
 
   Project({
@@ -156,20 +157,21 @@ class Project {
   factory Project.fromJson(Map<String, dynamic> json) => Project(
     id: json["id"],
     title: json["title"],
-    deadline: DateTime.parse(json["deadline"]),
-    totalPrice: json["total_price"],
-    paymentAmount: json["payment_amount"],
-    createdAt: DateTime.parse(json["created_at"]),
+    deadline:json["deadline"] != null ? DateTime.parse(json["deadline"]) : null,
+    totalPrice: json["totalPrice"] != null ? json["totalPrice"].toString() : '',
+    paymentAmount: json["payment_amount"] != null ? json["payment_amount"].toString() : '',
+    createdAt: json["created_at"] != null ? formatDateTime(DateTime.parse(json["created_at"])): '',
+
     updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "deadline": deadline.toIso8601String(),
+    "deadline": deadline?.toIso8601String(),
     "total_price": totalPrice,
     "payment_amount": paymentAmount,
-    "created_at": createdAt.toIso8601String(),
+    "created_at": createdAt,
     "updated_at": updatedAt.toIso8601String(),
   };
 }

@@ -13,30 +13,13 @@ class TokenInterceptor extends Interceptor {
 
   TokenInterceptor(this.dio);
 
-  bool _requiresToken(RequestOptions options) {
-    final apiPathsRequiringToken = [
-      ApiEndpoints.projects,
-      ApiEndpoints.currentUser,
-      ApiEndpoints.users,
-      ApiEndpoints.orders,
-      ApiEndpoints.stages,
-      ApiEndpoints.products,
-      ApiEndpoints.notifications,
-      ApiEndpoints.clients,
-      ApiEndpoints.roles,
-    ];
-    return apiPathsRequiringToken.contains(options.path);
-  }
-
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     String? token = await locator<Store>().getToken();
 
     if (token != null) {
-      if (_requiresToken(options)) {
-        options.headers["Authorization"] = "Bearer $token";
-      }
+      options.headers["Authorization"] = "Bearer $token";
     }
 
     super.onRequest(options, handler);
@@ -63,4 +46,17 @@ class TokenInterceptor extends Interceptor {
     }
     super.onError(err, handler);
   }
+  // @override
+  // void onError(DioException err, ErrorInterceptorHandler handler) async {
+  //   if (err.response?.statusCode == 401) {
+  //     // Token invalid → clear session and redirect to login
+  //     await locator<Store>().clear();
+  //     rootNavKey.currentContext?.go(AppRoutes.signIn);
+  //
+  //     // Optionally reject the request with custom error
+  //     return handler.reject(err);
+  //   }
+  //
+  //   super.onError(err, handler);
+  // }
 }

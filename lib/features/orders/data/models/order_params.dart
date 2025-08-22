@@ -70,32 +70,37 @@ class CreateOrderParams {
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
 
-    params['title'] = title;
-    params['description'] = description;
-    params['stage'] = stage;
-    params['client_id'] = clientId;
-    params['project_id'] = projectId;
-    params['product_id'] = productId;
-    params['quantity'] = quantity;
-    params['price'] = price;
-    params['deadline'] = deadline?.toIso8601String();
-    params['assignments'] =
-        assignments?.map((e) => e.toQueryParameters()).toList() ?? [];
-    params['products'] =
-        products?.map((e) => e.toQueryParameters()).toList() ?? [];
+    if (title != null) params['title'] = title;
+    if (description != null) params['description'] = description;
+    if (stage != null) params['stage'] = stage;
+    if (clientId != null) params['client_id'] = clientId;
+    if (projectId != null) params['project_id'] = projectId;
+    if (productId != null) params['product_id'] = productId;
+    if (quantity != null) params['quantity'] = quantity;
+    if (price != null) params['price'] = price;
+    if (deadline != null) params['deadline'] = deadline!.toIso8601String();
+    if (assignments != null) {
+      params['assignments'] =
+          assignments!.map((e) => e.toQueryParameters()).toList();
+    }
+    if (products != null) {
+      params['products'] =
+          products!.map((e) => e.toQueryParameters()).toList();
+    }
 
     return params;
   }
+
 }
 
 class MultipleProductParams {
-  final String productName;
-  final int quantity;
-  final int price;
+  final String? productId;
+  final int? quantity;
+  final int? price;
   final DateTime? deadline;
 
   MultipleProductParams({
-    required this.productName,
+    required this.productId,
     required this.quantity,
     required this.price,
     required this.deadline,
@@ -104,10 +109,10 @@ class MultipleProductParams {
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
 
-    params['product_name'] = productName;
-    params['quantity'] = quantity;
-    params['price'] = price;
-    params['deadline'] = deadline?.toIso8601String();
+    if (productId != null)  params['product_id'] = productId;
+    if (quantity != null)   params['quantity'] = quantity;
+    if (price != null)   params['price'] = price;
+    if (deadline != null)   params['deadline'] = deadline?.toIso8601String();
 
     return params;
   }

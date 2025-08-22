@@ -16,7 +16,8 @@ class ApiProviderImpl implements ApiProvider {
         connectTimeout: const Duration(seconds: 20),
       ),
     );
-    dio.interceptors.addAll([TokenInterceptor(dio)]);
+    // Only the interceptor sets the Authorization header
+    dio.interceptors.add(TokenInterceptor(dio));
     return dio;
   }
 
@@ -41,8 +42,8 @@ class ApiProviderImpl implements ApiProvider {
       if (isMultiPart) 'Content-Type': 'application/json',
       if (!isMultiPart) 'Content-Type': 'application/json',
       if (!isMultiPart) 'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
+
     return await dio.get(
       endPoint,
       queryParameters: query,
@@ -72,7 +73,6 @@ class ApiProviderImpl implements ApiProvider {
       if (isMultiPart) 'Content-Type': 'multipart/form-data',
       if (!isMultiPart) 'Content-Type': 'application/json',
       if (!isMultiPart) 'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
 
     return await dio.post(
@@ -104,8 +104,8 @@ class ApiProviderImpl implements ApiProvider {
       if (isMultipart) 'Content-Type': 'multipart/form-data',
       if (!isMultipart) 'Content-Type': 'application/json',
       if (!isMultipart) 'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
+
     return await dio.put(
       endPoint,
       data: data,
@@ -135,8 +135,8 @@ class ApiProviderImpl implements ApiProvider {
       if (isMultipart) 'Content-Type': 'multipart/form-data',
       if (!isMultipart) 'Content-Type': 'application/json',
       if (!isMultipart) 'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
+
     return await dio.patch(
       endPoint,
       data: data,
@@ -164,8 +164,12 @@ class ApiProviderImpl implements ApiProvider {
       if (isMultiPart) 'Content-Type': 'multipart/form-data',
       if (!isMultiPart) 'Content-Type': 'application/json',
       if (!isMultiPart) 'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
-    return await dio.delete(endPoint, data: data, queryParameters: query);
+
+    return await dio.delete(
+      endPoint,
+      data: data,
+      queryParameters: query,
+    );
   }
 }

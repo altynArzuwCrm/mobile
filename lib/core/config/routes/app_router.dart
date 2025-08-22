@@ -26,6 +26,7 @@ import 'package:crm/features/settings/presentation/pages/settings_page.dart';
 import 'package:crm/features/settings/presentation/pages/support/support_page.dart';
 import 'package:crm/features/products/presentation/pages/products_page.dart';
 import 'package:crm/features/splash/presentation/pages/splash_screen.dart';
+import 'package:crm/features/statistics/presentation/pages/activities_page.dart';
 import 'package:crm/features/statistics/presentation/pages/statistics_page.dart'
     show StatisticsPage;
 import 'package:crm/features/users/domain/entities/user_entity.dart';
@@ -74,19 +75,6 @@ final goRouter = GoRouter(
         ),
         StatefulShellBranch(
           navigatorKey: shellNavKey3,
-          routes: [
-            GoRoute(
-              path: AppRoutes.statisticsPage,
-              pageBuilder: (context, state) {
-                return NoTransitionPage(
-                  child: Scaffold(appBar: AppBar(title: Text('Статистика'))),
-                );
-              },
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: shellNavKey4,
           routes: [
             GoRoute(
               path: AppRoutes.settingsPage,
@@ -348,6 +336,12 @@ final goRouter = GoRouter(
       path: AppRoutes.support,
       builder: (context, state) {
         return SupportPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.activities,
+      builder: (context, state) {
+        return ActivitiesPage();
       },
     ),
   ],

@@ -39,7 +39,6 @@ class _ScaffoldWithNestedNavigationState
     items = [
       IconAssets.mainBottom,
       IconAssets.orderBottom,
-      IconAssets.statisticBottom,
       IconAssets.userBottom,
     ];
   }

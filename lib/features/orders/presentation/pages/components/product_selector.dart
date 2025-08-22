@@ -1,30 +1,28 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
-import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProjectSelector extends StatelessWidget {
-  const ProjectSelector({
+class ProductSelector extends StatelessWidget {
+  const ProductSelector({
     super.key,
-    required this.onSelectProject,
-    required this.selectedIndex,
+    required this.onSelectProduct,
   });
 
-  final ValueChanged onSelectProject;
-  final int selectedIndex;
+  final ValueChanged onSelectProduct;
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProjectsBloc, ProjectsState>(
+    return BlocBuilder<ProductsCubit, ProductsState>(
       builder: (context, state) {
         final inputDecoration = InputDecoration(
-          hintText: state is ProjectsLoading
-              ? "Loading projects..."
-              : state is ClientsError
+          hintText: state is ProductsLoading
+              ? "Loading products..."
+              : state is ProductsError
               ? "Failed to load"
-              : "Select project",
+              : "Select product",
           //  filled: true,
           //    fillColor: AppColors.white,
           suffixIcon: const Icon(
@@ -57,7 +55,7 @@ class ProjectSelector extends StatelessWidget {
             borderSide: const BorderSide(color: AppColors.timeBorder, width: 1),
           ),
         );
-        if (state is! ProjectsLoaded) {
+        if (state is! ProductsLoaded) {
           return IgnorePointer(
             ignoring: true,
             child: EasyAutocomplete(
@@ -69,22 +67,22 @@ class ProjectSelector extends StatelessWidget {
           );
         } else {
           return EasyAutocomplete(
-            suggestions: state.data.map((c) => c.title).toList(),
+            suggestions: state.data.map((c) => c.name).toList(),
             initialValue: '',
             onChanged: (value) {
               final matches = state.data
-                  .where((c) => c.title == value)
+                  .where((c) => c.name == value)
                   .toList();
               if (matches.isNotEmpty) {
-                final project = matches.first;
-                onSelectProject(project.id.toString());
+                final product = matches.first;
+                onSelectProduct(product.id.toString());
               } else {
-                onSelectProject(null);
+                onSelectProduct(null);
               }
             },
             validator: (v) {
-              if (selectedIndex == 1 && v == null) {
-                return 'Выберите проект';
+              if (v == null) {
+                return 'Выберите продукт';
               }
               return null;
             },

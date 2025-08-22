@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
@@ -25,6 +24,7 @@ import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'components/clients_selector.dart';
 import 'components/project_selector.dart';
@@ -44,23 +44,18 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final ordersCubit = locator<OrdersCubit>();
 
   int selectedIndex = 0;
-  bool newClient = false;
-  bool newProject = false;
 
   String? selectedClientId;
   String? selectedProjectId;
   String? selectedProductId;
   DateTime? deadline;
 
-  final TextEditingController _newClientNameCtrl = TextEditingController();
-  final TextEditingController _newClientPhoneCtrl = TextEditingController();
-  final TextEditingController _newProjectNameCtrl = TextEditingController();
-
   final TextEditingController _priceCtrl = TextEditingController();
   final TextEditingController _countCtrl = TextEditingController();
-  // final TextEditingController _productCtrl = TextEditingController();
+  final formKey1 = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+
   List<OrderItemModel> orderItems = [];
-  final List<AssignOrderParams>? assignments = [];
 
   clearData() {
     if (selectedIndex == 0) {
@@ -68,16 +63,25 @@ class _AddOrderPageState extends State<AddOrderPage> {
       deadline = null;
       _priceCtrl.clear();
       _countCtrl.clear();
-      // _productCtrl.clear();
-      _newClientPhoneCtrl.clear();
     }
     if (selectedIndex == 1) {
       orderItems.clear();
     }
-    log(
-      'selectedClientId - $selectedClientId \n selectedProjectId - $selectedProjectId\n selectedProductId - $selectedProductId',
-    );
   }
+
+  // clearAll() {
+  //   selectedClientId = null;
+  //   selectedProjectId = null;
+  //   selectedProductId = null;
+  //   deadline;
+  //
+  //   _priceCtrl.clear();
+  //   _countCtrl.clear();
+  //
+  //   orderItems.clear();
+  //   assignments?.clear();
+  //
+  // }
 
   @override
   void initState() {
@@ -94,11 +98,12 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   @override
   void dispose() {
-    _newClientNameCtrl.dispose();
-    _newProjectNameCtrl.dispose();
+
+ ///  clearAll();
+
+
     _priceCtrl.dispose();
     _countCtrl.dispose();
-    _newClientPhoneCtrl.dispose();
 
     for (var c in orderItems) {
       c.countCtrl.dispose();
@@ -106,52 +111,18 @@ class _AddOrderPageState extends State<AddOrderPage> {
       c.priceCtrl.dispose();
     }
 
+
+
     super.dispose();
   }
-
-
+  List<AssignOrderParams> assignments = [];
 
   void addToAssignment(int stageId, int userId, String role) {
-    // Remove any existing selection for this stage
-    assignments?.removeWhere((p) => p.stageId == stageId);
+    assignments.removeWhere((p) => p.stageId == stageId);
 
-    // Add new selection
-    assignments?.add(AssignOrderParams(
-      userId: userId,
-      role: role,
-      stageId: stageId,
-    ));
-
-    print("Updated products: ${assignments?.map((e) => e.toQueryParameters()).toList()}");
-  }
-
-  void addNewClient() {
-    setState(() {
-      newClient = true;
-      selectedClientId = null;
-    });
-  }
-
-  void deleteNewClient() {
-    setState(() {
-      newClient = false;
-      _newClientNameCtrl.clear();
-    });
-  }
-
-  void addNewProject() {
-    setState(() {
-      newProject = true;
-      selectedProjectId = null;
-    });
-  }
-
-  void deleteNewProject() {
-    setState(() {
-      newProject = false;
-
-      _newProjectNameCtrl.clear();
-    });
+    assignments.add(
+      AssignOrderParams(userId: userId, role: role, stageId: stageId),
+    );
   }
 
   void _openAddClient() {
@@ -200,7 +171,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
                             selectedIndex = index;
                           });
                           clearData();
-                          print("Selected option index: $index");
                         },
                       ),
 
@@ -216,95 +186,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                 child: ClientsSelector(
                                   onSelectClient: (value) {
                                     selectedClientId = value;
-                                    print('selectedClientId $selectedClientId');
                                   },
-                                  newClient: newClient,
                                 ),
-                                // BlocBuilder<ClientsCubit, ClientsState>(
-                                //   builder: (context, state) {
-                                //     final inputDecoration = InputDecoration(
-                                //       hintText: state is ClientsLoading
-                                //           ? "Loading clients..."
-                                //           : state is ClientsError
-                                //           ? "Failed to load"
-                                //           : "Select client",
-                                //       // filled: true,
-                                //       //  fillColor: AppColors.white,
-                                //       suffixIcon: const Icon(
-                                //         Icons.keyboard_arrow_down_outlined,
-                                //         color: AppColors.gray,
-                                //         size: 30,
-                                //       ),
-                                //       contentPadding:
-                                //       const EdgeInsets.symmetric(
-                                //         horizontal: 12,
-                                //         vertical: 14,
-                                //       ),
-                                //       border: OutlineInputBorder(
-                                //         borderRadius: BorderRadius.circular(14),
-                                //         borderSide: const BorderSide(
-                                //           color: AppColors.timeBorder,
-                                //           // highlight color when focused
-                                //           width: 1,
-                                //         ),
-                                //       ),
-                                //       enabledBorder: OutlineInputBorder(
-                                //         borderRadius: BorderRadius.circular(14),
-                                //         borderSide: const BorderSide(
-                                //           color: AppColors.timeBorder,
-                                //           // highlight color when focused
-                                //           width: 1,
-                                //         ),
-                                //       ),
-                                //       focusedBorder: OutlineInputBorder(
-                                //         borderRadius: BorderRadius.circular(14),
-                                //         borderSide: const BorderSide(
-                                //           color: AppColors.timeBorder,
-                                //           width: 1,
-                                //         ),
-                                //       ),
-                                //     );
-                                //
-                                //     if (newClient || state is! ClientsLoaded) {
-                                //       return IgnorePointer(
-                                //         ignoring: true,
-                                //         child: EasyAutocomplete(
-                                //           suggestions: const <String>[],
-                                //           initialValue: '',
-                                //           onChanged: (_) {},
-                                //           decoration: inputDecoration,
-                                //         ),
-                                //       );
-                                //     } else {
-                                //       return EasyAutocomplete(
-                                //         suggestions: state.data
-                                //             .map((c) => c.name)
-                                //             .toList(),
-                                //         initialValue: '',
-                                //         onChanged: (value) {
-                                //           final matches = state.data
-                                //               .where((c) => c.name == value)
-                                //               .toList();
-                                //           if (matches.isNotEmpty) {
-                                //             final client = matches.first;
-                                //             //  clientsCubit.selectClient(client.id.toString());
-                                //             selectedClientId = client.id
-                                //                 .toString();
-                                //           } else {
-                                //             selectedClientId = null;
-                                //           }
-                                //         },
-                                //         validator: (_) {
-                                //           if (selectedClientId == null) {
-                                //             return 'Выберите клиента';
-                                //           }
-                                //           return null;
-                                //         },
-                                //         decoration: inputDecoration,
-                                //       );
-                                //     }
-                                //   },
-                                // ),
                               ),
                             ),
 
@@ -316,69 +199,12 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               ),
                               child: IconButton(
                                 onPressed: _openAddClient,
-                                // newClient
-                                //     ? deleteNewClient
-                                //     : addNewClient,
                                 icon: Icon(Icons.add),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      // if (newClient)
-                      //   Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       SizedBox(height: 15),
-                      //       TextFieldTitle(
-                      //         title: AppStrings.customer,
-                      //         child: Row(
-                      //           children: [
-                      //             Expanded(
-                      //               child: KTextField(
-                      //                 controller: _newClientNameCtrl,
-                      //                 isSubmitted: false,
-                      //                 hintText: '',
-                      //                 hintStyle: TextStyle(
-                      //                   color: AppColors.gray,
-                      //                   fontSize: 14,
-                      //                   fontWeight: FontWeight.w400,
-                      //                 ),
-                      //                 style: TextStyle(
-                      //                   color: AppColors.black,
-                      //                   fontSize: 16,
-                      //                   fontWeight: FontWeight.w400,
-                      //                 ),
-                      //                 borderColor: AppColors.timeBorder,
-                      //               ),
-                      //             ),
-                      //             Container(
-                      //               alignment: Alignment.center,
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(14),
-                      //                 color: AppColors.bgColor,
-                      //               ),
-                      //               child: IconButton(
-                      //                 onPressed: deleteNewClient,
-                      //                 icon: Icon(Icons.remove_circle_outline),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       SizedBox(height: 15),
-                      //       PhoneNumField(phoneCtrl: _newClientPhoneCtrl, isSubmitted: false),
-                      //       SizedBox(height: 15),
-                      //       Align(
-                      //         alignment: Alignment.centerRight,
-                      //         child: MainButton(buttonTile: 'Создать', onPressed: (){}, isLoading: false,
-                      //         width: 150,
-                      //
-                      //         ),
-                      //       ),
-                      //
-                      //     ],
-                      //   ),
 
                       /// 2 project
                       SizedBox(height: 20),
@@ -391,7 +217,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                 onSelectProject: (value) {
                                   selectedProjectId = value;
                                 },
-                                newProject: newProject,
                                 selectedIndex: selectedIndex,
                               ),
                             ),
@@ -403,73 +228,15 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               ),
                               child: IconButton(
                                 onPressed: _openAddProject,
-
-                                // newProject
-                                //     ? deleteNewProject
-                                //     : addNewProject,
-                                icon: Icon(Icons.add,
-                                ),
+                                icon: Icon(Icons.add),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      if (newProject)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 15),
-                            TextFieldTitle(
-                              title: AppStrings.project,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: KTextField(
-                                      controller: _newProjectNameCtrl,
-                                      isSubmitted: false,
-                                      hintText: '',
-                                      hintStyle: TextStyle(
-                                        color: AppColors.gray,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      style: TextStyle(
-                                        color: AppColors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      borderColor: AppColors.timeBorder,
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      color: AppColors.bgColor,
-                                    ),
-                                    child: IconButton(
-                                      onPressed: deleteNewProject,
-                                      icon: Icon(Icons.remove_circle_outline),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: MainButton(
-                                buttonTile: 'Создать',
-                                onPressed: () {},
-                                isLoading: false,
-                                width: 150,
-                              ),
-                            ),
-                          ],
-                        ),
-
                       selectedIndex == 0
                           ? SingleOrderItem(
+                              formKey: formKey1,
                               priceCtrl: _priceCtrl,
                               countCtrl: _countCtrl,
                               onSelectDate: (v) {
@@ -479,20 +246,26 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                 selectedProductId = p;
                               },
                             )
-                          : Column(
-                              children: orderItems.asMap().entries.map((entry) {
-                                final index = entry.key;
-                                final item = entry.value;
+                          : BlocProvider.value(
+                              value: locator<ProductsCubit>(),
+                              child: Column(
+                                children: orderItems.asMap().entries.map((
+                                  entry,
+                                ) {
+                                  final index = entry.key;
+                                  final item = entry.value;
 
-                                return NewOrderItem(
-                                  item: item,
-                                  onRemove: () {
-                                    setState(() {
-                                      orderItems.removeAt(index);
-                                    });
-                                  },
-                                );
-                              }).toList(),
+                                  return NewOrderItem(
+                                    item: item,
+                                    formKey: item.formKey,
+                                    onRemove: () {
+                                      setState(() {
+                                        orderItems.removeAt(index);
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
                             ),
 
                       if (selectedIndex == 1)
@@ -537,10 +310,12 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                           stage: stage,
                                           users: users,
                                           onSelectUser: (user) {
-                                            print("Selected from ${stage.name}: id=${user?.id}");
                                             if (user != null) {
-                                              print("Selected from ${stage.name}: id=${user.id}");
-                                              addToAssignment(stage.id, user.id, stage.name);
+                                              addToAssignment(
+                                                stage.id,
+                                                user.id,
+                                                stage.name,
+                                              );
                                             }
                                           },
                                         ),
@@ -565,20 +340,11 @@ class _AddOrderPageState extends State<AddOrderPage> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MainButton(
                 buttonTile: AppStrings.create,
-                onPressed:_submit,
-                //     () {
-                //
-                //   setState(() {});
-                //   var a = OrderItemModel(
-                //     initialCount: _countCtrl.text,
-                //     initialPrice: _priceCtrl.text,
-                //     deadline: deadline,
-                //     selectedProductId: selectedProductId,
-                //   );
-                //
-                //   // Now you can post this
-                //   print(a);
-                // },
+                onPressed: () {
+                  if (validate()) {
+                    _submit();
+                  }
+                },
                 isLoading: false,
               ),
             ),
@@ -589,55 +355,118 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
   }
 
-  void _submit(){
-    // final orders = orderItems.map((c) {
-    //   return OrderItemModel(
-    //       initialProduct: c.productCtrl.text,
-    //       initialCount: c.countCtrl.text,
-    //       initialPrice: c.priceCtrl.text,
-    //       deadline: c.deadline,
-    //       selectedProductId: c.selectedProductId
-    //   );
-    // }).toList();
-
-
+  void _submit() {
     final products = orderItems.map((c) {
       return MultipleProductParams(
-          productName: c.productCtrl.text,
-          quantity: int.parse(c.countCtrl.text),
-          price: int.parse(c.priceCtrl.text),
-          deadline: c.deadline,
+        productId: c.selectedProductId,
+        quantity: int.tryParse(c.countCtrl.text),
+        price: int.tryParse(c.priceCtrl.text),
+        deadline: c.deadline,
       );
     }).toList();
 
-    // print(orders);
+    final clientId = int.tryParse(selectedClientId ?? '');
+    final projectId = int.tryParse(selectedProjectId ?? '');
+    final productId = int.tryParse(
+      selectedProductId ?? products.first.productId ?? '',
+    );
+    final quantity = int.tryParse(_countCtrl.text);
+    final price = int.tryParse(_priceCtrl.text);
+    final stage = assignments.isNotEmpty ? assignments.first.role : null;
 
-    // final itemsData = orderItems.map((c) => c.toJson()).toList();
-    //
-    // // Build full payload
-    // final payload = {
-    //   'client_id': selectedClientId,
-    //   'project_id': selectedProductId,
-    //   'order_type': selectedIndex == 0 ? 'single' : 'multiple',
-    //   'items': itemsData,
-    // };
-
-    final param =  CreateOrderParams(
-      clientId: int.parse(selectedClientId??'0'),
-      projectId: int.parse(selectedProjectId??'0'),
-      productId:int.parse(selectedProductId??'0'),
-      quantity: int.parse(_countCtrl.text??'0'),
-      price:  int.parse(_priceCtrl.text??'0'),
+    final param = CreateOrderParams(
+      clientId: clientId,
+      projectId: projectId,
+      stage: stage,
+      productId: productId,
+      quantity: quantity,
+      price: price,
       deadline: deadline,
       products: products,
-      assignments:assignments,
-
+      assignments: assignments,
     );
-    print(param.toQueryParameters());
+    log('${param.toQueryParameters()}', name: '[PARAMS]');
 
-    // ordersCubit.createOrder(
-    //    param);
+      ordersCubit.createOrder(param);
+
+    context.pop();
+
+  }
+
+  bool validate() {
+    // --- Common validations ---
+    if (selectedClientId == null || selectedClientId!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Пожалуйста, выберите клиента")),
+      );
+      return false;
+    }
+
+    if (selectedProjectId == null || selectedProjectId!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Пожалуйста, выберите проект")),
+      );
+      return false;
+    }
+
+    // --- Single order validations ---
+    if (selectedIndex == 0) {
+      final formValid = formKey1.currentState?.validate() ?? false;
+      if (!formValid) return false;
+
+      if (selectedProductId == null || selectedProductId!.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Пожалуйста, выберите продукт")),
+        );
+        return false;
+      }
+
+      if (deadline == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Пожалуйста, выберите срок сдачи")),
+        );
+        return false;
+      }
+    }
+
+    // --- Multiple order validations ---
+    if (selectedIndex == 1) {
+      if (orderItems.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Добавьте хотя бы один продукт")),
+        );
+        return false;
+      }
+
+      for (final item in orderItems) {
+        final formValid = item.formKey.currentState?.validate() ?? false;
+        if (!formValid) return false;
+
+        if (item.selectedProductId == null || item.selectedProductId!.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Выберите продукт для всех позиций")),
+          );
+          return false;
+        }
+
+        if (item.deadline == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Укажите срок сдачи для всех позиций")),
+          );
+          return false;
+        }
+      }
+    }
+
+    // --- Assignments validation ---
+    if (assignments.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Назначьте хотя бы одного пользователя")),
+      );
+      return false;
+    }
+
+    return true;
   }
 
 }
-

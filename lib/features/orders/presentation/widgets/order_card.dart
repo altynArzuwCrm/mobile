@@ -106,6 +106,7 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       AppStrings.start,
@@ -117,7 +118,7 @@ class OrderCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      '2d 4h',
+                      model.createdAt??'',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -149,6 +150,8 @@ class OrderCard extends StatelessWidget {
                 //   ],
                 // ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     Text(
                       AppStrings.dedline,
@@ -259,16 +262,14 @@ class _ReadOnlyDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDropdown(
       value: null,
-      // always null for read-only
       onChanged: (_) {},
-      // no-op
       hintText: hintText,
       style: const TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: 12,
         color: AppColors.blue,
       ),
-      items: const [], // empty list
+      items: const [],
     );
   }
 }

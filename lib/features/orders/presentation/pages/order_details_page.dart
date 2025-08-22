@@ -221,9 +221,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   ],
                 );
               } else if (state is OrderDetailConnectionError) {
-                return Center(child: Text(AppStrings.noInternet));
+                return Scaffold(appBar: AppBar(),body: Center(child: Text(AppStrings.noInternet)));
               } else {
-                return Center(child: Text(AppStrings.error));
+                return Scaffold(appBar: AppBar(),body: Center(child: Text(AppStrings.error)));
               }
             },
           ),

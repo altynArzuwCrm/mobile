@@ -17,6 +17,10 @@ class ApiEndpoints {
   static const comments = 'comments';
   static const notifications = 'notifications';
   static const roles = 'roles';
+  static const stats = 'stats/revenue-by-month';
+  static const userStats = 'stats/dashboard';
+  static const recentActivity = 'recent-activity';
+  static const activity = 'activity';
 
 
 

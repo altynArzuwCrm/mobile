@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientsSelector extends StatelessWidget {
-  const ClientsSelector({super.key, required this.onSelectClient, required this.newClient});
+  const ClientsSelector({super.key, required this.onSelectClient});
 
   final ValueChanged onSelectClient;
-  final bool newClient;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class ClientsSelector extends StatelessWidget {
           ),
         );
 
-        if (newClient || state is! ClientsLoaded) {
+        if (state is! ClientsLoaded) {
           return IgnorePointer(
             ignoring: true,
             child: EasyAutocomplete(

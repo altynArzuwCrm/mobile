@@ -2,6 +2,7 @@ import 'package:crm/features/assignments/data/datasources/assignment_datasources
 import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
 import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
 import 'package:crm/features/stages/data/repositories/stage_repository.dart';
+import 'package:crm/features/statistics/data/datasources/statistics_remote_datasource.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -48,6 +49,12 @@ import 'features/roles/data/repository/role_repository.dart';
 import 'features/roles/presentation/cubits/roles/roles_cubit.dart';
 import 'features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'features/stages/presentation/cubits/stage_with_users/stage_with_users_cubit.dart';
+import 'features/statistics/data/repository/statistics_repository.dart';
+import 'features/statistics/presentation/cubits/all_activity/all_activity_cubit.dart';
+import 'features/statistics/presentation/cubits/last_activity/last_activity_cubit.dart';
+import 'features/statistics/presentation/cubits/order_stat/order_stat_cubit.dart';
+import 'features/statistics/presentation/cubits/revenue/revenue_stat_cubit.dart';
+import 'features/statistics/presentation/cubits/user_stat/user_stat_cubit.dart';
 import 'features/users/data/datasources/remote/user_datasources.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
@@ -120,6 +127,10 @@ Future<void> initLocator() async {
     () => RoleRemoteDatasourceImpl(locator()),
   );
 
+  locator.registerLazySingleton<StatisticsRemoteDatasource>(
+    () => StatisticsRemoteDatasourceImpl(locator()),
+  );
+
   // locator.registerLazySingleton<AssignmentDataSources>(
   //   () => AssignmentDataSourcesImpl(locator()),
   // );
@@ -156,6 +167,10 @@ Future<void> initLocator() async {
     () => RoleRepository(locator(), locator()),
   );
 
+  locator.registerLazySingleton<StatisticsRepository>(
+    () => StatisticsRepository(locator(), locator()),
+  );
+
   // locator.registerLazySingleton<AssignmentRepository>(
   //   () => AssignmentRepository(locator(), locator()),
   // );
@@ -188,6 +203,12 @@ Future<void> initLocator() async {
   locator.registerSingleton<CompanyCubit>(CompanyCubit());
   locator.registerSingleton<CompanyDetailCubit>(CompanyDetailCubit());
   locator.registerSingleton<StageWithUsersCubit>(StageWithUsersCubit(locator()));
+  locator.registerSingleton<RevenueStatCubit>(RevenueStatCubit(locator()));
+
+  locator.registerSingleton<OrderStatCubit>(OrderStatCubit(locator()));
+  locator.registerSingleton<UserStatCubit>(UserStatCubit(locator()));
+  locator.registerSingleton<LastActivityCubit>(LastActivityCubit(locator()));
+  locator.registerSingleton<AllActivityCubit>(AllActivityCubit(locator()));
 
   // locator.registerSingleton<AssignCubit>(AssignCubit(locator()));
 
