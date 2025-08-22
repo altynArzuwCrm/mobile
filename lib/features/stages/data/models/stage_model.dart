@@ -6,6 +6,7 @@ class StageModel {
   final String displayName;
   final dynamic description;
   final int order;
+  final bool isActive;
   final String color;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -20,6 +21,7 @@ class StageModel {
     required this.order,
     required this.color,
     required this.createdAt,
+    required this.isActive,
     required this.updatedAt,
     required this.deletedAt,
     required this.roles,
@@ -31,6 +33,7 @@ class StageModel {
     displayName: json["display_name"],
     description: json["description"],
     order: json["order"],
+    isActive: json["is_active"] != null ? json["is_active"] == 1 ?true : false : false,
     color: json["color"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),

@@ -1,7 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/orders/presentation/pages/add_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/products/data/models/product_params.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
@@ -9,21 +9,52 @@ import 'package:crm/features/settings/presentation/widgets/product_item_widget.d
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class WareHousePage extends StatefulWidget {
-  const WareHousePage({super.key});
+import 'add_product_page.dart';
+
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({super.key});
 
   @override
-  State<WareHousePage> createState() => _WareHousePageState();
+  State<ProductsPage> createState() => _ProductsPageState();
 }
 
-class _WareHousePageState extends State<WareHousePage> {
+class _ProductsPageState extends State<ProductsPage> {
   final productsCubit = locator<ProductsCubit>();
 
   @override
   void initState() {
     super.initState();
-    productsCubit.getAllProducts(ProductParams());
+    productsCubit.getAllProducts(ProductParams(page: _currentPage));
+  }
+
+  int _currentPage = 1;
+
+  final RefreshController _refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  void _onRefresh() async {
+    _currentPage = 1;
+    productsCubit.getAllProducts(ProductParams(page: _currentPage));
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoad() async {
+    if (productsCubit.canLoad) {
+      _currentPage++;
+      await productsCubit.getAllProducts(ProductParams(page: _currentPage));
+      _refreshController.loadComplete();
+    } else {
+      _refreshController.loadNoData();
+    }
   }
 
   @override
@@ -33,7 +64,6 @@ class _WareHousePageState extends State<WareHousePage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.products),
         actions: [
-          AppBarIcon(onTap: () {}, icon: IconAssets.delete),
           SizedBox(width: 7),
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
@@ -51,17 +81,35 @@ class _WareHousePageState extends State<WareHousePage> {
               final data = state.data;
               return Stack(
                 children: [
-                  ListView.separated(
-                    itemCount: data.length,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                    itemBuilder: (context, index) {
-                      final item = data[index];
+                  SmartRefresher(
+                    controller: _refreshController,
+                    enablePullDown: true,
+                    enablePullUp: productsCubit.canLoad,
+                    header: const WaterDropHeader(),
+                    footer: const KFooter(),
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoad,
+                    child: ListView.separated(
+                      itemCount: data.length,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 5,
+                      ),
+                      itemBuilder: (context, index) {
+                        final item = data[index];
 
-                      return ProductItemWidget(title: item.name);
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 5);
-                    },
+                        return ProductItemWidget(
+                          model: item,
+                          onDelete: () {
+                            productsCubit.deleteProduct(item.id);
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 5);
+                      },
+                    ),
                   ),
                   Positioned(
                     right: 15,
@@ -99,7 +147,7 @@ class _WareHousePageState extends State<WareHousePage> {
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return AddOrderPage();
+        return AddProductPage();
       },
     );
   }

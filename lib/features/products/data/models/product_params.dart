@@ -28,3 +28,28 @@ class ProductParams {
     return params;
   }
 }
+
+class CreateProductParams {
+  final String name;
+  final String description;
+  final String? category;
+  final int price;
+
+  const CreateProductParams({
+    required this.name,
+    required this.description,
+    required this.category,
+    required this.price,
+  });
+
+  Map<String, dynamic> toQueryParameters() {
+    final Map<String, dynamic> params = {};
+
+    params['page'] = name;
+    params['description'] = description.trim();
+    params['category'] = category;
+    params['price'] = price;
+
+    return params;
+  }
+}

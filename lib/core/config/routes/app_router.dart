@@ -18,6 +18,7 @@ import 'package:crm/features/orders/presentation/pages/add_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/edit_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
+import 'package:crm/features/products/presentation/pages/product_detail_page.dart';
 import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:crm/features/projects/presentations/pages/projects_page.dart';
 import 'package:crm/features/projects/presentations/pages/edit_project_page.dart';
@@ -172,13 +173,22 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.warehouse,
       builder: (context, state) {
-        return WareHousePage();
+        return ProductsPage();
       },
     ),
     GoRoute(
       path: AppRoutes.projects,
       builder: (context, state) {
         return ProjectsPage();
+      },
+    ),
+    GoRoute(
+      path: '${AppRoutes.productDetail}/:id',
+
+      builder: (context, state) {
+        final productId = state.pathParameters['id'] ?? '';
+        final id = int.parse(productId);
+        return ProductDetailPage(id: id);
       },
     ),
     GoRoute(

@@ -18,12 +18,12 @@ class StatisticsRepository {
   Future<Either<Failure, StatisticsModel>> getRevenue(int year) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
       final response = await remoteDataSource.getRevenue(year);
       return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -32,12 +32,12 @@ class StatisticsRepository {
   Future<Either<Failure, OrderStatModel>> getUserStats() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
       final response = await remoteDataSource.getUserStats();
       return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -46,12 +46,12 @@ class StatisticsRepository {
   Future<Either<Failure, ActivityModel>> getAllActivity() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
       final response = await remoteDataSource.getAllActivity();
       return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -60,12 +60,12 @@ class StatisticsRepository {
   Future<Either<Failure, List<LastActivityModel>>> getLastActivities() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
       final response = await remoteDataSource.getLastActivities();
       return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

@@ -19,6 +19,7 @@ abstract final class AppRoutes {
   static const String orderDetails = '/details';
   static const String profile = '/profile';
   static const String warehouse = '/warehouse';
+  static const String productDetail = '/productDetail';
   static const String projects = '/projects';
   static const String projectDetails = '/projectDetails';
   static const String editProject = '/editProject';

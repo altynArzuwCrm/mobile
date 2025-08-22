@@ -14,8 +14,6 @@ import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
 import 'core/network/internet_bloc/internet_bloc.dart';
 import 'core/network/network.dart';
-import 'features/assignments/data/repositories/assignment_repository.dart';
-import 'features/assignments/presentation/cubits/assign_cubit.dart';
 import 'features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/authentication_repository.dart';
@@ -38,6 +36,7 @@ import 'features/orders/presentation/cubits/order_details/order_detail_cubit.dar
 import 'features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'features/products/data/datasources/product_datasource.dart';
 import 'features/products/data/repositories/product_repository.dart';
+import 'features/products/presentation/cubits/product_detail/product_detail_cubit.dart';
 import 'features/products/presentation/cubits/products/products_cubit.dart';
 import 'features/projects/data/datasources/remote/project_remote_datasource.dart';
 import 'features/projects/data/repository_impl/project_repository_impl.dart';
@@ -197,7 +196,8 @@ Future<void> initLocator() async {
   locator.registerSingleton<OrdersCubit>(OrdersCubit(locator(), locator()));
   locator.registerSingleton<OrderDetailCubit>(OrderDetailCubit(locator()));
   locator.registerSingleton<CommentCubit>(CommentCubit(locator()));
-  locator.registerSingleton<ProductsCubit>(ProductsCubit(locator()));
+  locator.registerSingleton<ProductsCubit>(ProductsCubit(locator(),locator()));
+  locator.registerSingleton<ProductDetailCubit>(ProductDetailCubit(locator()));
   locator.registerSingleton<NotificationCubit>(NotificationCubit(locator()));
   locator.registerSingleton<RolesCubit>(RolesCubit(locator()));
   locator.registerSingleton<CompanyCubit>(CompanyCubit());
