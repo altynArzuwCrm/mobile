@@ -14,7 +14,7 @@ abstract class ClientRepository {
   Future<Either<Failure, List<ClientEntity>>> deleteClient(int id);
 
   Future<Either<Failure, List<String>>> getCompanies();
-  Future<Either<Failure, ClientEntity>> getCompanyDetails(String title);
+  Future<Either<Failure, List<ClientEntity>>> getCompanyDetails(String title);
 
 
   Future<Either<Failure, bool>> createClientContact(ClientContactParams params);

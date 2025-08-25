@@ -4,13 +4,13 @@ import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/domain/repositories/client_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetCompanyDetailsUseCase extends BaseUseCase<String, ClientEntity> {
+class GetCompanyDetailsUseCase extends BaseUseCase<String, List<ClientEntity>> {
   final ClientRepository repository;
 
   GetCompanyDetailsUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, ClientEntity>> execute(input) async {
+  Future<Either<Failure, List<ClientEntity>>> execute(input) async {
     return await repository.getCompanyDetails(input);
   }
 }

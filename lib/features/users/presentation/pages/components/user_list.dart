@@ -12,7 +12,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserList extends StatefulWidget {
-  const UserList({super.key});
+  const UserList({super.key, required this.sortOrder});
+  final String sortOrder;
 
   @override
   State<UserList> createState() => _UserListState();
@@ -41,14 +42,14 @@ class _UserListState extends State<UserList>  with AutomaticKeepAliveClientMixin
 
   void _onRefresh() async {
     _currentPage = 1;
-    _userListCubit.getAllUsers(UserParams(page: _currentPage));
-    // _refreshController.refreshCompleted();
+    _userListCubit.getAllUsers(UserParams(page: _currentPage, sortOrder: widget.sortOrder));
+    _refreshController.refreshCompleted();
   }
 
   void _onLoad() async {
     if (_userListCubit.canLoad) {
       _currentPage++;
-      _userListCubit.getAllUsers(UserParams(page: _currentPage));
+      _userListCubit.getAllUsers(UserParams(page: _currentPage, sortOrder: widget.sortOrder));
     }else{
       _refreshController.loadNoData();
     }

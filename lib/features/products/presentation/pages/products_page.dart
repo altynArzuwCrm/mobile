@@ -1,14 +1,16 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
+import 'package:crm/common/widgets/sort_order_button.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/products/data/models/product_params.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:crm/features/settings/presentation/widgets/product_item_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'add_product_page.dart';
@@ -30,6 +32,7 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   int _currentPage = 1;
+  String sortOrder = "asc";
 
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
@@ -43,14 +46,18 @@ class _ProductsPageState extends State<ProductsPage> {
 
   void _onRefresh() async {
     _currentPage = 1;
-    productsCubit.getAllProducts(ProductParams(page: _currentPage));
+    productsCubit.getAllProducts(
+      ProductParams(page: _currentPage, sortProduct: sortOrder),
+    );
     _refreshController.refreshCompleted();
   }
 
   void _onLoad() async {
     if (productsCubit.canLoad) {
       _currentPage++;
-      await productsCubit.getAllProducts(ProductParams(page: _currentPage));
+      await productsCubit.getAllProducts(
+        ProductParams(page: _currentPage, sortProduct: sortOrder),
+      );
       _refreshController.loadComplete();
     } else {
       _refreshController.loadNoData();
@@ -64,10 +71,32 @@ class _ProductsPageState extends State<ProductsPage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.products),
         actions: [
-          SizedBox(width: 7),
+          SortOrderSelector(
+            sortOrder: sortOrder,
+            isIconOnly: true,
+            onChanged: (val) {
+              setState(() => sortOrder = val);
+              debugPrint("Sort order: $sortOrder");
+
+              setState(() {
+                sortOrder = val;
+                _currentPage = 1;
+              });
+
+              productsCubit.getAllProducts(
+                ProductParams(page: _currentPage, sortProduct: sortOrder),
+              );
+            },
+          ),
+
           Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
+            padding: const EdgeInsets.only(right: 18.0, left: 10),
+            child: AppBarIcon(
+              onTap: () {
+                context.push(AppRoutes.searchProdcuts);
+              },
+              icon: IconAssets.search,
+            ),
           ),
         ],
       ),
@@ -129,16 +158,6 @@ class _ProductsPageState extends State<ProductsPage> {
           },
         ),
       ),
-    );
-  }
-
-  void _openSort() {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        return FilterWidget();
-      },
     );
   }
 

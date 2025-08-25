@@ -167,12 +167,14 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<Either<Failure, ClientEntity>> getCompanyDetails(String title) async {
+  Future<Either<Failure, List<ClientEntity>>> getCompanyDetails(String title) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       // try {
         final response = await remoteDataSource.getCompanyDetails(title);
-        return Right(response.toEntity());
+        final result = response.map((e) => e.toEntity()).toList();
+
+        return Right(result);
       // } catch (error) {
       //   return Left(ServerFailure('[Server]: $error'));
       // }

@@ -1,11 +1,11 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/common/widgets/sort_order_button.dart';
+import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/core/network/internet_bloc/internet_bloc.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
-import 'package:crm/features/orders/presentation/pages/components/filter_widget.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/settings/presentation/widgets/project_card.dart';
@@ -14,6 +14,7 @@ import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'add_project_page.dart';
@@ -27,19 +28,17 @@ class ProjectsPage extends StatefulWidget {
 
 class _ProjectsPageState extends State<ProjectsPage> {
   final projectBloc = locator<ProjectsBloc>();
-  int _currentPage = 1;
-  int isSelected = 0;
-  int isSelected2 = 1;
-  final Set<int> selectedIndices = {};
-
   final stagesCubit = locator<StageCubit>();
   final clientsCubit = locator<ClientsCubit>();
+  int _currentPage = 1;
+  final Set<int> selectedIndices = {};
+  String sortOrder = "asc";
 
   @override
   void initState() {
     super.initState();
-
     projectBloc.add(GetAllProjects(ProjectParams(page: _currentPage)));
+
     clientsCubit.getAllClients(UserParams());
     stagesCubit.getAllStages();
   }
@@ -56,17 +55,21 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
   void _onRefresh() async {
     _currentPage = 1;
-    projectBloc.add(GetAllProjects(ProjectParams(page: _currentPage)));
-   _refreshController.refreshCompleted();
+    projectBloc.add(
+      GetAllProjects(ProjectParams(page: _currentPage, sortOrder: sortOrder)),
+    );
   }
 
   void _onLoad() async {
     if (projectBloc.canLoad) {
       _currentPage++;
-      projectBloc.add(GetAllProjects(ProjectParams(page: _currentPage)));
-    }else{
-    _refreshController.loadNoData();
-  }}
+      projectBloc.add(
+        GetAllProjects(ProjectParams(page: _currentPage, sortOrder: sortOrder)),
+      );
+    } else {
+      _refreshController.loadNoData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,66 +78,62 @@ class _ProjectsPageState extends State<ProjectsPage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.projects),
         actions: [
-          selectedIndices.isNotEmpty ?
-          AppBarIcon(onTap: () {}, icon: IconAssets.delete)
+          SortOrderSelector(
+            sortOrder: sortOrder,
+            isIconOnly: true,
+            onChanged: (val) {
+              setState(() {
+                sortOrder = val;
+                _currentPage = 1;
+              });
 
-              : SizedBox.shrink()
-          ,
-          SizedBox(width: 7),
+              projectBloc.add(
+                GetAllProjects(
+                  ProjectParams(page: _currentPage, sortOrder: sortOrder),
+                ),
+              );
+            },
+          ),
+
           Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
+            padding: const EdgeInsets.only(right: 18.0, left: 10),
+            child: AppBarIcon(
+              onTap: () {
+                context.push(AppRoutes.searchProjects);
+              },
+              icon: IconAssets.search,
+            ),
           ),
         ],
       ),
       body: Stack(
         children: [
-          BlocListener<InternetBloc, InternetState>(
+          BlocConsumer<ProjectsBloc, ProjectsState>(
             listener: (context, state) {
-              if (state is InternetDisConnected) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppStrings.noInternet),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 16,
-                    ),
-                    backgroundColor: Colors.red,
-                    duration: Duration(minutes: 5),
-                  ),
-                );
-              } else if (state is InternetConnected) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              // Finish indicators AFTER data state arrives
+              if (state is ProjectsLoaded) {
+                _refreshController.refreshCompleted();
+                if (projectBloc.canLoad) {
+                  _refreshController.loadComplete();
+                } else {
+                  _refreshController.loadNoData();
+                }
+              } else if (state is ProjectsConnectionError) {
+                _refreshController.refreshFailed();
+                _refreshController.loadFailed();
               }
             },
-            child: BlocConsumer<ProjectsBloc, ProjectsState>(
-              listener: (context, state) {
-                // Finish indicators AFTER data state arrives
-                if (state is ClientsLoaded) {
-                  _refreshController.refreshCompleted();
-                  if (projectBloc.canLoad) {
-                    _refreshController.loadComplete();
-                  } else {
-                    _refreshController.loadNoData();
-                  }
-                } else if (state is ClientsConnectionError) {
-                  _refreshController.refreshFailed();
-                  _refreshController.loadFailed();
-                }
-              },
-              builder: (context, state) {
-                return SmartRefresher(
-                  controller: _refreshController,
-                  enablePullDown: true,
-                  enablePullUp: projectBloc.canLoad,
-                  header: const WaterDropHeader(),
-                  footer: const KFooter(),
-                  onRefresh: _onRefresh,
-                  onLoading: _onLoad,
-                  child: _buildBody(state),
-                );
-              },
-            ),
+            builder: (context, state) {
+              return SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: true,
+                enablePullUp: projectBloc.canLoad,
+                footer: const KFooter(),
+                onRefresh: _onRefresh,
+                onLoading: _onLoad,
+                child: _buildBody(state),
+              );
+            },
           ),
 
           BlocBuilder<ProjectsBloc, ProjectsState>(
@@ -162,13 +161,15 @@ class _ProjectsPageState extends State<ProjectsPage> {
                   left: 15,
                   child: MainButton(
                     buttonTile: AppStrings.back,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pop();
+                    },
                     isLoading: false,
                   ),
                 );
               }
               return SizedBox.shrink();
-              },
+            },
           ),
         ],
       ),
@@ -192,15 +193,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
               title: item.title,
               deadline: item.deadline,
               ordersCount: item.orders?.length ?? 0,
-
-              isSelected: index == isSelected,
-              onTap: () {
-                setState(() {
-                  isSelected = index;
-                });
-              },
-
-
             );
           },
           separatorBuilder: (context, index) {
@@ -212,16 +204,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
       case ProjectsConnectionError():
         return Center(child: Text(AppStrings.noInternet));
     }
-  }
-
-  void _openSort() {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        return FilterWidget();
-      },
-    );
   }
 
   void _openAddProject() {

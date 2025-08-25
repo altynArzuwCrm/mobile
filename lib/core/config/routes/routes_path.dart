@@ -38,5 +38,10 @@ abstract final class AppRoutes {
   static const String addUser = '/addUser';
   static const String addOrder = '/addOrder';
   static const String activities = '/activities';
+  static const String searchClients = '/searchClients';
+  static const String searchProjects = '/searchProjects';
+  static const String searchUsers = '/searchUsers';
+  static const String searchOrders = '/searchOrders';
+  static const String searchProdcuts = '/searchProdcuts';
 
 }

@@ -12,6 +12,7 @@ import 'package:crm/features/projects/domain/usecases/create_project_usecase.dar
 import 'package:crm/features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
+import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,14 @@ class _EditProjectPageState extends State<EditProjectPage> {
   late final TextEditingController _nameCtrl;
   late final TextEditingController _descriptionCtrl;
 
+  final stagesCubit = locator<StageCubit>();
+  final clientsCubit = locator<ClientsCubit>();
+
   @override
   void initState() {
     super.initState();
+    clientsCubit.getAllClients(UserParams());
+    stagesCubit.getAllStages();
     _priceCtrl = TextEditingController(text: widget.project.totalPrice);
     _nameCtrl = TextEditingController(text: widget.project.title);
     _descriptionCtrl = TextEditingController();

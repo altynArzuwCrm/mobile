@@ -4,7 +4,7 @@ sealed class CompanyDetailState {}
 
 final class CompanyDetailLoading extends CompanyDetailState {}
 final class CompanyDetailLoaded extends CompanyDetailState {
-  final ClientEntity data;
+  final List<ClientEntity> data;
 
   CompanyDetailLoaded(this.data);
 

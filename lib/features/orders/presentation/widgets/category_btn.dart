@@ -18,13 +18,13 @@ class CategoryBtn extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.only(right: 8,bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isSelected ? AppColors.primary : Colors.transparent,
           border: Border.all(color: AppColors.primary),
         ),
-        alignment: Alignment.center,
         child: Text(
           title,
           style: TextStyle(
@@ -37,3 +37,4 @@ class CategoryBtn extends StatelessWidget {
     );
   }
 }
+

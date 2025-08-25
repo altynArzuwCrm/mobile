@@ -35,6 +35,11 @@ class OrderParams {
 
     return params;
   }
+
+  @override
+  String toString() {
+    return 'OrderParams{page: $page, search: $search, sortBy: $sortBy, sortOrder: $sortOrder, perPage: $perPage, isActive: $isActive, stage: $stage, status: $status}';
+  }
 }
 
 class CreateOrderParams {

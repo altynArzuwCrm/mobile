@@ -114,7 +114,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       endPoint: '${ApiEndpoints.users}/$id',
     );
 
-    final result = response.data['data'];
+    final result = response.data;
     return UserModel.fromJson(result);
   }
 

@@ -12,17 +12,21 @@ import 'package:crm/features/clients/presentation/pages/clients_page.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/presentation/pages/company_detail_page.dart';
 import 'package:crm/features/clients/presentation/pages/edit_client_page.dart';
+import 'package:crm/features/clients/presentation/pages/search_client_page.dart';
 import 'package:crm/features/notifications/presentation/pages/notification_page.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/presentation/pages/add_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/edit_order_page.dart';
 import 'package:crm/features/orders/presentation/pages/order_details_page.dart';
 import 'package:crm/features/orders/presentation/pages/orders_page.dart';
+import 'package:crm/features/orders/presentation/pages/search_order_page.dart';
 import 'package:crm/features/products/presentation/pages/product_detail_page.dart';
+import 'package:crm/features/products/presentation/pages/search_products.dart';
 import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:crm/features/projects/presentations/pages/projects_page.dart';
 import 'package:crm/features/projects/presentations/pages/edit_project_page.dart';
 import 'package:crm/features/projects/presentations/pages/project_details_page.dart';
+import 'package:crm/features/projects/presentations/pages/search_project_page.dart';
 import 'package:crm/features/settings/presentation/pages/settings_page.dart';
 import 'package:crm/features/settings/presentation/pages/support/support_page.dart';
 import 'package:crm/features/products/presentation/pages/products_page.dart';
@@ -35,6 +39,7 @@ import 'package:crm/features/users/presentation/pages/components/add_user_page.d
 import 'package:crm/features/users/presentation/pages/edit_user_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/edit_profile_page.dart';
 import 'package:crm/features/users/presentation/pages/profile/profile_page.dart';
+import 'package:crm/features/users/presentation/pages/search_user_page.dart';
 import 'package:crm/features/users/presentation/pages/user_page.dart';
 import 'package:crm/features/users/presentation/pages/user_details.dart';
 import 'package:flutter/material.dart';
@@ -180,6 +185,36 @@ final goRouter = GoRouter(
       path: AppRoutes.projects,
       builder: (context, state) {
         return ProjectsPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.searchClients,
+      builder: (context, state) {
+        return ClientsSearchPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.searchUsers,
+      builder: (context, state) {
+        return UsersSearchPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.searchOrders,
+      builder: (context, state) {
+        return OrdersSearchPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.searchProdcuts,
+      builder: (context, state) {
+        return ProductsSearchPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.searchProjects,
+      builder: (context, state) {
+        return ProjectsSearchPage();
       },
     ),
     GoRoute(

@@ -9,7 +9,7 @@ class UserParams {
   const UserParams({
     this.page,
     this.search,
-    this.sortBy,
+    this.sortBy = 'name',
     this.sortOrder,
     this.perPage = 30,
     this.isActive,

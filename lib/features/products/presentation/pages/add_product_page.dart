@@ -49,24 +49,22 @@ class _AddProductPageState extends State<AddProductPage> {
     _nameCtrl.clear();
     _descriptionCtrl.clear();
     _priceCtrl.clear();
-
-    // clientsCubit.selectClient(null);
   }
 
   void _onSubmit() {
     final isValid = formKey.currentState?.validate() ?? false;
 
-    final newProduct = CreateProductParams(
-      name: '',
-      description: '',
-      category: '',
-      price: 0,
-    );
-
-    // locator<ProductsCubit>().createProduct(newProduct);
-
-    _resetForm();
-    context.pop();
+    if (isValid) {
+      final newProduct = CreateProductParams(
+        name: _nameCtrl.text.trim(),
+        description: _descriptionCtrl.text.trim(),
+        category: '',
+        price: int.tryParse(_priceCtrl.text.trim()) ?? 0,
+      );
+      locator<ProductsCubit>().createProduct(newProduct);
+      _resetForm();
+      context.pop();
+    }
   }
 
   @override
@@ -133,6 +131,27 @@ class _AddProductPageState extends State<AddProductPage> {
                         ),
                       ),
 
+                      SizedBox(height: 20),
+                      TextFieldTitle(
+                        title: AppStrings.sum,
+                        child: KTextField(
+                          controller: _priceCtrl,
+                          isSubmitted: false,
+                          hintText: '',
+                          keyboardType: TextInputType.number,
+                          hintStyle: TextStyle(
+                            color: AppColors.gray,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          borderColor: AppColors.timeBorder,
+                        ),
+                      ),
                       SizedBox(height: 20),
 
                       Divider(color: AppColors.divider, thickness: 1),

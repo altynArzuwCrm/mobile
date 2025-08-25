@@ -11,8 +11,6 @@ class ProjectCard extends StatelessWidget {
     required this.title,
     required this.deadline,
     required this.ordersCount, required this.id,
-    required this.isSelected,
-    required this.onTap,
   });
 
   final int id;
@@ -20,8 +18,6 @@ class ProjectCard extends StatelessWidget {
   final String? deadline;
   final int ordersCount;
 
-  final bool isSelected;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,6 @@ class ProjectCard extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            onTap();
             context.push('${AppRoutes.projectDetails}/$id');
           },
           borderRadius: BorderRadius.circular(8),

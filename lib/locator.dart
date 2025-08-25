@@ -27,22 +27,27 @@ import 'features/clients/presentation/cubits/client_details/client_details_cubit
 import 'features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'features/clients/presentation/cubits/companies/company_cubit.dart';
 import 'features/clients/presentation/cubits/company_details/company_detail_cubit.dart';
+import 'features/clients/presentation/cubits/search_client/search_client_cubit.dart';
 import 'features/notifications/data/datasources/notification_remote_datasource.dart';
 import 'features/notifications/data/repository/notification_repository.dart';
 import 'features/notifications/presentation/cubits/notifications/notification_cubit.dart';
 import 'features/orders/data/repositories/order_repository.dart';
 import 'features/orders/presentation/cubits/comment/comment_cubit.dart';
 import 'features/orders/presentation/cubits/order_details/order_detail_cubit.dart';
+import 'features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
 import 'features/orders/presentation/cubits/orders/orders_cubit.dart';
+import 'features/orders/presentation/cubits/search_order/search_order_cubit.dart';
 import 'features/products/data/datasources/product_datasource.dart';
 import 'features/products/data/repositories/product_repository.dart';
 import 'features/products/presentation/cubits/product_detail/product_detail_cubit.dart';
 import 'features/products/presentation/cubits/products/products_cubit.dart';
+import 'features/products/presentation/cubits/search_products/search_products_cubit.dart';
 import 'features/projects/data/datasources/remote/project_remote_datasource.dart';
 import 'features/projects/data/repository_impl/project_repository_impl.dart';
 import 'features/projects/domain/repositories/project_repository.dart';
 import 'features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'features/projects/presentations/blocs/search_project/search_project_cubit.dart';
 import 'features/roles/data/datasources/role_remote_datasource.dart';
 import 'features/roles/data/repository/role_repository.dart';
 import 'features/roles/presentation/cubits/roles/roles_cubit.dart';
@@ -57,6 +62,7 @@ import 'features/statistics/presentation/cubits/user_stat/user_stat_cubit.dart';
 import 'features/users/data/datasources/remote/user_datasources.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
+import 'features/users/presentation/cubits/search_user/search_user_cubit.dart';
 import 'features/users/presentation/cubits/user/user_cubit.dart';
 import 'features/users/presentation/cubits/user_details/user_details_cubit.dart';
 import 'features/users/presentation/cubits/user_list/user_list_cubit.dart';
@@ -209,6 +215,12 @@ Future<void> initLocator() async {
   locator.registerSingleton<UserStatCubit>(UserStatCubit(locator()));
   locator.registerSingleton<LastActivityCubit>(LastActivityCubit(locator()));
   locator.registerSingleton<AllActivityCubit>(AllActivityCubit(locator()));
+  locator.registerSingleton<SearchClientCubit>(SearchClientCubit());
+  locator.registerSingleton<SearchProjectCubit>(SearchProjectCubit());
+  locator.registerSingleton<SearchUserCubit>(SearchUserCubit());
+  locator.registerSingleton<SearchOrderCubit>(SearchOrderCubit(locator()));
+  locator.registerSingleton<SearchProductsCubit>(SearchProductsCubit(locator()));
+  locator.registerSingleton<OrderStageSelectionCubit>(OrderStageSelectionCubit());
 
   // locator.registerSingleton<AssignCubit>(AssignCubit(locator()));
 

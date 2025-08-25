@@ -5,7 +5,7 @@ class UserModel {
   final String name;
   final String username;
   final String? phone;
-  final String image;
+  final String? image;
   final bool? isActive;
   final List<RoleModel>? roles;
 
@@ -24,7 +24,7 @@ class UserModel {
     name: json["name"] ?? '',
     username: json["username"] ?? '',
     phone: json["phone"],
-    image: json["image"] ?? '',
+    image: json["image"] ,
     isActive: json["is_active"] == 1 ? true : false,
     roles: json["roles"] != null
         ? List<RoleModel>.from(json["roles"].map((x) => RoleModel.fromJson(x)))

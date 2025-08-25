@@ -16,8 +16,15 @@ class OrdersCubit extends Cubit<OrdersState> {
   List<OrderModel> _orders = [];
   bool canLoad = true;
 
+  int isStageSelected = 0;
+  String? selectedStage;
+
+  void setStage({required int index, required String? stage}) {
+    isStageSelected = index;
+    selectedStage = stage;
+  }
+
   void getAllOrders(OrderParams params) async {
-    emit(OrdersLoading());
     final bool hasInternet = await _networkInfo.isConnected;
 
     if (!hasInternet && _orders.isNotEmpty) {
@@ -39,7 +46,6 @@ class OrdersCubit extends Cubit<OrdersState> {
       (data) {
         // emit(OrdersLoaded(data));
 
-        canLoad = data.isNotEmpty;
         if (params.page == 1) {
           _orders = data;
         } else {
@@ -49,6 +55,8 @@ class OrdersCubit extends Cubit<OrdersState> {
               .toList();
           _orders.addAll(newItems);
         }
+
+        canLoad = data.isNotEmpty;
         emit(OrdersLoaded(_orders));
       },
     );

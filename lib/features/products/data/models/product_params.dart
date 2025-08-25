@@ -45,7 +45,7 @@ class CreateProductParams {
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};
 
-    params['page'] = name;
+    params['name'] = name;
     params['description'] = description.trim();
     params['category'] = category;
     params['price'] = price;

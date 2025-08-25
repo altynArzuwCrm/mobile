@@ -59,6 +59,9 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
     return TextField(
       autofocus: false,
       controller: widget.searchCtrl,
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
       onChanged: onSearchChange,cursorColor: AppColors.primary,
       style: Theme.of(context).textTheme.bodyMedium!,
       decoration: InputDecoration(

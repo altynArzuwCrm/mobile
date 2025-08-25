@@ -102,7 +102,7 @@ class _StatisticsPageState extends State<StatisticsPage>
         child: SvgPicture.asset(IconAssets.mainLogo),
       ),
       actions: [
-        AppBarIcon(onTap: () {}, icon: IconAssets.search, color: Colors.white),
+      //  AppBarIcon(onTap: () {}, icon: IconAssets.search, color: Colors.white),
         const SizedBox(width: 7),
         Padding(
           padding: const EdgeInsets.only(right: 18.0),
@@ -236,7 +236,7 @@ class _StatisticsPageState extends State<StatisticsPage>
                 const SizedBox(height: 10),
                 const Divider(thickness: 1, color: AppColors.divider),
                 const SizedBox(height: 10),
-                _buildActivitySliverList(),
+                _buildActivityListInsideCard(),
               ],
             ),
           ),
@@ -245,48 +245,45 @@ class _StatisticsPageState extends State<StatisticsPage>
     );
   }
 
-  Widget _buildActivitySliverList() {
+  Widget _buildActivityListInsideCard() {
     return BlocBuilder<LastActivityCubit, LastActivityState>(
       builder: (context, state) {
         if (state is LastActivityLoaded) {
           final data = state.data;
 
-          // Wrap the list in a SizedBox to constrain its height
-          return SizedBox(
-            height: data.length * 70.0, // approximate height per ListTile
-            child: CustomScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              slivers: [
-                SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    final activity = data[index];
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        activity.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: AppColors.darkBlue,
-                        ),
-                      ),
-                      subtitle: Text(
-                        activity.time,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: AppColors.gray,
-                        ),
-                      ),
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        size: 16,
-                      ),
-                    );
-                  }, childCount: data.length),
+          return ListView.builder(
+            shrinkWrap: true,
+            // 👈 makes it fit inside Card
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            // 👈 outer scrollview handles scroll
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final activity = data[index];
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  activity.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    color: AppColors.darkBlue,
+                  ),
                 ),
-              ],
-            ),
+                subtitle: Text(
+                  activity.time,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: AppColors.gray,
+                  ),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  size: 16,
+                ),
+              );
+            },
           );
         }
         return const SizedBox.shrink();

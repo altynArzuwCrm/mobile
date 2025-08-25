@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
@@ -13,6 +11,7 @@ import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -66,11 +65,14 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
 
         actions: [
-          AppBarIcon(onTap: () {}, icon: IconAssets.search),
-          SizedBox(width: 7),
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
-            child: AppBarIcon(onTap: () {}, icon: IconAssets.notifications),
+            child: AppBarIcon(
+              onTap: () {
+                context.push(AppRoutes.notifications);
+              },
+              icon: IconAssets.notifications,
+            ),
           ),
         ],
       ),
@@ -84,7 +86,6 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               BlocBuilder<UserCubit, UserState>(
                 builder: (context, state) {
-                  log(state.toString());
                   if (state is UserLoaded) {
                     final data = state.data;
                     return UserDataWidget(

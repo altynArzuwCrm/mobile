@@ -24,7 +24,7 @@ abstract class ClientRemoteDataSource {
   Future<bool> deleteClientContact(int id);
 
   Future<List<String>> getCompanies();
-  Future<ClientModel> getCompanyDetails(String title);
+  Future<List<ClientModel>> getCompanyDetails(String title);
 }
 
 class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
@@ -152,12 +152,21 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
   }
 
   @override
-  Future<ClientModel> getCompanyDetails(String title) async {
+  Future<List<ClientModel>> getCompanyDetails(String title) async {
     final response = await apiProvider.get(
       endPoint: '${ApiEndpoints.clients}/company/$title',
     );
-    final result = response.data[0];
-    return ClientModel.fromJson(result);
+    // final result = response.data[0];
+    // return ClientModel.fromJson(result);
+
+
+
+
+    final responseBody = response.data as List;
+
+    final result = responseBody.map((e) => ClientModel.fromJson(e)).toList();
+
+    return result;
   }
 
 }

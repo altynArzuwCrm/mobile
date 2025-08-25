@@ -1,7 +1,6 @@
 import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/core/network/internet_bloc/internet_bloc.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/clients/presentation/widgets/client_card.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
@@ -13,12 +12,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 class ContactsList extends StatefulWidget {
-  const ContactsList({super.key});
+  const ContactsList({super.key, required this.sortOrder});
+  final String sortOrder;
 
   @override
   State<ContactsList> createState() => _ContactsListState();
 }
-
+//correct pagination
 class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClientMixin {
   final ClientsCubit _clientsCubit = locator<ClientsCubit>();
 
@@ -32,7 +32,7 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
   @override
   void initState() {
     super.initState();
-    _clientsCubit.getAllClients(UserParams());
+    _clientsCubit.getAllClients(UserParams(page: _currentPage));
 
   }
 
@@ -44,14 +44,13 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
 
   void _onRefresh() async {
     _currentPage = 1;
-    _clientsCubit.getAllClients(UserParams(page: _currentPage));
-    _refreshController.refreshCompleted();
+    _clientsCubit.getAllClients(UserParams(page: _currentPage, sortOrder: widget.sortOrder,));
   }
 
   void _onLoad() async {
     if (_clientsCubit.canLoad) {
       _currentPage++;
-      _clientsCubit.getAllClients(UserParams(page: _currentPage));
+      _clientsCubit.getAllClients(UserParams(page: _currentPage, sortOrder: widget.sortOrder,));
     }else{
       _refreshController.loadNoData();
     }
@@ -60,55 +59,35 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocListener<InternetBloc, InternetState>(
-      listener: (context, state) {
-        if (state is InternetDisConnected) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppStrings.noInternet),
-              behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 16,
-              ),
-              backgroundColor: Colors.red,
-              duration: Duration(minutes: 5),
-            ),
-          );
-        } else if (state is InternetConnected) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        }
-      },
-      child: BlocProvider.value(
-        value: _clientsCubit,
+    return BlocProvider.value(
+      value: _clientsCubit,
 
-        child: BlocConsumer<ClientsCubit, ClientsState>(
-          listener: (context, state) {
-            // Finish indicators AFTER data state arrives
-            if (state is ClientsLoaded) {
-              _refreshController.refreshCompleted();
-              if (_clientsCubit.canLoad) {
-                _refreshController.loadComplete();
-              } else {
-                _refreshController.loadNoData();
-              }
-            } else if (state is ClientsConnectionError) {
-              _refreshController.refreshFailed();
-              _refreshController.loadFailed();
+      child: BlocConsumer<ClientsCubit, ClientsState>(
+        listener: (context, state) {
+          // Finish indicators AFTER data state arrives
+          if (state is ClientsLoaded) {
+            _refreshController.refreshCompleted();
+            if (_clientsCubit.canLoad) {
+              _refreshController.loadComplete();
+            } else {
+              _refreshController.loadNoData();
             }
-          },
-          builder: (context, state) {
-            return SmartRefresher(
-              controller: _refreshController,
-              enablePullDown: true,
-              enablePullUp: _clientsCubit.canLoad,
-              header: const WaterDropHeader(),
-              footer: const KFooter(),
-              onRefresh: _onRefresh,
-              onLoading: _onLoad,
-              child: _buildBody(state),
-            );
-          },
-        ),
+          } else if (state is ClientsConnectionError) {
+            _refreshController.refreshFailed();
+            _refreshController.loadFailed();
+          }
+        },
+        builder: (context, state) {
+          return SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: _clientsCubit.canLoad,
+            footer: const KFooter(),
+            onRefresh: _onRefresh,
+            onLoading: _onLoad,
+            child: _buildBody(state),
+          );
+        },
       ),
     );
   }

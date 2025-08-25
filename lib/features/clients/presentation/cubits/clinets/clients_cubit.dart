@@ -1,4 +1,3 @@
-
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
@@ -30,7 +29,6 @@ class ClientsCubit extends Cubit<ClientsState> {
 
   // String?  selectedClientId ;
 
-
   Future<void> getAllClients(UserParams params) async {
     final bool hasInternet = await _networkInfo.isConnected;
 
@@ -52,18 +50,19 @@ class ClientsCubit extends Cubit<ClientsState> {
         }
       },
       (data) {
-        canLoad = data.isNotEmpty;
         if (params.page == 1) {
           _clients = data;
         } else {
           final existingIds = _clients.map((c) => c.id).toSet();
-          final newItems = data.where((c) => !existingIds.contains(c.id)).toList();
+          final newItems = data
+              .where((c) => !existingIds.contains(c.id))
+              .toList();
           _clients.addAll(newItems);
         }
-        emit(ClientsLoaded(_clients));
-      },
-    );
+        canLoad = data.isNotEmpty;
 
+        emit(ClientsLoaded(List.from(_clients)));      },
+    );
   }
 
   void updateClientLocally(ClientEntity client) {
@@ -91,7 +90,7 @@ class ClientsCubit extends Cubit<ClientsState> {
       // if (data.isNotEmpty) {
 
       _clients.insert(0, data);
-        emit(ClientsLoaded(List.from(_clients)));
+      emit(ClientsLoaded(List.from(_clients)));
 
       // }
     });
