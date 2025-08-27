@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/core/utils/fcm/get_fcm_token.dart';
 import 'package:crm/features/orders/presentation/widgets/custom_dropdown.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/statistics/presentation/cubits/last_activity/last_activity_cubit.dart';
@@ -43,13 +46,17 @@ class _StatisticsPageState extends State<StatisticsPage>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _fetchAllStats();
+
   }
 
-  void _fetchAllStats() {
+  void _fetchAllStats()async {
     revenueCubit.getRevenue(year);
     orderStatCubit.getOrderStats();
     userStatCubit.getUserStats();
     activityCubit.getLastActivity();
+    final fcmToken =
+        await locator<GetFcmToken>().getFcmToken();
+    log(fcmToken.toString(),name: 'FCM');
   }
 
   @override

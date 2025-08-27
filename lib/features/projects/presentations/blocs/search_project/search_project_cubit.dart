@@ -12,6 +12,9 @@ class SearchProjectCubit extends Cubit<SearchProjectState> {
   final GetAllProjectsUseCase _allProjectsUseCase = GetAllProjectsUseCase(
     repository: locator(),
   );
+
+  List<ProjectEntity> projects = [];
+
   void initializeSearch(){
     emit(SearchProjectInitial());
   }
@@ -38,4 +41,10 @@ class SearchProjectCubit extends Cubit<SearchProjectState> {
       },
     );
   }
+
+  void deleteProject(int id){
+    projects.removeWhere((e)=> e.id == id);
+    emit(SearchFoundedProjects(List.from(projects)));
+  }
+
 }

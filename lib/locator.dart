@@ -1,4 +1,3 @@
-import 'package:crm/features/assignments/data/datasources/assignment_datasources.dart';
 import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
 import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
 import 'package:crm/features/stages/data/repositories/stage_repository.dart';
@@ -14,6 +13,7 @@ import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
 import 'core/network/internet_bloc/internet_bloc.dart';
 import 'core/network/network.dart';
+import 'core/utils/fcm/get_fcm_token.dart';
 import 'features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/authentication_repository.dart';
@@ -97,6 +97,10 @@ Future<void> initLocator() async {
 
   locator.registerLazySingleton<AppPreferences>(
     () => AppPreferences(locator()),
+  );
+
+  locator.registerLazySingleton<GetFcmToken>(
+        () => GetFcmToken(),
   );
 
   ///data sources

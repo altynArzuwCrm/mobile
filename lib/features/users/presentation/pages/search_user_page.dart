@@ -3,6 +3,7 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/orders/presentation/widgets/search_widget.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/features/users/presentation/cubits/search_user/search_user_cubit.dart';
+import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
 import 'package:crm/features/users/presentation/widgets/user_card.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,8 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                   return UserCard(
                     data: item,
                     onDelete: () {
-                    // locator<UserListCubit>().deleteUser(item.id);
+                    locator<UserListCubit>().deleteUser(item.id);
+                    searchCubit.deleteUser(item.id);
                     },
                     onTap: () {
                       context.push(AppRoutes.userDetails, extra: {'user': item});

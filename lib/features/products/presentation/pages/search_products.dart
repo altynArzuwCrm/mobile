@@ -73,7 +73,8 @@ class _ProductsSearchPageState extends State<ProductsSearchPage> {
                   return ProductItemWidget(
                     model: item,
                     onDelete: () {
-                      //  productsCubit.deleteProduct(item.id);
+                      locator<SearchProductsCubit>().deleteProduct(item.id);
+                      searchCubit.deleteProduct(item.id);
                     },
                   );
                 },

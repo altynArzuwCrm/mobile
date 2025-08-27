@@ -7,6 +7,7 @@ import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/presentation/pages/components/detail_components/general_info.dart';
 import 'package:crm/features/projects/presentations/blocs/project_details/project_details_bloc.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
+import 'package:crm/features/projects/presentations/blocs/search_project/search_project_cubit.dart';
 import 'package:crm/features/settings/presentation/widgets/project_detail_order_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class ProjectDetailsPage extends StatefulWidget {
 
 class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   final detailBloc = locator<ProjectDetailsBloc>();
+  final searchCubit = locator<SearchProjectCubit>();
 
   @override
   void initState() {
@@ -47,6 +49,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                   final state = detailBloc.state;
                   if (state is ProjectDetailLoaded) {
                     locator<ProjectsBloc>().add(DeleteProject(widget.id));
+
+                    if(searchCubit.projects.isNotEmpty){
+                      searchCubit.deleteProject(widget.id);
+                    }
+
                     context.pop();
                   }
                 },

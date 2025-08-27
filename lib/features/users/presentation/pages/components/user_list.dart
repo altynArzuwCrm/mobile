@@ -123,6 +123,7 @@ class _UserListState extends State<UserList>  with AutomaticKeepAliveClientMixin
             data: item,
             onDelete: () {
               locator<UserListCubit>().deleteUser(item.id);
+
             },
             onTap: () {
               context.push(AppRoutes.userDetails, extra: {'user': item});

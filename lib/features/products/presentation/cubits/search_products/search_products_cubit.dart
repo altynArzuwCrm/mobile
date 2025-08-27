@@ -12,6 +12,8 @@ class SearchProductsCubit extends Cubit<SearchProductsState> {
 
   final ProductRepository repository;
 
+  List<ProductModel> _products = [];
+
   void initializeSearch() {
     emit(SearchProductsInitial());
   }
@@ -38,4 +40,11 @@ class SearchProductsCubit extends Cubit<SearchProductsState> {
       },
     );
   }
+
+
+  void deleteProduct(int id){
+    _products.removeWhere((e)=> e.id == id);
+    emit(SearchFoundedProducts(List.from(_products)));
+  }
+
 }
