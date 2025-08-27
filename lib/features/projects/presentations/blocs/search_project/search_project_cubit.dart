@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/projects/domain/entities/project_entity.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'search_project_state.dart';
 

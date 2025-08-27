@@ -27,7 +27,7 @@ class ProjectWidget extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                title??'',
+                title ?? '',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
@@ -54,74 +54,6 @@ class ProjectWidget extends StatelessWidget {
               color: AppColors.darkBlue,
             ),
           ),
-          //
-          // Text(
-          //   AppStrings.additionalFile,
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.w700,
-          //     fontSize: 16,
-          //     color: AppColors.darkBlue,
-          //   ),
-          // ),
-          // SizedBox(height: 12),
-          // Container(
-          //   padding: EdgeInsets.all(13),
-          //   decoration: BoxDecoration(
-          //     border: Border.all(color: AppColors.whiteBorder),
-          //     borderRadius: BorderRadius.circular(14),
-          //   ),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Container(
-          //         height: 44,
-          //         width: 44,
-          //         padding: EdgeInsets.all(10),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(14),
-          //           color: AppColors.attachment,
-          //         ),
-          //         child: SvgPicture.asset(IconAssets.attach),
-          //       ),
-          //       SizedBox(width: 10),
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             'site screens.png',
-          //             style: TextStyle(
-          //               fontWeight: FontWeight.w700,
-          //               fontSize: 14,
-          //               color: AppColors.darkBlue,
-          //             ),
-          //           ),
-          //           Text(
-          //             '10 MB PNG',
-          //             style: TextStyle(
-          //               fontWeight: FontWeight.w400,
-          //               fontSize: 12,
-          //               color: AppColors.normalGray,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //       SizedBox(width: 10),
-          //       Container(
-          //         height: 44,
-          //         width: 44,
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(14),
-          //           color: AppColors.bgColor,
-          //         ),
-          //         child: IconButton(
-          //           onPressed: () {},
-          //           icon: Icon(Icons.more_vert),
-          //           padding: EdgeInsets.zero,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

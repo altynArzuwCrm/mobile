@@ -166,10 +166,6 @@ class ApiProviderImpl implements ApiProvider {
       if (!isMultiPart) 'Accept': 'application/json',
     };
 
-    return await dio.delete(
-      endPoint,
-      data: data,
-      queryParameters: query,
-    );
+    return await dio.delete(endPoint, data: data, queryParameters: query);
   }
 }

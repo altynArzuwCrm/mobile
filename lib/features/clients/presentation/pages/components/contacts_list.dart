@@ -10,18 +10,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
 class ContactsList extends StatefulWidget {
   const ContactsList({super.key, required this.sortOrder});
+
   final String sortOrder;
 
   @override
   State<ContactsList> createState() => _ContactsListState();
 }
-//correct pagination
-class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClientMixin {
-  final ClientsCubit _clientsCubit = locator<ClientsCubit>();
 
+//correct pagination
+class _ContactsListState extends State<ContactsList>
+    with AutomaticKeepAliveClientMixin {
+  final ClientsCubit _clientsCubit = locator<ClientsCubit>();
 
   int _currentPage = 1;
 
@@ -33,7 +34,6 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
     _clientsCubit.getAllClients(UserParams(page: _currentPage));
-
   }
 
   @override
@@ -44,14 +44,18 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
 
   void _onRefresh() async {
     _currentPage = 1;
-    _clientsCubit.getAllClients(UserParams(page: _currentPage, sortOrder: widget.sortOrder,));
+    _clientsCubit.getAllClients(
+      UserParams(page: _currentPage, sortOrder: widget.sortOrder),
+    );
   }
 
   void _onLoad() async {
     if (_clientsCubit.canLoad) {
       _currentPage++;
-      _clientsCubit.getAllClients(UserParams(page: _currentPage, sortOrder: widget.sortOrder,));
-    }else{
+      _clientsCubit.getAllClients(
+        UserParams(page: _currentPage, sortOrder: widget.sortOrder),
+      );
+    } else {
       _refreshController.loadNoData();
     }
   }
@@ -91,6 +95,7 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
       ),
     );
   }
+
   Widget _buildBody(ClientsState state) {
     if (state is ClientsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -108,10 +113,7 @@ class _ContactsListState extends State<ContactsList> with AutomaticKeepAliveClie
             data: item,
             onDelete: () => _clientsCubit.deleteClient(item.id),
             onTap: () {
-              context.push(
-                AppRoutes.clientDetails,
-                extra: {'client': item},
-              );
+              context.push(AppRoutes.clientDetails, extra: {'client': item});
             },
           );
         },

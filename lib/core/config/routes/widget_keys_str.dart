@@ -7,4 +7,3 @@ final shellNavKey2 = GlobalKey<NavigatorState>();
 final shellNavKey3 = GlobalKey<NavigatorState>();
 
 final GlobalKey bottomNavBarKey = GlobalKey();
-

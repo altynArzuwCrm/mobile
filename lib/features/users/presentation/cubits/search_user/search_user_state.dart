@@ -1,6 +1,5 @@
 part of 'search_user_cubit.dart';
 
-@immutable
 sealed class SearchUserState {}
 
 final class SearchUserInitial extends SearchUserState {}

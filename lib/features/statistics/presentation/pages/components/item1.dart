@@ -3,27 +3,12 @@ import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/statistics/presentation/cubits/revenue/revenue_stat_cubit.dart';
 import 'package:crm/features/statistics/presentation/widgets/card_widget.dart';
 import 'package:crm/features/statistics/presentation/widgets/chart1.dart';
-import 'package:crm/locator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Item1 extends StatefulWidget {
+class Item1 extends StatelessWidget {
   const Item1({super.key});
-
-  @override
-  State<Item1> createState() => _Item1State();
-}
-
-class _Item1State extends State<Item1> {
-  late List<int> availableYears;
-
-  @override
-  void initState() {
-    super.initState();
-    final currentYear = DateTime.now().year;
-    availableYears = List.generate(7, (i) => currentYear - 3 + i);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,34 +48,18 @@ class _Item1State extends State<Item1> {
                         color: AppColors.gray,
                       ),
                     ),
-                    DropdownButton<int>(
-                      value: year,
-                      borderRadius: BorderRadius.circular(5),
 
-                      items: availableYears
-                          .map(
-                            (year) => DropdownMenuItem(
-                              value: year,
-                              child: Text(
-                                year.toString(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  color: AppColors.gray,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          locator<RevenueStatCubit>().getRevenue(value);
-                        }
-                      },
-                      underline: const SizedBox(),
-                      // remove underline if desired
-                      icon: const Icon(Icons.arrow_drop_down, size: 18),
-                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3.0),
+                      child: Text(
+                        year.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: AppColors.gray,
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 10),

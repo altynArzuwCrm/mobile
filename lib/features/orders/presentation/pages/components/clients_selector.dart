@@ -19,8 +19,6 @@ class ClientsSelector extends StatelessWidget {
               : state is ClientsError
               ? "Failed to load"
               : "Select client",
-          // filled: true,
-          //  fillColor: AppColors.white,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -70,7 +68,6 @@ class ClientsSelector extends StatelessWidget {
               final matches = state.data.where((c) => c.name == value).toList();
               if (matches.isNotEmpty) {
                 final client = matches.first;
-                //  clientsCubit.selectClient(client.id.toString());
                 onSelectClient(client.id.toString());
               } else {
                 onSelectClient(null);

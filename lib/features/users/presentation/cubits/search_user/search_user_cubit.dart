@@ -1,10 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/features/users/domain/usecases/get_all_users_usecase.dart';
 import 'package:crm/locator.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'search_user_state.dart';
 
@@ -15,7 +14,7 @@ class SearchUserCubit extends Cubit<SearchUserState> {
     repository: locator(),
   );
 
-  List<UserEntity> _users = [];
+ final List<UserEntity> _users = [];
 
   void initializeSearch() {
     emit(SearchUserInitial());

@@ -1,7 +1,6 @@
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/features/notifications/data/models/notificaton_model.dart';
 import 'package:crm/features/notifications/data/repository/notification_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'notification_state.dart';

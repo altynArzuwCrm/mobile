@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/core/utils/fcm/get_fcm_token.dart';
 import 'package:crm/features/orders/presentation/widgets/custom_dropdown.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/statistics/presentation/cubits/last_activity/last_activity_cubit.dart';
@@ -37,7 +34,8 @@ class _StatisticsPageState extends State<StatisticsPage>
   final userStatCubit = locator<UserStatCubit>();
   final activityCubit = locator<LastActivityCubit>();
 
-  final year = DateTime.now().year;
+  final currentYear = DateTime.now().year;
+  late List<int> availableYears;
 
   String? selectedCategory;
 
@@ -45,18 +43,16 @@ class _StatisticsPageState extends State<StatisticsPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _fetchAllStats();
+    availableYears = List.generate(7, (i) => currentYear - 3 + i);
 
+    _fetchAllStats();
   }
 
-  void _fetchAllStats()async {
-    revenueCubit.getRevenue(year);
+  void _fetchAllStats() async {
+    revenueCubit.getRevenue(currentYear);
     orderStatCubit.getOrderStats();
     userStatCubit.getUserStats();
     activityCubit.getLastActivity();
-    final fcmToken =
-        await locator<GetFcmToken>().getFcmToken();
-    log(fcmToken.toString(),name: 'FCM');
   }
 
   @override
@@ -68,16 +64,19 @@ class _StatisticsPageState extends State<StatisticsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(),
-          const SliverToBoxAdapter(child: SizedBox(height: 18)),
-          _buildTabBarHeader(),
-          const SliverToBoxAdapter(child: SizedBox(height: 18)),
-          _buildTabBarView(),
-          _buildActivityCard(),
-          const SliverToBoxAdapter(child: SizedBox(height: 80)),
-        ],
+      body: BlocProvider.value(
+        value: revenueCubit,
+        child: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(),
+            const SliverToBoxAdapter(child: SizedBox(height: 18)),
+            _buildTabBarHeader(),
+            const SliverToBoxAdapter(child: SizedBox(height: 18)),
+            _buildTabBarView(),
+            _buildActivityCard(),
+            const SliverToBoxAdapter(child: SizedBox(height: 80)),
+          ],
+        ),
       ),
     );
   }
@@ -93,11 +92,6 @@ class _StatisticsPageState extends State<StatisticsPage>
       fontSize: 23,
       color: Colors.white,
     );
-    const smallStyle = TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 12,
-      color: Colors.white,
-    );
 
     return SliverAppBar(
       backgroundColor: const Color(0xff1372F0),
@@ -106,10 +100,9 @@ class _StatisticsPageState extends State<StatisticsPage>
       pinned: true,
       leading: Container(
         margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-        child: SvgPicture.asset(IconAssets.mainLogo),
+        child: SvgPicture.asset(ImageAssets.splashLogo),
       ),
       actions: [
-      //  AppBarIcon(onTap: () {}, icon: IconAssets.search, color: Colors.white),
         const SizedBox(width: 7),
         Padding(
           padding: const EdgeInsets.only(right: 18.0),
@@ -128,44 +121,58 @@ class _StatisticsPageState extends State<StatisticsPage>
               colors: [Color(0xff6FADFF), Color(0xff1372F0)],
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Text('ИТОГО', style: titleStyle),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: BlocBuilder<RevenueStatCubit, RevenueStatState>(
+            builder: (context, state) {
+              String totalRevenue = '0.0';
+              int? year = currentYear;
+
+              if (state is RevenueStatLoaded) {
+                final data = state.data;
+                totalRevenue = data.totalRevenueFormatted;
+                year = int.tryParse(data.year);
+              }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('150 000 тмт'.toUpperCase(), style: valueStyle),
-                  CustomDropdown(
-                    value: selectedCategory,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                    onChanged: (val) => setState(() => selectedCategory = val),
-                    color: const Color.fromRGBO(250, 250, 250, 0.7),
-                    iconColor: Colors.white,
-                    items: const [
-                      DropdownMenuItem(value: 'a', child: Text("Week")),
-                      DropdownMenuItem(value: 'l', child: Text("Month")),
-                      DropdownMenuItem(value: 'm', child: Text("Year")),
+                  const Text('ИТОГО', style: titleStyle),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '$totalRevenue тмт'.toUpperCase(),
+                        style: valueStyle,
+                      ),
+                      CustomDropdown<int>(
+                        value: year,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: AppColors.white,
+                        ),
+                        items: availableYears
+                            .map(
+                              (y) => DropdownMenuItem(
+                            value: y,
+                            child: Text(y.toString()),
+                          ),
+                        )
+                            .toList(),
+                        onChanged: (value) {
+                          if (value != null) {
+                            locator<RevenueStatCubit>().getRevenue(value);
+                          }
+                        },
+                        color: const Color.fromRGBO(250, 250, 250, 0.7),
+                        iconColor: Colors.white,
+                      )
+
                     ],
                   ),
                 ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  SvgPicture.asset(IconAssets.increase),
-                  const SizedBox(width: 10),
-                  const Text('+1.7% ', style: smallStyle),
-                  const SizedBox(width: 10),
-                  const Text('Этот месяц ', style: smallStyle),
-                ],
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -220,7 +227,7 @@ class _StatisticsPageState extends State<StatisticsPage>
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [
-            BlocProvider.value(value: revenueCubit, child: Item1()),
+            Item1(),
             BlocProvider.value(value: orderStatCubit, child: Item2()),
             BlocProvider.value(value: userStatCubit, child: Item3()),
           ],
@@ -260,10 +267,8 @@ class _StatisticsPageState extends State<StatisticsPage>
 
           return ListView.builder(
             shrinkWrap: true,
-            // 👈 makes it fit inside Card
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            // 👈 outer scrollview handles scroll
             itemCount: data.length,
             itemBuilder: (context, index) {
               final activity = data[index];
@@ -285,10 +290,10 @@ class _StatisticsPageState extends State<StatisticsPage>
                     color: AppColors.gray,
                   ),
                 ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  size: 16,
-                ),
+                // trailing: const Icon(
+                //   Icons.arrow_forward_ios_outlined,
+                //   size: 16,
+                // ),
               );
             },
           );

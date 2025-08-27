@@ -1,4 +1,3 @@
-import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/products/presentation/cubits/product_detail/product_detail_cubit.dart';
@@ -42,7 +41,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     /// --- PRODUCT INFO ---
                     Card(
                       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -53,7 +51,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.name ?? '',
+                              data.name,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
@@ -111,24 +109,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           margin: const EdgeInsets.symmetric(vertical: 4),
                           child: ListTile(
                             leading: CircleAvatar(child: Text(user.name[0])),
-                            title: Text(user.name, style: TextStyle(
+                            title: Text(
+                              user.name,
+                              style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16,
-                                color: AppColors.darkBlue
-                            ),),
-                          subtitle: Text(
-                            assignment.roleType ?? 'Без роли', style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: AppColors.darkBlue
-                          ),),
-                          trailing: assignment.isActive
-                              ? const Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                          )
-                              : const Icon(Icons.cancel, color: Colors.red),
-                        ),);
+                                color: AppColors.darkBlue,
+                              ),
+                            ),
+                            subtitle: Text(
+                              assignment.roleType,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: AppColors.darkBlue,
+                              ),
+                            ),
+                            trailing: assignment.isActive
+                                ? const Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  )
+                                : const Icon(Icons.cancel, color: Colors.red),
+                          ),
+                        );
                       },
                     ),
                     const SizedBox(height: 20),
@@ -149,10 +153,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         return Chip(
                           label: Text(stage.displayName),
                           backgroundColor: AppColors.primary,
-                          labelStyle:  TextStyle(
+                          labelStyle: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
-                            color: Colors.white
+                            color: Colors.white,
                           ),
                         );
                       }).toList(),

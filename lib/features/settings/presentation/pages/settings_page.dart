@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         leading: Container(
           margin: EdgeInsets.fromLTRB(20, 10, 0, 10),
-          child: SvgPicture.asset(IconAssets.mainLogo),
+          child: SvgPicture.asset(ImageAssets.splashLogo),
         ),
 
         actions: [

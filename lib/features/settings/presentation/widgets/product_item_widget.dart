@@ -1,8 +1,5 @@
-import 'package:crm/common/widgets/shimmer_image.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/common/widgets/main_card.dart';
-import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:crm/features/products/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +28,7 @@ class ProductItemWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  model.name ?? '',
+                  model.name ,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,

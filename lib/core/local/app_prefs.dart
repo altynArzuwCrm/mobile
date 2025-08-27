@@ -14,5 +14,4 @@ class AppPreferences {
   Future<bool> isOnBoardingScreenViewed() async {
     return _sharedPreferences.getBool(_boardingScreen) ?? false;
   }
-
 }

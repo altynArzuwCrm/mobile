@@ -69,20 +69,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
     }
   }
 
-  // clearAll() {
-  //   selectedClientId = null;
-  //   selectedProjectId = null;
-  //   selectedProductId = null;
-  //   deadline;
-  //
-  //   _priceCtrl.clear();
-  //   _countCtrl.clear();
-  //
-  //   orderItems.clear();
-  //   assignments?.clear();
-  //
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -98,10 +84,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   @override
   void dispose() {
-
- ///  clearAll();
-
-
     _priceCtrl.dispose();
     _countCtrl.dispose();
 
@@ -111,10 +93,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
       c.priceCtrl.dispose();
     }
 
-
-
     super.dispose();
   }
+
   List<AssignOrderParams> assignments = [];
 
   void addToAssignment(int stageId, int userId, String role) {
@@ -387,10 +368,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
     log('${param.toQueryParameters()}', name: '[PARAMS]');
 
-      ordersCubit.createOrder(param);
+    ordersCubit.createOrder(param);
 
     context.pop();
-
   }
 
   bool validate() {
@@ -451,7 +431,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
         if (item.deadline == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Укажите срок сдачи для всех позиций")),
+            const SnackBar(
+              content: Text("Укажите срок сдачи для всех позиций"),
+            ),
           );
           return false;
         }
@@ -468,5 +450,4 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
     return true;
   }
-
 }

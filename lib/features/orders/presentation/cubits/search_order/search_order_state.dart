@@ -1,6 +1,5 @@
 part of 'search_order_cubit.dart';
 
-@immutable
 sealed class SearchOrderState {}
 
 final class SearchOrderInitial extends SearchOrderState {}

@@ -11,8 +11,6 @@ class SelectDateWidget extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
 
-  //  final Locale? locale;
-
   const SelectDateWidget({
     super.key,
     this.initialDate,
@@ -21,7 +19,6 @@ class SelectDateWidget extends StatefulWidget {
     this.includeTime = false,
     this.firstDate,
     this.lastDate,
-    // this.locale,
   });
 
   @override
@@ -94,9 +91,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
   @override
   Widget build(BuildContext context) {
     final formatted = selectedDate != null
-        ? DateFormat(
-            widget.dateFormat, //widget.locale?.toString(),
-          ).format(selectedDate!)
+        ? DateFormat(widget.dateFormat).format(selectedDate!)
         : AppStrings.selectDate;
 
     return GestureDetector(

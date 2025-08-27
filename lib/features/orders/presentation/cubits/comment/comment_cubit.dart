@@ -31,41 +31,22 @@ class CommentCubit extends Cubit<CommentState> {
   }
 
   Future<void> createOrderComments(CommentParams params) async {
-
     final result = await repository.createOrderComment(params);
 
-    result.fold(
-      (error) {
-        // if (error is ConnectionFailure) {
-        //   emit(CommentConnectionError());
-        // } else {
-        //   emit(CommentError());
-        // }
-      },
-      (data) {
-        if (data.isNotEmpty) {
-          emit(CommentLoaded(data));
-        }
-      },
-    );
+    result.fold((error) {}, (data) {
+      if (data.isNotEmpty) {
+        emit(CommentLoaded(data));
+      }
+    });
   }
-  Future<void> deleteOrderComment(int id, int orderId) async {
 
+  Future<void> deleteOrderComment(int id, int orderId) async {
     final result = await repository.deleteOrderComment(id, orderId);
 
-    result.fold(
-      (error) {
-        // if (error is ConnectionFailure) {
-        //   emit(CommentConnectionError());
-        // } else {
-        //   emit(CommentError());
-        // }
-      },
-      (data) {
-        if (data.isNotEmpty) {
-          emit(CommentLoaded(data));
-        }
-      },
-    );
+    result.fold((error) {}, (data) {
+      if (data.isNotEmpty) {
+        emit(CommentLoaded(data));
+      }
+    });
   }
 }

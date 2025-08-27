@@ -69,18 +69,13 @@ class _OrdersSearchPageState extends State<OrdersSearchPage> {
                 physics: const AlwaysScrollableScrollPhysics(),
 
                 itemBuilder: (context, index) {
-
                   final item = data[index];
                   return OrderCard(
                     isSelected: false,
                     hasSelected: false,
                     model: item,
-                    onTap: () {
-
-                    },
-                    onLongPress: () {
-
-                    },
+                    onTap: () {},
+                    onLongPress: () {},
                   );
                 },
               );

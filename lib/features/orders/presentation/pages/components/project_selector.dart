@@ -25,8 +25,6 @@ class ProjectSelector extends StatelessWidget {
               : state is ClientsError
               ? "Failed to load"
               : "Select project",
-          //  filled: true,
-          //    fillColor: AppColors.white,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -38,11 +36,7 @@ class ProjectSelector extends StatelessWidget {
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(
-              color: AppColors.timeBorder,
-              // highlight color when focused
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.timeBorder, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),

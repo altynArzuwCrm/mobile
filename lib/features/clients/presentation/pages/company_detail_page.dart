@@ -1,7 +1,6 @@
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/clients/presentation/cubits/company_details/company_detail_cubit.dart';
-import 'package:crm/features/clients/presentation/widgets/client_details_page.dart';
 import 'package:crm/features/clients/presentation/widgets/company_detail_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -42,11 +41,7 @@ class _CompanyDetailPageState extends State<CompanyDetailPage> {
 
               return Column(
                 children: [
-                  Expanded(
-                    child: CompanyDetailsWidget(
-                     data: data,
-                    ),
-                  ),
+                  Expanded(child: CompanyDetailsWidget(data: data)),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                     child: MainButton(

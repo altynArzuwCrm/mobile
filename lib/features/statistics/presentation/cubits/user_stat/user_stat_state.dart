@@ -1,6 +1,5 @@
 part of 'user_stat_cubit.dart';
 
-@immutable
 sealed class UserStatState {}
 
 final class UserStatLoading extends UserStatState {}

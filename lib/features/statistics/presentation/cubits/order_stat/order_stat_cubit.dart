@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/features/statistics/data/models/order_stat_model.dart';
 import 'package:crm/features/statistics/data/repository/statistics_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'order_stat_state.dart';
 

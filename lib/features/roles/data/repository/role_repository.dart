@@ -15,12 +15,12 @@ class RoleRepository {
   Future<Either<Failure, List<RoleModel>>> getAllRoles() async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.getAllRoles();
         return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

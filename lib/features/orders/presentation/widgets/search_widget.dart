@@ -62,7 +62,8 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
       onTapOutside: (event) {
         FocusScope.of(context).unfocus();
       },
-      onChanged: onSearchChange,cursorColor: AppColors.primary,
+      onChanged: onSearchChange,
+      cursorColor: AppColors.primary,
       style: Theme.of(context).textTheme.bodyMedium!,
       decoration: InputDecoration(
         prefixIcon: Icon(
@@ -72,9 +73,15 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
         errorText: null,
 
         hintText: AppStrings.search,
-        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColors.gray),
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        hintStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColors.gray,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 15,
+        ),
         fillColor: Theme.of(context).inputDecorationTheme.fillColor,
         filled: false,
         border: OutlineInputBorder(
@@ -95,25 +102,23 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
         ),
         suffixIcon: isloading
             ? Container(
-          width: 22,
-          alignment: Alignment.center,
-          child: const SizedBox(
-            height: 22,
-            width: 22,
-            child: CircularProgressIndicator.adaptive(
-              strokeWidth: 2,
-            ),
-          ),
-        )
+                width: 22,
+                alignment: Alignment.center,
+                child: const SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: CircularProgressIndicator.adaptive(strokeWidth: 2),
+                ),
+              )
             : widget.searchCtrl.text.isNotEmpty
             ? InkWell(
-          borderRadius: BorderRadius.circular(14),
-          onTap: clear,
-          child: Icon(
-            Icons.clear,
-            color: Theme.of(context).appBarTheme.iconTheme!.color,
-          ),
-        )
+                borderRadius: BorderRadius.circular(14),
+                onTap: clear,
+                child: Icon(
+                  Icons.clear,
+                  color: Theme.of(context).appBarTheme.iconTheme!.color,
+                ),
+              )
             : null,
       ),
     );

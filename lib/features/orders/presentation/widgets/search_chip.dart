@@ -45,7 +45,6 @@ class SearchChip extends StatelessWidget {
                 color: AppColors.accent,
               ),
             ),
-
           ],
         ),
       ),

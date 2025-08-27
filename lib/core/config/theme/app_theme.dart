@@ -24,20 +24,34 @@ class AppTheme {
           fontWeight: FontWeight.w700,
         ),
       ),
-      textTheme: const TextTheme(
+      textTheme: const TextTheme(//filter
+        titleLarge: TextStyle(
+          color: AppColors.accent,
+          fontSize: 22,
+        ),
+        titleMedium: TextStyle(//Последние заказы
+          color: AppColors.accent,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        titleSmall: TextStyle(//Название заказа
+          color: AppColors.darkBlue,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
         bodyLarge: TextStyle(
-          color: AppColors.black,
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
+          color: AppColors.darkBlue,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
         bodyMedium: TextStyle(
-          fontSize: 16,
+          fontSize: 12,
           fontWeight: FontWeight.w400,
           color: AppColors.black,
         ),
         bodySmall: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontSize: 10,
+          fontWeight: FontWeight.w400,
           color: AppColors.black,
         ),
       ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
@@ -252,17 +250,9 @@ class _SignInPageState extends State<SignInPage> {
                       ],
                     ),
                     SizedBox(height: 35),
-                    // MainButton(
-                    //   buttonTile: AppStrings.login,
-                    //   onPressed: () {
-                    //     context.go(AppRoutes.mainPage);
-                    //   },
-                    //   isLoading: false,
-                    //   hasIcon: true,
-                    // ),
+
                     BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {
-                        log(state.toString(), name: 'state');
                         if (state is Authenticated) {
                           toastification.show(
                             context: context,

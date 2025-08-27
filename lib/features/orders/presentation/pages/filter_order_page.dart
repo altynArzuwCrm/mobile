@@ -14,19 +14,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class FilterOrderWidget extends StatefulWidget {
-  const FilterOrderWidget({super.key, required this.selectedStatus});
+  const FilterOrderWidget({
+    super.key,
+    required this.selectedStatus,
+    required this.initialSortOrder,
+  });
 
   final String? selectedStatus;
+  final String initialSortOrder;
 
   @override
   State<FilterOrderWidget> createState() => _FilterOrderWidgetState();
 }
 
 class _FilterOrderWidgetState extends State<FilterOrderWidget> {
-  String sortOrder = "asc";
+  late String sortOrder;
+
   final ordersCubit = locator<OrdersCubit>();
 
-  String? selectedCategory;
+  @override
+  void initState() {
+    super.initState();
+    sortOrder = widget.initialSortOrder;
+  }
 
   @override
   void dispose() {
@@ -73,10 +83,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
                         title: "Все",
                         isSelected: ordersCubit.isStageSelected == 0,
                         onTap: () {
-                          setState(() {
-                          //   isStageSelected = 0;
-                          //   selectedStage = null;
-                          });
+                          setState(() {});
                           ordersCubit.setStage(index: 0, stage: null);
                         },
                       ),
@@ -92,10 +99,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
                               stage: item.name,
                             );
 
-                            setState(() {
-                            //   isStageSelected = index;
-                            //   selectedStage = item.name;
-                            });
+                            setState(() {});
                           },
                         );
                       }),
@@ -114,12 +118,6 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
-                // log('${widget.selectedStatus}\n ${OrderParams(
-                //   // page: _currentPage,
-                //   stage: selectedStage,
-                //   status: widget.selectedStatus,
-                // ).toString()}');
-
                 ordersCubit.getAllOrders(
                   OrderParams(
                     sortOrder: sortOrder,
@@ -128,7 +126,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
                     page: 1,
                   ),
                 );
-                context.pop();
+                context.pop(sortOrder);
               },
               isLoading: false,
             ),

@@ -14,7 +14,8 @@ class CompanyList extends StatefulWidget {
   State<CompanyList> createState() => _CompanyListState();
 }
 
-class _CompanyListState extends State<CompanyList>  with AutomaticKeepAliveClientMixin{
+class _CompanyListState extends State<CompanyList>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);

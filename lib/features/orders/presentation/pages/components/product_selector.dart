@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductSelector extends StatelessWidget {
-  const ProductSelector({
-    super.key,
-    required this.onSelectProduct,
-  });
+  const ProductSelector({super.key, required this.onSelectProduct});
 
   final ValueChanged onSelectProduct;
-
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +19,6 @@ class ProductSelector extends StatelessWidget {
               : state is ProductsError
               ? "Failed to load"
               : "Select product",
-          //  filled: true,
-          //    fillColor: AppColors.white,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -70,9 +64,7 @@ class ProductSelector extends StatelessWidget {
             suggestions: state.data.map((c) => c.name).toList(),
             initialValue: '',
             onChanged: (value) {
-              final matches = state.data
-                  .where((c) => c.name == value)
-                  .toList();
+              final matches = state.data.where((c) => c.name == value).toList();
               if (matches.isNotEmpty) {
                 final product = matches.first;
                 onSelectProduct(product.id.toString());

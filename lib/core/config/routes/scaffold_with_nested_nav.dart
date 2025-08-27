@@ -6,10 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'bottom_nav_bar_widget.dart';
 
 class ScaffoldWithNestedNavigation extends StatefulWidget {
-  const ScaffoldWithNestedNavigation({
-    Key? key,
-    required this.navigationShell,
-  }) : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
+  const ScaffoldWithNestedNavigation({Key? key, required this.navigationShell})
+    : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
   final StatefulNavigationShell navigationShell;
 
   @override
@@ -56,9 +54,7 @@ class _ScaffoldWithNestedNavigationState
         ),
       ),
     );
-
   }
-
 
   Widget buildBottomWidget() {
     return BottomNavBar(
@@ -68,5 +64,4 @@ class _ScaffoldWithNestedNavigationState
       items: items,
     );
   }
-
 }

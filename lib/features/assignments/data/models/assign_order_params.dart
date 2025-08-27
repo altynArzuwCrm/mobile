@@ -3,7 +3,7 @@ class AssignOrderParams {
   final String role;
   final int? stageId;
 
-  AssignOrderParams( {required this.userId, required this.role,this.stageId,});
+  AssignOrderParams({required this.userId, required this.role, this.stageId});
 
   Map<String, dynamic> toQueryParameters() {
     final Map<String, dynamic> params = {};

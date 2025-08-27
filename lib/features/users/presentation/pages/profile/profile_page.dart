@@ -1,10 +1,12 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
-import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/settings/presentation/widgets/profile_item_widget.dart';
+import 'package:crm/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
+import 'package:crm/features/users/presentation/widgets/profile_widget.dart';
+import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,11 +26,27 @@ class ProfilePage extends StatelessWidget {
               if (state is UserLoaded) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: AppBarIcon(
-                    onTap: () {
-                      context.push(AppRoutes.editProfile,extra: {"user": state.data});
-                    },
-                    icon: IconAssets.edit,
+                  child: Row(
+                    children: [
+                      AppBarIcon(
+                        onTap: () {
+                          context.push(
+                            AppRoutes.editProfile,
+                            extra: {"user": state.data},
+                          );
+                        },
+                        icon: IconAssets.edit,
+                        padding: EdgeInsets.all(10),
+                      ),
+                      AppBarIcon(
+                        onTap:(){
+                          _logout(context);
+                        },
+                        icon: IconAssets.logout,
+
+                        padding: EdgeInsets.all(10),
+                      ),
+                    ],
                   ),
                 );
               } else {
@@ -62,55 +80,79 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-}
 
-class UserProfileWidget extends StatelessWidget {
-  const UserProfileWidget({
-    super.key,
-    required this.name,
-    required this.phone,
-    required this.jobs,
-  });
-
-  final String name;
-  final String? phone;
-  final List<String> jobs;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppStrings.general,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: AppColors.darkBlue,
-            ),
+  _logout(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
-          SizedBox(height: 15),
-          ProfileItemWidget(title: AppStrings.name, name: name),
-          if(phone != null)
-          SizedBox(height: 20),
-          if(phone != null)
-          ProfileItemWidget(title: AppStrings.number, name: phone??''),
-          SizedBox(height: 20),
-          Column(
-            children: List.generate(
-              jobs.length,
-              (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ProfileItemWidget(
-                  title: AppStrings.position,
-                  name: jobs[index],
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 24,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white, // or AppColors.background
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Confirm Logout",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 12),
+                const Text(
+                  "Are you sure you want to log out?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                const SizedBox(height: 24),
+
+                // Cancel + Logout buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: MainButton(
+                        buttonTile: "Cancel",
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        isLoading: false,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: MainButton(
+                        buttonTile: "Logout",
+                        onPressed: () {
+                          locator<AuthBloc>().add(
+                            LogOutEvent(),
+                          );
+                          context.go(AppRoutes.splash);
+                        },
+                        isLoading: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
+

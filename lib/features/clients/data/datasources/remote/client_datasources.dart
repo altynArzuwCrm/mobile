@@ -1,4 +1,3 @@
-
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/network/api_provider.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
@@ -24,6 +23,7 @@ abstract class ClientRemoteDataSource {
   Future<bool> deleteClientContact(int id);
 
   Future<List<String>> getCompanies();
+
   Future<List<ClientModel>> getCompanyDetails(String title);
 }
 
@@ -61,13 +61,7 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
       endPoint: ApiEndpoints.clients,
       data: params.toQueryParameters(),
     );
-    // if (response.statusCode == 201) {
-    //   final clients = await getAllClients(UserParams());
-    //
-    //   return clients;
-    // } else {
-    //   return [];
-    // }
+
     final result = response.data["data"];
     return ClientModel.fromJson(result);
   }
@@ -156,11 +150,6 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
     final response = await apiProvider.get(
       endPoint: '${ApiEndpoints.clients}/company/$title',
     );
-    // final result = response.data[0];
-    // return ClientModel.fromJson(result);
-
-
-
 
     final responseBody = response.data as List;
 
@@ -168,5 +157,4 @@ class ClientRemoteDataSourceImpl implements ClientRemoteDataSource {
 
     return result;
   }
-
 }

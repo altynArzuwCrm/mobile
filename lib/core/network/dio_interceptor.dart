@@ -1,7 +1,5 @@
-
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/config/routes/widget_keys_str.dart';
-import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:crm/core/local/token_store.dart';
 import 'package:crm/locator.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +13,9 @@ class TokenInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     String? token = await locator<Store>().getToken();
 
     if (token != null) {
@@ -46,6 +46,7 @@ class TokenInterceptor extends Interceptor {
     }
     super.onError(err, handler);
   }
+
   // @override
   // void onError(DioException err, ErrorInterceptorHandler handler) async {
   //   if (err.response?.statusCode == 401) {

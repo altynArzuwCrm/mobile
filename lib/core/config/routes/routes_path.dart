@@ -1,20 +1,15 @@
 abstract final class AppRoutes {
-
   static const String splash = '/splash';
-  // static const String authGate = '/authGate';
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
   static const String changePassword = '/changePassword';
   static const String newPassword = '/newPassword';
   static const String confirmPassword = '/confirmPassword';
 
-
-
   static const String orderPage = '/orderPage';
   static const String statisticsPage = '/statisticsPage';
   static const String settingsPage = '/settingsPage';
   static const String userOrderPage = '/userOrderPage';
-
 
   static const String orderDetails = '/details';
   static const String profile = '/profile';
@@ -43,5 +38,4 @@ abstract final class AppRoutes {
   static const String searchUsers = '/searchUsers';
   static const String searchOrders = '/searchOrders';
   static const String searchProdcuts = '/searchProdcuts';
-
 }

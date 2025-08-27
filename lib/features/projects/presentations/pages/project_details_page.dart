@@ -69,9 +69,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                     context.push(
                       AppRoutes.editProject,
                       extra: {"project": state.data,
-                      //
-                      // "stageId":state.data.s,
-                      // "clientId":''
+
                       },
                     );
                   }
@@ -109,8 +107,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                                 ),
                                 SizedBox(height: 20),
 
-                                // ProjectWidget(title: data.title),
-                                // SizedBox(height: 20),
                                 Text(
                                   AppStrings.orders,
                                   style: TextStyle(

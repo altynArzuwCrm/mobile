@@ -49,7 +49,6 @@ class _ProductsPageState extends State<ProductsPage> {
     productsCubit.getAllProducts(
       ProductParams(page: _currentPage, sortProduct: sortOrder),
     );
-    _refreshController.refreshCompleted();
   }
 
   void _onLoad() async {
@@ -58,7 +57,6 @@ class _ProductsPageState extends State<ProductsPage> {
       await productsCubit.getAllProducts(
         ProductParams(page: _currentPage, sortProduct: sortOrder),
       );
-      _refreshController.loadComplete();
     } else {
       _refreshController.loadNoData();
     }
@@ -75,7 +73,6 @@ class _ProductsPageState extends State<ProductsPage> {
             sortOrder: sortOrder,
             isIconOnly: true,
             onChanged: (val) {
-              setState(() => sortOrder = val);
               debugPrint("Sort order: $sortOrder");
 
               setState(() {
@@ -102,7 +99,21 @@ class _ProductsPageState extends State<ProductsPage> {
       ),
       body: BlocProvider.value(
         value: productsCubit,
-        child: BlocBuilder<ProductsCubit, ProductsState>(
+        child: BlocConsumer<ProductsCubit, ProductsState>(
+          listener: (context, state) {
+            // Finish indicators AFTER data state arrives
+            if (state is ProductsLoaded) {
+              _refreshController.refreshCompleted();
+              if (productsCubit.canLoad) {
+                _refreshController.loadComplete();
+              } else {
+                _refreshController.loadNoData();
+              }
+            } else if (state is ProductsConnectionError) {
+              _refreshController.refreshFailed();
+              _refreshController.loadFailed();
+            }
+          },
           builder: (context, state) {
             if (state is ProductsLoading) {
               return Center(child: CircularProgressIndicator());
@@ -114,7 +125,6 @@ class _ProductsPageState extends State<ProductsPage> {
                     controller: _refreshController,
                     enablePullDown: true,
                     enablePullUp: productsCubit.canLoad,
-                    header: const WaterDropHeader(),
                     footer: const KFooter(),
                     onRefresh: _onRefresh,
                     onLoading: _onLoad,

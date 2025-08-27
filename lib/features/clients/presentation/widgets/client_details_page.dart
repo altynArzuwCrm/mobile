@@ -43,8 +43,8 @@ class ClientDetailsWidget extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: ProfileItemWidget(
-                title: contact.type ,
-                name: contact.value ,
+                title: contact.type,
+                name: contact.value,
               ),
             );
           }),

@@ -6,12 +6,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/local/app_prefs.dart';
 import 'core/local/token_store.dart';
 import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
-import 'core/network/internet_bloc/internet_bloc.dart';
 import 'core/network/network.dart';
 import 'core/utils/fcm/get_fcm_token.dart';
 import 'features/auth/data/datasources/remote/auth_remote_datasource.dart';
@@ -89,7 +87,7 @@ Future<void> initLocator() async {
 
   locator.registerFactory<ApiProvider>(() => ApiProviderImpl());
 
-  locator.registerSingleton<InternetBloc>(InternetBloc(internetChecker));
+  //locator.registerSingleton<InternetBloc>(InternetBloc(internetChecker));
 
   final sharedPrefs = await SharedPreferences.getInstance();
 
@@ -180,9 +178,6 @@ Future<void> initLocator() async {
     () => StatisticsRepository(locator(), locator()),
   );
 
-  // locator.registerLazySingleton<AssignmentRepository>(
-  //   () => AssignmentRepository(locator(), locator()),
-  // );
 
   ///usecase
 

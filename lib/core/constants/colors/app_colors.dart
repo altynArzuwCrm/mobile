@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class AppColors {
   static const Color primary = Color(0xff3D70DF);
-  static const Color bgColor =  Color(0xffF4F9FD);
-
+  static const Color bgColor = Color(0xffF4F9FD);
 
   static const Color black = Color(0xff17171A);
   static const Color darkGray = Color(0xff333333);
@@ -13,7 +12,6 @@ abstract class AppColors {
 
   static const Color orange = Colors.orange;
   static const Color white = Colors.white;
-
 
   static const Color accent = Color(0xff172343);
   static const Color red = Color(0xffFF3B30);
@@ -32,12 +30,4 @@ abstract class AppColors {
   static const Color tabBarColor = Color(0xffE6EDF5);
   static const Color chartTextColor = Color(0xff615E83);
   static const Color chartLineColor = Color(0xffE5E5EF);
-
-
-
-
 }
-
-
-
-

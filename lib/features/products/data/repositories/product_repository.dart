@@ -89,10 +89,9 @@ class ProductRepository {
     }
   }
 
-
   Future<Either<Failure, List<ProductModel>>> getProductStages(
-      ProductParams params,
-      ) async {
+    ProductParams params,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
@@ -153,7 +152,9 @@ class ProductRepository {
     }
   }
 
-  Future<Either<Failure, bool>> updateProductAssignment(ProductParams params) async {
+  Future<Either<Failure, bool>> updateProductAssignment(
+    ProductParams params,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
@@ -167,7 +168,9 @@ class ProductRepository {
     }
   }
 
-  Future<Either<Failure, bool>> deleteProductAssignment(ProductParams params) async {
+  Future<Either<Failure, bool>> deleteProductAssignment(
+    ProductParams params,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
@@ -180,7 +183,6 @@ class ProductRepository {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
   }
-
 
   Future<Either<Failure, bool>> bulkAssignProduct(ProductParams params) async {
     final bool isConnected = await networkInfo.isConnected;
@@ -196,12 +198,15 @@ class ProductRepository {
     }
   }
 
-
-  Future<Either<Failure, List<ProductModel>>> getAvailableUsersForProduct(ProductParams params) async {
+  Future<Either<Failure, List<ProductModel>>> getAvailableUsersForProduct(
+    ProductParams params,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.getAvailableUsersForProduct(params);
+        final response = await remoteDataSource.getAvailableUsersForProduct(
+          params,
+        );
         return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));
@@ -210,6 +215,4 @@ class ProductRepository {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
   }
-
-
 }

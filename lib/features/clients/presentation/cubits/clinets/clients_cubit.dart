@@ -27,8 +27,6 @@ class ClientsCubit extends Cubit<ClientsState> {
   List<ClientEntity> _clients = [];
   bool canLoad = true;
 
-  // String?  selectedClientId ;
-
   Future<void> getAllClients(UserParams params) async {
     final bool hasInternet = await _networkInfo.isConnected;
 
@@ -61,7 +59,8 @@ class ClientsCubit extends Cubit<ClientsState> {
         }
         canLoad = data.isNotEmpty;
 
-        emit(ClientsLoaded(List.from(_clients)));      },
+        emit(ClientsLoaded(List.from(_clients)));
+      },
     );
   }
 
@@ -87,25 +86,8 @@ class ClientsCubit extends Cubit<ClientsState> {
     final result = await _createClientUseCase.execute(params);
 
     result.fold((error) {}, (data) {
-      // if (data.isNotEmpty) {
-
       _clients.insert(0, data);
       emit(ClientsLoaded(List.from(_clients)));
-
-      // }
     });
   }
-
-  // void selectClient(String? clientId) {
-  //   // if (state is ClientsLoaded) {
-  //   //   final current = state as ClientsLoaded;
-  //   //   emit(current.copyWith(selectedClient: clientId));
-  //   // }
-  //   // emit(ClientsLoaded(_clients));
-  //   selectedClientId = clientId;
-  // }
-  // void clearSelection() {
-  //   selectedClientId = null;
-  // //  emit(ClientsLoaded(_clients));
-  // }
 }

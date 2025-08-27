@@ -20,6 +20,7 @@ class OrderModel {
   final Project? project;
   final Product? product;
   final ClientModel? client;
+
   // final StageModel? stage;
   final StageModel? stage;
 
@@ -54,19 +55,23 @@ class OrderModel {
     deadline: json["deadline"] != null
         ? formatDate(DateTime.parse(json["deadline"]))
         : '',
-    price: json["price"] != null ? json["price"].toString() : null,
+    price: json["price"]?.toString(),
     reason: json["reason"],
     reasonStatus: json["reason_status"],
     archivedAt: json["archived_at"],
     isArchived: json["is_archived"],
-    createdAt:json["deadline"] != null
+    createdAt: json["deadline"] != null
         ? formatDate(DateTime.parse(json["created_at"]))
         : '',
     updatedAt: DateTime.parse(json["updated_at"]),
-    project: json["project"] !=  null ? Project.fromJson(json["project"]) : null,
-    product:json["product"] != null ? Product.fromJson(json["product"]) : null,
-    client: json["client"] != null ? ClientModel.fromJson(json["client"]) : null,
-    stage: json["stage"] != null && json["stage"] is! String ? StageModel.fromJson(json["stage"]) : null,
+    project: json["project"] != null ? Project.fromJson(json["project"]) : null,
+    product: json["product"] != null ? Product.fromJson(json["product"]) : null,
+    client: json["client"] != null
+        ? ClientModel.fromJson(json["client"])
+        : null,
+    stage: json["stage"] != null && json["stage"] is! String
+        ? StageModel.fromJson(json["stage"])
+        : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -94,20 +99,12 @@ class OrderModel {
 class Product {
   final int id;
   final String name;
-  // final int? hasDesignStage;
-  // final int? hasPrintStage;
-  // final int hasWorkshopStage;
-  // final int hasEngravingStage;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   Product({
     required this.id,
     required this.name,
-    // required this.hasDesignStage,
-    // required this.hasPrintStage,
-    // required this.hasWorkshopStage,
-    // required this.hasEngravingStage,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -115,10 +112,6 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     name: json["name"],
-    // hasDesignStage: json["has_design_stage"] ?? null,
-    // hasPrintStage: json["has_print_stage"]?? null,
-    // hasWorkshopStage: json["has_workshop_stage"],
-    // hasEngravingStage: json["has_engraving_stage"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -126,10 +119,6 @@ class Product {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    // "has_design_stage": hasDesignStage,
-    // "has_print_stage": hasPrintStage,
-    // "has_workshop_stage": hasWorkshopStage,
-    // "has_engraving_stage": hasEngravingStage,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
@@ -157,10 +146,16 @@ class Project {
   factory Project.fromJson(Map<String, dynamic> json) => Project(
     id: json["id"],
     title: json["title"],
-    deadline:json["deadline"] != null ? DateTime.parse(json["deadline"]) : null,
+    deadline: json["deadline"] != null
+        ? DateTime.parse(json["deadline"])
+        : null,
     totalPrice: json["totalPrice"] != null ? json["totalPrice"].toString() : '',
-    paymentAmount: json["payment_amount"] != null ? json["payment_amount"].toString() : '',
-    createdAt: json["created_at"] != null ? formatDateTime(DateTime.parse(json["created_at"])): '',
+    paymentAmount: json["payment_amount"] != null
+        ? json["payment_amount"].toString()
+        : '',
+    createdAt: json["created_at"] != null
+        ? formatDateTime(DateTime.parse(json["created_at"]))
+        : '',
 
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -175,4 +170,3 @@ class Project {
     "updated_at": updatedAt.toIso8601String(),
   };
 }
-

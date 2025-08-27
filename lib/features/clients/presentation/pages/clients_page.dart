@@ -86,7 +86,10 @@ class _ContactsPageState extends State<ContactsPage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [ContactsList(sortOrder:sortOrder), CompanyList()],
+        children: [
+          ContactsList(sortOrder: sortOrder),
+          CompanyList(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddUser,
@@ -94,16 +97,6 @@ class _ContactsPageState extends State<ContactsPage>
       ),
     );
   }
-
-  // void _openSort() {
-  //   showDialog(
-  //     context: context,
-  //     barrierColor: Colors.transparent,
-  //     builder: (context) {
-  //       return ClientFilterWidget();
-  //     },
-  //   );
-  // }
 
   void _openAddUser() {
     showDialog(

@@ -43,7 +43,6 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
       height: 50,
       textStyle: const TextStyle(fontSize: 14, color: AppColors.white),
       decoration: BoxDecoration(
-        // color: AppColors.formBG,
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.white),
       ),

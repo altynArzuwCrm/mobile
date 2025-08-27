@@ -77,7 +77,6 @@ class _EditProjectPageState extends State<EditProjectPage> {
     _priceCtrl.clear();
     selectedClientId = null;
     selectedStageId = null;
-    // clientsCubit.selectClient(null);
   }
 
   void _onSubmit() {
@@ -172,11 +171,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                         BlocBuilder<StageCubit, StageState>(
                           builder: (context, state) {
                             if (state is StageLoaded) {
-                              // final stageName = state.data
-                              //     .firstWhere(
-                              //       (c) => c.id == int.parse(selectedStageId!),
-                              // )
-                              //     .name;
+
 
                               return CustomDropdownField(
                                 value: state.selectedCategory,
@@ -232,14 +227,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                           value: locator<ClientsCubit>(),
                           child: BlocBuilder<ClientsCubit, ClientsState>(
                             builder: (context, state) {
-                              // String? clientName;
-                              // if (state is ClientsLoaded) {
-                              //   clientName = state.data
-                              //       .firstWhere(
-                              //           (c) =>
-                              //       c.id == int.parse(selectedClientId!))
-                              //       .name;
-                              // }
+
 
                               final inputDecoration = InputDecoration(
 

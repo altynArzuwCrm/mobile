@@ -22,14 +22,13 @@ class ClientRepositoryImpl implements ClientRepository {
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
-      final response = await remoteDataSource.createClient(params);
-      // final result = response.map((e) => e.toEntity()).toList();
+      try {
+        final response = await remoteDataSource.createClient(params);
 
-      return Right(response.toEntity());
-      // } catch (error) {
-      //   return  Left(ServerFailure('[Server]: $error'));
-      // }
+        return Right(response.toEntity());
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -124,13 +123,13 @@ class ClientRepositoryImpl implements ClientRepository {
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
-      final response = await remoteDataSource.getAllClients(params);
-      final result = response.map((e) => e.toEntity()).toList();
-      return Right(result);
-      // } catch (error) {
-      //   return  Left(ServerFailure('[Server]: $error'));
-      // }
+      try {
+        final response = await remoteDataSource.getAllClients(params);
+        final result = response.map((e) => e.toEntity()).toList();
+        return Right(result);
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
@@ -167,17 +166,19 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<Either<Failure, List<ClientEntity>>> getCompanyDetails(String title) async {
+  Future<Either<Failure, List<ClientEntity>>> getCompanyDetails(
+    String title,
+  ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.getCompanyDetails(title);
         final result = response.map((e) => e.toEntity()).toList();
 
         return Right(result);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

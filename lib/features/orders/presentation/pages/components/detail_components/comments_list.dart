@@ -34,25 +34,25 @@ class CommentsList extends StatelessWidget {
             }
 
             return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: data.length,
-                    (BuildContext context, int index) {
-                  final item = data[index];
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 8, 0),
-                    child: CommentCard(
-                      showTime: index == 0,
-                      model: item,
-                      onDelete: () {
-                        locator<CommentCubit>().deleteOrderComment(
-                          item.id,
-                          item.orderId,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
+              delegate: SliverChildBuilderDelegate(childCount: data.length, (
+                BuildContext context,
+                int index,
+              ) {
+                final item = data[index];
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 8, 0),
+                  child: CommentCard(
+                    showTime: index == 0,
+                    model: item,
+                    onDelete: () {
+                      locator<CommentCubit>().deleteOrderComment(
+                        item.id,
+                        item.orderId,
+                      );
+                    },
+                  ),
+                );
+              }),
             );
           } else if (state is CommentConnectionError) {
             return const SliverToBoxAdapter(
@@ -74,54 +74,3 @@ class CommentsList extends StatelessWidget {
     );
   }
 }
-
-// class CommentsList extends StatelessWidget {
-//   const CommentsList({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider.value(
-//       value: locator<CommentCubit>(),
-//       child: BlocBuilder<CommentCubit, CommentState>(
-//         builder: (context, state) {
-//           if (state is CommentLoading) {
-//             return SliverToBoxAdapter(
-//               child: Center(child: CircularProgressIndicator()),
-//             );
-//           } else if (state is CommentLoaded) {
-//             final data = state.data;
-//             return SliverList(
-//               delegate: SliverChildBuilderDelegate(childCount: data.length, (
-//                 BuildContext context,
-//                 int index,
-//               ) {
-//                 final item = data[index];
-//                 return Padding(
-//                   padding: const EdgeInsets.fromLTRB(15, 15, 8, 0),
-//                   child: CommentCard(
-//                     showTime: index == 0,
-//                     model: item,
-//                     onDelete: () {
-//                       locator<CommentCubit>().deleteOrderComment(
-//                         item.id,
-//                         item.orderId,
-//                       );
-//                     },
-//                   ),
-//                 );
-//               }),
-//             );
-//           } else if (state is CommentConnectionError) {
-//             return SliverToBoxAdapter(
-//               child: Center(child: Text(AppStrings.noInternet)),
-//             );
-//           } else {
-//             return SliverToBoxAdapter(
-//               child: Center(child: Text(AppStrings.error)),
-//             );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }

@@ -1,6 +1,5 @@
 part of 'notification_cubit.dart';
 
-@immutable
 sealed class NotificationState {}
 
 final class NotificationLoading extends NotificationState {}

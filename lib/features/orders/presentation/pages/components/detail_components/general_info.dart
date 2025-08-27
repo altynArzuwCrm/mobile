@@ -49,7 +49,6 @@ class GeneralInfo extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    // PersonImgWithTitleWidget(image: img, name: name ?? ''),
                     Text(
                       name ?? '',
                       style: TextStyle(
@@ -61,7 +60,7 @@ class GeneralInfo extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: 10),
               Expanded(
                 flex: 4,
                 child: Column(

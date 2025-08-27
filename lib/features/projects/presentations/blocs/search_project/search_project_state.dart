@@ -1,6 +1,5 @@
 part of 'search_project_cubit.dart';
 
-@immutable
 sealed class SearchProjectState {}
 
 final class SearchProjectInitial extends SearchProjectState {}

@@ -16,7 +16,8 @@ class SingleOrderItem extends StatelessWidget {
     required this.onSelectDate,
     required this.priceCtrl,
     required this.countCtrl,
-    required this.onSelectProduct, required this.formKey,
+    required this.onSelectProduct,
+    required this.formKey,
   });
 
   final TextEditingController priceCtrl;
@@ -24,7 +25,6 @@ class SingleOrderItem extends StatelessWidget {
   final ValueChanged onSelectDate;
   final ValueChanged onSelectProduct;
   final GlobalKey<FormState> formKey;
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +94,8 @@ class SingleOrderItem extends StatelessWidget {
                             .toList();
                         if (matches.isNotEmpty) {
                           final client = matches.first;
-                          //  clientsCubit.selectClient(client.id.toString());
-                          // selectedProductId = client.id.toString();
                           onSelectProduct(client.id.toString());
                         } else {
-                          // selectedProductId = null;
                           onSelectProduct(null);
                         }
                       },
@@ -184,10 +181,6 @@ class SingleOrderItem extends StatelessWidget {
               dateFormat: 'dd MMMM yyyy, HH:mm',
               //  locale: const Locale('ru'),
               onDateSelected: onSelectDate,
-              //     (date) {
-              //   debugPrint('Selected: $date');
-              //   item.deadline = date;
-              // },
             ),
           ),
         ],

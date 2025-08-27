@@ -78,10 +78,8 @@ class ClientCard extends StatelessWidget {
             maxLines: 1,
           ),
           SizedBox(height: 14),
-          if(data.contacts != null)
-          ...List.generate(
-            data.contacts?.length ?? 0,
-                (index) {
+          if (data.contacts != null)
+            ...List.generate(data.contacts?.length ?? 0, (index) {
               final contact = data.contacts?[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 14),
@@ -112,18 +110,11 @@ class ClientCard extends StatelessWidget {
                   ],
                 ),
               );
-            },
-          ),
-
-
-
+            }),
 
           SizedBox(height: 14),
           InkWell(
             onTap: onTap,
-            //     (){
-            //   context.push(AppRoutes.contactDetails);
-            // },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,

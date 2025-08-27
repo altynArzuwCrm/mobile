@@ -9,6 +9,7 @@ class AppBarIcon extends StatelessWidget {
     this.iconHeight,
     this.iconWidth,
     this.color,
+    this.padding,
   });
 
   final String icon;
@@ -16,6 +17,7 @@ class AppBarIcon extends StatelessWidget {
   final double? iconHeight;
   final double? iconWidth;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class AppBarIcon extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding:padding ?? const EdgeInsets.symmetric(horizontal: 8.0),
         child: SvgPicture.asset(
           icon,
           height: iconHeight ?? 24,

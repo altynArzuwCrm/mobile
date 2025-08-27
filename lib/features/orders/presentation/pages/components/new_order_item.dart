@@ -12,13 +12,13 @@ class NewOrderItem extends StatelessWidget {
   const NewOrderItem({
     super.key,
     required this.item,
-    required this.onRemove, required this.formKey,
+    required this.onRemove,
+    required this.formKey,
   });
 
   final OrderItemModel item;
   final VoidCallback onRemove;
   final GlobalKey<FormState> formKey;
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,55 +34,6 @@ class NewOrderItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ///3 product
-            // TextFieldTitle(
-            //   title: AppStrings.product,
-            //   child: KTextField(
-            //     controller: item.productCtrl,
-            //     // _productCtrl,
-            //     isSubmitted: false,
-            //     hintText: '',
-            //     hintStyle: TextStyle(
-            //       color: AppColors.gray,
-            //       fontSize: 14,
-            //       fontWeight: FontWeight.w400,
-            //     ),
-            //     style: TextStyle(
-            //       color: AppColors.black,
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.w400,
-            //     ),
-            //     borderColor: AppColors.timeBorder,
-            //   ),
-            // ),
-            // TextFieldTitle(
-            //   title: AppStrings.product,
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: ProductSelector(
-            //           onSelectProduct: (value) {
-            //             item.selectedProductId = value;
-            //             debugPrint('Selected selectedProductId: $value');
-            //
-            //           },
-            //
-            //         ),
-            //       ),
-            //       Container(
-            //         alignment: Alignment.center,
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(14),
-            //           color: AppColors.bgColor,
-            //         ),
-            //         child: IconButton(
-            //           onPressed: onAddProduct,
-            //           icon: Icon(Icons.add),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             TextFieldTitle(
               title: AppStrings.product,
               child: ProductSelector(
@@ -98,7 +49,6 @@ class NewOrderItem extends StatelessWidget {
               title: AppStrings.count,
               child: KTextField(
                 controller: item.countCtrl,
-                //_countCtrl,
                 isSubmitted: false,
                 hintText: '',
                 keyboardType: TextInputType.number,
@@ -123,7 +73,6 @@ class NewOrderItem extends StatelessWidget {
               title: AppStrings.sum,
               child: KTextField(
                 controller: item.priceCtrl,
-                //_priceCtrl,
                 isSubmitted: false,
                 hintText: '',
                 keyboardType: TextInputType.number,

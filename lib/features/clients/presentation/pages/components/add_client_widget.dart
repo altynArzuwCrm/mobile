@@ -5,7 +5,7 @@ import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
-import 'package:crm/features/clients/presentation/pages/edit_client_page.dart';
+import 'package:crm/features/clients/presentation/widgets/contact_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/bottom_sheet_title.dart';
 import 'package:crm/features/orders/presentation/widgets/dialog_widget.dart';
 import 'package:crm/locator.dart';
@@ -210,7 +210,7 @@ class _AddClientWidgetState extends State<AddClientWidget> {
                   id: null,
                 );
 
-                 locator<ClientsCubit>().createClient(newClient);
+                locator<ClientsCubit>().createClient(newClient);
 
                 context.pop();
               },

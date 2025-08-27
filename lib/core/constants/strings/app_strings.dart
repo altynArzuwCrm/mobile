@@ -2,8 +2,8 @@ class AppStrings {
   static const String appName = "Altyn Arzuw";
   static const String splashName = "Worky";
   static const String digital = "Digital & IT";
-  static const String error = "Something went wrong";
-  static const String noInternet = "No internet connection";
+  static const String error = "Что-то пошло не так, пожалуйста, попробуйте еще раз позже";
+  static const String noInternet = "Нет подключения к Интернету";
   static const String orders = "Заказы";
   static const String products = "Товары";
   static const String product = "Продукт";

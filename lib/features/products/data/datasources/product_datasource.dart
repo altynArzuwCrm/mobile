@@ -66,9 +66,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       endPoint: ApiEndpoints.products,
       data: params.toQueryParameters(),
     );
-    // final result = response.data['data'];
-    //
-    // return ProductModel.fromJson(result);
+
     if (response.statusCode == 201) {
       final result = await getAllProducts(ProductParams());
 

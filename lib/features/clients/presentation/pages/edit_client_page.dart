@@ -5,6 +5,7 @@ import 'package:crm/features/clients/domain/entities/client_entity.dart';
 import 'package:crm/features/clients/domain/usecases/create_client_usecase.dart';
 import 'package:crm/features/clients/presentation/cubits/client_details/client_details_cubit.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
+import 'package:crm/features/clients/presentation/widgets/contact_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
@@ -182,36 +183,6 @@ class _EditContactPageState extends State<EditContactPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ContactField {
-  final String type;
-  final TextEditingController controller;
-
-  ContactField({required this.type, required this.controller});
-}
-
-class ContactWidget extends StatelessWidget {
-  const ContactWidget({super.key, required this.contactField});
-
-  final ContactField contactField;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextFieldWithTitle(
-          controller: contactField.controller,
-          title: contactField.type,
-          hintText: '',
-          isPhone:
-              contactField.type == 'phone' || contactField.type == 'whatsapp',
-        ),
-        SizedBox(height: 20),
-      ],
     );
   }
 }

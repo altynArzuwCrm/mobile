@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:crm/features/products/data/models/product_model.dart';
 import 'package:crm/features/products/data/repositories/product_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'product_detail_state.dart';
 

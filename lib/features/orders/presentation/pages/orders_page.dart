@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
@@ -29,6 +27,7 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   int isStatusSelected = 0;
   String? selectedStatus;
+  String sortOrder = "asc";
 
   String? selectedStage;
   int _currentPage = 1;
@@ -59,8 +58,6 @@ class _OrdersPageState extends State<OrdersPage> {
     _currentPage = 1;
 
     ordersCubit.getAllOrders(OrderParams(page: _currentPage));
-
-    // _refreshController.refreshCompleted();
   }
 
   void _onLoad() async {
@@ -69,7 +66,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
       ordersCubit.getAllOrders(OrderParams(page: _currentPage));
     } else {
-      //  _refreshController.loadNoData();
+      _refreshController.loadNoData();
     }
   }
 
@@ -115,14 +112,7 @@ class _OrdersPageState extends State<OrdersPage> {
                               isStatusSelected = index;
                               selectedStatus = item.status;
                             });
-                            // log('$selectedStatus\n ${OrderParams(
-                            //   // page: _currentPage,
-                            //   stage: selectedStage,
-                            //   status: selectedStatus,
-                            // ).toString()}');
-                            // setState(() {
-                            //   _currentPage = 1;
-                            // });
+
                             ordersCubit.getAllOrders(
                               OrderParams(
                                 page: _currentPage,
@@ -161,7 +151,6 @@ class _OrdersPageState extends State<OrdersPage> {
                         controller: _refreshController,
                         enablePullDown: true,
                         enablePullUp: ordersCubit.canLoad,
-                        header: const WaterDropHeader(),
                         footer: const KFooter(),
                         onRefresh: _onRefresh,
                         onLoading: _onLoad,
@@ -230,13 +219,19 @@ class _OrdersPageState extends State<OrdersPage> {
     }
   }
 
-  void _openSort() {
-    showDialog(
+  void _openSort() async {
+    final result = await showDialog<String>(
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return FilterOrderWidget(selectedStatus: selectedStatus);
+        return FilterOrderWidget(selectedStatus: selectedStatus, initialSortOrder: sortOrder);
       },
     );
+
+    if (result != null) {
+      setState(() {
+        sortOrder = result;
+      });
+    }
   }
 }

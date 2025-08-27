@@ -8,10 +8,7 @@ class Store {
   final String _tokenKey = 'token';
 
   Future<void> setToken(String token) async {
-    await _secureStorage.write(
-      key: _tokenKey,
-      value: token,
-    );
+    await _secureStorage.write(key: _tokenKey, value: token);
   }
 
   Future<String?> getToken() async {

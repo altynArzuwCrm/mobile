@@ -1,16 +1,17 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
+import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/features/users/presentation/cubits/user_list/user_list_cubit.dart';
-import 'package:crm/features/users/presentation/pages/components/user_activity_list.dart';
-import 'package:crm/features/users/presentation/pages/components/user_list.dart';
+import 'package:crm/features/users/presentation/widgets/user_card.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -19,21 +20,46 @@ class UserPage extends StatefulWidget {
   State<UserPage> createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+//correct pagination
+
+class _UserPageState extends State<UserPage> {
   String sortOrder = "asc";
+
+  final UserListCubit _userListCubit = locator<UserListCubit>();
+  int _currentPage = 1;
+
+  final RefreshController _refreshController = RefreshController(
+    initialRefresh: false,
+  );
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _userListCubit.getAllUsers(UserParams());
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _refreshController.dispose();
     super.dispose();
+  }
+
+  void _onRefresh() async {
+    _currentPage = 1;
+    _userListCubit.getAllUsers(
+      UserParams(page: _currentPage, sortOrder: sortOrder),
+    );
+  }
+
+  void _onLoad() async {
+    if (_userListCubit.canLoad) {
+      _currentPage++;
+      _userListCubit.getAllUsers(
+        UserParams(page: _currentPage, sortOrder: sortOrder),
+      );
+    } else {
+      _refreshController.loadNoData();
+    }
   }
 
   @override
@@ -47,15 +73,16 @@ class _UserPageState extends State<UserPage>
             sortOrder: sortOrder,
             isIconOnly: true,
             onChanged: (val) {
-              setState(() => sortOrder = val);
-              debugPrint("Sort order: $sortOrder");
+              setState(() {
+                sortOrder = val;
+                _currentPage = 1;
+              });              debugPrint("Sort order: $sortOrder");
 
               locator<UserListCubit>().getAllUsers(
-                UserParams(page: 1, sortOrder: sortOrder),
+                UserParams(page:_currentPage , sortOrder: sortOrder),
               );
             },
           ),
-
           Padding(
             padding: const EdgeInsets.only(right: 18.0, left: 10),
             child: AppBarIcon(
@@ -66,24 +93,35 @@ class _UserPageState extends State<UserPage>
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50.0),
-          child: TabBarHeader(
-            tabController: _tabController,
-            tabs: [
-              Tab(child: Center(child: Text(AppStrings.members, maxLines: 1))),
-              Tab(child: Center(child: Text(AppStrings.activity, maxLines: 1))),
-            ],
-          ),
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          UserList(sortOrder: sortOrder),
-          UserActivityList(),
-        ],
+      body: BlocConsumer<UserListCubit, UserListState>(
+        listener: (context, state) {
+          // Finish indicators AFTER data state arrives
+          if (state is UserListLoaded) {
+            _refreshController.refreshCompleted();
+            if (_userListCubit.canLoad) {
+              _refreshController.loadComplete();
+            } else {
+              _refreshController.loadNoData();
+            }
+          } else if (state is UserListConnectionError) {
+            _refreshController.refreshFailed();
+            _refreshController.loadFailed();
+          }
+        },
+        builder: (context, state) {
+          return SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: _userListCubit.canLoad,
+            footer: const KFooter(),
+            onRefresh: _onRefresh,
+            onLoading: _onLoad,
+            child: _buildBody(state),
+          );
+        },
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.push(AppRoutes.addUser);
@@ -91,5 +129,36 @@ class _UserPageState extends State<UserPage>
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  Widget _buildBody(UserListState state) {
+    if (state is UserListLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else if (state is UserListLoaded) {
+      final data = state.data;
+      return ListView.separated(
+        itemCount: data.length,
+        padding: EdgeInsets.fromLTRB(25, 15, 25, 85),
+        itemBuilder: (context, index) {
+          final item = data[index];
+          return UserCard(
+            data: item,
+            onDelete: () {
+              locator<UserListCubit>().deleteUser(item.id);
+            },
+            onTap: () {
+              context.push(AppRoutes.userDetails, extra: {'user': item});
+            },
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 20);
+        },
+      );
+    } else if (state is UserListConnectionError) {
+      return Center(child: Text(AppStrings.noInternet));
+    } else {
+      return Center(child: Text(AppStrings.error));
+    }
   }
 }

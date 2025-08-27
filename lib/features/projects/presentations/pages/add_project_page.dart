@@ -35,14 +35,12 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
   @override
   void initState() {
     super.initState();
-    //  _resetForm();
   }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
     _descriptionCtrl.dispose();
-    // clientsCubit.selectClient(null);
     super.dispose();
   }
 
@@ -51,7 +49,6 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
     _descriptionCtrl.clear();
     selectedClientId = null;
     selectedStage = null;
-    // clientsCubit.selectClient(null);
   }
 
   void _onSubmit() {
@@ -162,7 +159,6 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                                       .toList();
                                   if (matches.isNotEmpty) {
                                     final client = matches.first;
-                                    //  clientsCubit.selectClient(client.id.toString());
                                     selectedClientId = client.id.toString();
                                   } else {
                                     selectedClientId = null;

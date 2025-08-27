@@ -1,11 +1,10 @@
-
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/users/domain/entities/user_entity.dart';
 import 'package:crm/features/users/presentation/cubits/user_details/user_details_cubit.dart';
-import 'package:crm/features/users/presentation/pages/profile/profile_page.dart' show UserProfileWidget;
+import 'package:crm/features/users/presentation/widgets/profile_widget.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +35,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.aboutUser),
         actions: [
-
           BlocBuilder<UserDetailsCubit, UserDetailsState>(
             builder: (context, state) {
               if (state is UserDetailsLoaded) {
@@ -44,8 +42,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBarIcon(
                     onTap: () {
-                      //todo client
-                      context.push(AppRoutes.editUserData,extra: {'user': state.data});
+                      context.push(
+                        AppRoutes.editUserData,
+                        extra: {'user': state.data},
+                      );
                     },
                     icon: IconAssets.edit,
                   ),
@@ -82,4 +82,3 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     );
   }
 }
-

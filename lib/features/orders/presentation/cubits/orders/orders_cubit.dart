@@ -44,7 +44,6 @@ class OrdersCubit extends Cubit<OrdersState> {
         }
       },
       (data) {
-        // emit(OrdersLoaded(data));
 
         if (params.page == 1) {
           _orders = data;

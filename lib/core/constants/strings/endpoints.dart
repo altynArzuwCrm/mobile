@@ -1,6 +1,4 @@
 class ApiEndpoints {
-
-
   static const baseUrl = 'http://192.168.31.138/api/';
   static const login = 'login';
   static const logout = 'logout';
@@ -21,16 +19,4 @@ class ApiEndpoints {
   static const userStats = 'stats/dashboard';
   static const recentActivity = 'recent-activity';
   static const activity = 'activity';
-
-
-
-
-
-
-
-
-
-
-
-
 }

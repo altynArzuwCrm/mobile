@@ -119,7 +119,7 @@ class UserOrderCard extends StatelessWidget {
                   SizedBox(height: 2),
 
                   Text(
-                    '1d 2h',
+                    '!!1d 2h',
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16,

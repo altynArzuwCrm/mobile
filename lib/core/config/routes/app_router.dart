@@ -99,13 +99,6 @@ final goRouter = GoRouter(
         return SplashScreen();
       },
     ),
-
-    // GoRoute(
-    //   path: AppRoutes.authGate,
-    //   builder: (context, state) {
-    //     return AuthGate();
-    //   },
-    // ),
     GoRoute(
       path: AppRoutes.signIn,
       builder: (context, state) {

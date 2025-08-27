@@ -31,7 +31,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   final _commentCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-
   @override
   void initState() {
     super.initState();
@@ -46,6 +45,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     _commentCtrl.clear();
     _commentCtrl.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,20 +55,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
           child: BlocBuilder<OrderDetailCubit, OrderDetailState>(
             builder: (context, state) {
               if (state is OrderDetailLoading) {
-                return Scaffold(appBar: AppBar(),
-                body: Center(child: CircularProgressIndicator()),);
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: CircularProgressIndicator()),
+                );
               } else if (state is OrderDetailLoaded) {
                 final data = state.data;
 
-                return  Stack(
+                return Stack(
                   children: [
                     CustomScrollView(
                       slivers: [
                         SliverList(
                           delegate: SliverChildListDelegate([
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(height: 10),
                                 DetailsAppbar(order: data),
@@ -80,7 +81,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       GeneralInfo(
                                         name: data.client?.name,
@@ -142,7 +143,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                         fillColor: AppColors.white,
                                         filled: true,
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
                                         focusColor: AppColors.primary,
                                         focusedBorder: OutlineInputBorder(
@@ -158,7 +161,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                           borderSide: BorderSide(
                                             color: AppColors.timeBorder,
                                           ),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
 
                                         suffixIcon: GestureDetector(
@@ -166,17 +171,19 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                             FocusScope.of(context).unfocus();
 
                                             final isValid =
-                                                formKey.currentState?.validate() ??
-                                                    false;
+                                                formKey.currentState
+                                                    ?.validate() ??
+                                                false;
 
                                             if (isValid) {
                                               locator<CommentCubit>()
                                                   .createOrderComments(
-                                                CommentParams(
-                                                  orderId: data.id ,
-                                                  text: _commentCtrl.text.trim(),
-                                                ),
-                                              );
+                                                    CommentParams(
+                                                      orderId: data.id,
+                                                      text: _commentCtrl.text
+                                                          .trim(),
+                                                    ),
+                                                  );
                                               _commentCtrl.clear();
                                             }
                                           },
@@ -188,7 +195,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                             ),
                                             padding: EdgeInsets.all(8),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(14),
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
                                               color: AppColors.sendBtn,
                                             ),
                                             child: SvgPicture.asset(
@@ -221,9 +229,15 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   ],
                 );
               } else if (state is OrderDetailConnectionError) {
-                return Scaffold(appBar: AppBar(),body: Center(child: Text(AppStrings.noInternet)));
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: Text(AppStrings.noInternet)),
+                );
               } else {
-                return Scaffold(appBar: AppBar(),body: Center(child: Text(AppStrings.error)));
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: Text(AppStrings.error)),
+                );
               }
             },
           ),

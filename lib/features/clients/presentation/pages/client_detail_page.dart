@@ -95,4 +95,3 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
     );
   }
 }
-
