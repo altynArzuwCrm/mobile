@@ -19,4 +19,5 @@ class ApiEndpoints {
   static const userStats = 'stats/dashboard';
   static const recentActivity = 'recent-activity';
   static const activity = 'activity';
+  static const assignments = 'assignments';
 }

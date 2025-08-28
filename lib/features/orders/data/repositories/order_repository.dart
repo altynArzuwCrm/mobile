@@ -33,12 +33,12 @@ class OrderRepository {
   Future<Either<Failure, OrderModel>> getOrderById(int id) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      try {
+      // try {
         final response = await remoteDataSource.getOrderById(id);
         return Right(response);
-      } catch (error) {
-        return Left(ServerFailure('[Server]: $error'));
-      }
+      // } catch (error) {
+      //   return Left(ServerFailure('[Server]: $error'));
+      // }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

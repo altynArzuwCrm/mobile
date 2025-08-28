@@ -3,6 +3,7 @@ import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
+import 'package:crm/features/assignments/presentation/cubits/assign_cubit.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/data/models/status_model.dart';
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
@@ -32,9 +33,9 @@ class _OrdersPageState extends State<OrdersPage> {
   String? selectedStage;
   int _currentPage = 1;
 
-  final Set<int> selectedIndices = {};
   final stageCubit = locator<StageCubit>();
   final ordersCubit = locator<OrdersCubit>();
+  final assignCubit = locator<AssignCubit>();
 
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
@@ -129,11 +130,9 @@ class _OrdersPageState extends State<OrdersPage> {
 
                 const SizedBox(height: 20),
 
-                // Orders list with pull-to-refresh
                 Expanded(
                   child: BlocConsumer<OrdersCubit, OrdersState>(
                     listener: (context, state) {
-                      // Finish indicators AFTER data state arrives
                       if (state is OrdersLoaded) {
                         _refreshController.refreshCompleted();
                         if (ordersCubit.canLoad) {
@@ -185,31 +184,9 @@ class _OrdersPageState extends State<OrdersPage> {
       return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          final isSelectedItem = selectedIndices.contains(index);
-          final hasAnySelected = selectedIndices.isNotEmpty;
           final item = data[index];
 
-          return OrderCard(
-            isSelected: isSelectedItem,
-            hasSelected: hasAnySelected,
-            model: item,
-            onTap: () {
-              setState(() {
-                if (hasAnySelected) {
-                  if (isSelectedItem) {
-                    selectedIndices.remove(index);
-                  } else {
-                    selectedIndices.add(index);
-                  }
-                }
-              });
-            },
-            onLongPress: () {
-              setState(() {
-                selectedIndices.add(index);
-              });
-            },
-          );
+          return OrderCard(model: item);
         },
       );
     } else if (state is OrdersConnectionError) {
@@ -224,7 +201,10 @@ class _OrdersPageState extends State<OrdersPage> {
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return FilterOrderWidget(selectedStatus: selectedStatus, initialSortOrder: sortOrder);
+        return FilterOrderWidget(
+          selectedStatus: selectedStatus,
+          initialSortOrder: sortOrder,
+        );
       },
     );
 

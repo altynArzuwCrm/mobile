@@ -9,245 +9,72 @@ import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_decorated_container/flutter_decorated_container.dart';
 import 'package:go_router/go_router.dart';
 import 'custom_dropdown.dart';
-import 'custom_radio_btn.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard({
-    super.key,
+  const OrderCard({super.key, required this.model});
 
-    this.onTap,
-    this.onLongPress,
-    this.isSelected = false,
-    this.hasSelected = false,
-    required this.model,
-  });
-
-  final void Function()? onTap;
-  final VoidCallback? onLongPress;
-  final bool isSelected;
-  final bool hasSelected;
   final OrderModel model;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: hasSelected ? onTap : null,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: AppColors.white,
+      ),
 
-      onLongPress: !hasSelected ? onLongPress : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, userState) {
+              if (userState is! UserLoaded) {
+                return _ReadOnlyDropdown(hintText: model.stage?.displayName);
+              }
 
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: (isSelected) ? AppColors.lightBlue : AppColors.white,
-        ),
+              // Extract role IDs
+              final roles = userState.data.roles?.map((e) => e.id) ?? [];
+              final canEdit = roles.any((id) => id == 1 || id == 2);
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BlocBuilder<UserCubit, UserState>(
-                  builder: (context, userState) {
-                    if (userState is! UserLoaded) {
-                      return _ReadOnlyDropdown(
-                        hintText: model.stage?.displayName,
-                      );
-                    }
+              return canEdit
+                  ? _EditableStageDropdown(model: model)
+                  : _ReadOnlyDropdown(hintText: model.stage?.displayName);
+            },
+          ),
 
-                    // Extract role IDs
-                    final roles = userState.data.roles?.map((e) => e.id) ?? [];
-                    final canEdit = roles.any((id) => id == 1 || id == 2);
+          SizedBox(height: 5),
 
-                    return canEdit
-                        ? _EditableStageDropdown(model: model)
-                        : _ReadOnlyDropdown(hintText: model.stage?.displayName);
-                  },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                model.project?.title ?? '',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: AppColors.darkBlue,
                 ),
-
-                hasSelected
-                    ? CustomRadioButton(isSelected: isSelected)
-                    : const SizedBox.shrink(),
-              ],
-            ),
-
-            SizedBox(height: 5),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  model.project?.title ?? '',
+              ),
+              TextButton(
+                onPressed: () {
+                  context.push('${AppRoutes.orderDetails}/${model.id}');
+                },
+                child: Text(
+                  AppStrings.moreDetails,
                   style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    color: AppColors.darkBlue,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                    color: AppColors.primary,
                   ),
                 ),
-                Text(
-                  AppStrings.project,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: AppColors.normalGray,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Divider(color: AppColors.divider, thickness: 1),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppStrings.start,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: AppColors.normalGray,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      model.createdAt??'',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: AppColors.darkBlue,
-                      ),
-                    ),
-                  ],
-                ),
-                // Column(
-                //   children: [
-                //     Text(
-                //       AppStrings.responsible,
-                //       style: TextStyle(
-                //         fontWeight: FontWeight.w400,
-                //         fontSize: 14,
-                //         color: AppColors.normalGray,
-                //       ),
-                //     ),
-                //     SizedBox(height: 2),
-                //
-                //     Text(
-                //       'Марал Маралова',
-                //       style: TextStyle(
-                //         fontWeight: FontWeight.w400,
-                //         fontSize: 12,
-                //         color: AppColors.accent,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Text(
-                      AppStrings.dedline,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: AppColors.normalGray,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-
-                    Text(
-                      model.deadline,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: AppColors.darkBlue,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DecoratedContainer(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                  strokeWidth: 1,
-                  dashSpace: 1,
-                  dashWidth: 1,
-                  cornerRadius: null,
-                  strokeColor: AppColors.black,
-                  child: Text(
-                  'В работе',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: AppColors.black,
-                    ),
-                  ),
-                ),
-                // Container(
-                //   padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-                //   decoration: BoxDecoration(
-                //     color: AppColors.lightGreen,
-                //
-                //     borderRadius: BorderRadius.circular(4),
-                //   ),
-                //   child: Text(
-                //     AppStrings.acceptJob,
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.w600,
-                //       fontSize: 12,
-                //       color: AppColors.green,
-                //     ),
-                //   ),
-                // ),
-                //
-                // Container(
-                //   padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(4),
-                //     border: Border.all(
-                //       color: AppColors.red,
-                //       style: BorderStyle.solid,
-                //     ),
-                //   ),
-                //   child: Text(
-                //     AppStrings.reject,
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.w600,
-                //       fontSize: 12,
-                //       color: AppColors.red,
-                //     ),
-                //   ),
-                // ),
-                TextButton(
-                  onPressed: () {
-                    context.push('${AppRoutes.orderDetails}/${model.id}');
-                  },
-                  child: Text(
-                    AppStrings.moreDetails,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

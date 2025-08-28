@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'components/detail_components/order_info.dart';
 import 'components/detail_components/project.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -83,12 +84,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      GeneralInfo(
-                                        name: data.client?.name,
-                                        deadline: data.deadline,
-                                        price: data.project?.totalPrice,
-                                        createdTime: data.createdAt,
-                                      ),
+                                      OrderInfo(model: data),
                                       SizedBox(height: 20),
                                       ProductCard(title: data.product?.name),
                                       SizedBox(height: 20),

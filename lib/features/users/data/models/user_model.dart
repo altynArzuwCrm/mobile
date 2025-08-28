@@ -7,7 +7,7 @@ class UserModel {
   final String? phone;
   final String? image;
   final bool? isActive;
-  final List<RoleModel>? roles;
+  final List<RoleModel> roles;
 
   UserModel({
     required this.id,
@@ -28,7 +28,7 @@ class UserModel {
     isActive: json["is_active"] == 1 ? true : false,
     roles: json["roles"] != null
         ? List<RoleModel>.from(json["roles"].map((x) => RoleModel.fromJson(x)))
-        : null,
+        : [],
   );
 
   Map<String, dynamic> toJson() => {

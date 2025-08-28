@@ -1,3 +1,4 @@
+import 'package:crm/features/assignments/data/repositories/assignment_repository.dart';
 import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
 import 'package:crm/features/stages/data/datasources/stage_datasources.dart';
 import 'package:crm/features/stages/data/repositories/stage_repository.dart';
@@ -12,6 +13,8 @@ import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
 import 'core/network/network.dart';
 import 'core/utils/fcm/get_fcm_token.dart';
+import 'features/assignments/data/datasources/assignment_datasources.dart';
+import 'features/assignments/presentation/cubits/assign_cubit.dart';
 import 'features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/authentication_repository.dart';
@@ -138,9 +141,9 @@ Future<void> initLocator() async {
     () => StatisticsRemoteDatasourceImpl(locator()),
   );
 
-  // locator.registerLazySingleton<AssignmentDataSources>(
-  //   () => AssignmentDataSourcesImpl(locator()),
-  // );
+  locator.registerLazySingleton<AssignmentDataSources>(
+    () => AssignmentDataSourcesImpl(locator()),
+  );
 
   ///repository
 
@@ -176,6 +179,9 @@ Future<void> initLocator() async {
 
   locator.registerLazySingleton<StatisticsRepository>(
     () => StatisticsRepository(locator(), locator()),
+  );
+  locator.registerLazySingleton<AssignmentRepository>(
+    () => AssignmentRepository(locator(), locator()),
   );
 
 
@@ -221,7 +227,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<SearchProductsCubit>(SearchProductsCubit(locator()));
   locator.registerSingleton<OrderStageSelectionCubit>(OrderStageSelectionCubit());
 
-  // locator.registerSingleton<AssignCubit>(AssignCubit(locator()));
+  locator.registerSingleton<AssignCubit>(AssignCubit(locator()));
 
 
 

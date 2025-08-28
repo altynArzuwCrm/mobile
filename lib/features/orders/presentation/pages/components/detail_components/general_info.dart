@@ -145,6 +145,10 @@ class GeneralInfo extends StatelessWidget {
               ),
             ],
           ),
+
+          ///
+
+
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:crm/core/utils/time_format.dart';
+import 'package:crm/features/assignments/data/models/assign_model.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
 
@@ -15,7 +16,7 @@ class OrderModel {
   final dynamic reasonStatus;
   final dynamic archivedAt;
   final bool? isArchived;
-  final String? createdAt;
+  final String createdAt;
   final DateTime updatedAt;
   final Project? project;
   final Product? product;
@@ -23,6 +24,8 @@ class OrderModel {
 
   // final StageModel? stage;
   final StageModel? stage;
+  final StageModel? currentStage;
+  final List<AssignModel> assignments;
 
   OrderModel({
     required this.id,
@@ -43,6 +46,8 @@ class OrderModel {
     required this.product,
     required this.client,
     required this.stage,
+    required this.currentStage,
+    required this.assignments,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
@@ -57,10 +62,13 @@ class OrderModel {
         : '',
     price: json["price"]?.toString(),
     reason: json["reason"],
+    currentStage: json["current_stage"] != null
+        ? StageModel.fromJson(json["current_stage"])
+        : null,
     reasonStatus: json["reason_status"],
     archivedAt: json["archived_at"],
     isArchived: json["is_archived"],
-    createdAt: json["deadline"] != null
+    createdAt: json["created_at"] != null
         ? formatDate(DateTime.parse(json["created_at"]))
         : '',
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -72,6 +80,11 @@ class OrderModel {
     stage: json["stage"] != null && json["stage"] is! String
         ? StageModel.fromJson(json["stage"])
         : null,
+    assignments: json["assignments"] != null
+        ? List<AssignModel>.from(
+            json["assignments"].map((x) => AssignModel.fromJson(x)),
+          )
+        : [],
   );
 
   Map<String, dynamic> toJson() => {

@@ -1,0 +1,57 @@
+import 'package:crm/core/utils/time_format.dart';
+import 'package:crm/features/users/data/models/user_model.dart';
+
+class AssignModel {
+  final int id;
+  final int orderId;
+  final int userId;
+  final String status;
+  final DateTime assignedAt;
+  final dynamic completedAt;
+  final dynamic cancelledAt;
+  final dynamic approvedAt;
+  final UserModel assignedBy;
+  final String roleType;
+  final String createdAt;
+  final String updatedAt;
+  final dynamic deletedAt;
+  final UserModel user;
+
+  AssignModel({
+    required this.id,
+    required this.orderId,
+    required this.userId,
+    required this.status,
+    required this.assignedAt,
+    required this.completedAt,
+    required this.cancelledAt,
+    required this.approvedAt,
+    required this.assignedBy,
+    required this.roleType,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.user,
+  });
+
+  factory AssignModel.fromJson(Map<String, dynamic> json) => AssignModel(
+    id: json["id"],
+    orderId: json["order_id"],
+    userId: json["user_id"],
+    status: json["status"],
+    assignedAt: DateTime.parse(json["assigned_at"]),
+    completedAt: json["completed_at"],
+    cancelledAt: json["cancelled_at"],
+    approvedAt: json["approved_at"],
+    assignedBy: UserModel.fromJson(json["assigned_by_user"]),
+    roleType: json["role_type"],
+    createdAt: json["created_at"] != null
+        ? formatDate(DateTime.parse(json["created_at"]))
+        : '',
+    updatedAt: json["updated_at"] != null
+        ? formatDate(DateTime.parse(json["updated_at"]))
+        : '',
+    deletedAt: json["deleted_at"],
+    user: UserModel.fromJson(json["user"]),
+  );
+}
