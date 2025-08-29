@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/statistics/data/models/order_stat_model.dart';
 import 'package:crm/features/statistics/presentation/cubits/user_stat/user_stat_cubit.dart';
 import 'package:crm/features/statistics/presentation/widgets/card_widget.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Item3 extends StatelessWidget {
   const Item3({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CardWidget(
@@ -24,7 +26,7 @@ class Item3 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Эффективность сотрудников',
+                AppStrings.userEfficiency,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,

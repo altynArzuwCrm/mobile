@@ -26,7 +26,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Подробности о продукте')),
+      appBar: AppBar(title: Text(AppStrings.productDetails)),
       body: BlocProvider.value(
         value: productDetailCubit,
         child: BlocBuilder<ProductDetailCubit, ProductDetailState>(
@@ -73,7 +73,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  data.isActive ? 'Активен' : 'Неактивен',
+                                  data.isActive
+                                      ? AppStrings.active
+                                      : AppStrings.notActive,
 
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -89,7 +91,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Назначенные пользователи',
+                      AppStrings.assignedUser,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
@@ -137,7 +139,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Этапы процесса',
+                      AppStrings.stageProcess,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
@@ -145,7 +147,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     const SizedBox(height: 8),
 
-                    // Stages chips
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,

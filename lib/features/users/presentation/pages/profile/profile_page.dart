@@ -104,7 +104,7 @@ class ProfilePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  "Confirm Logout",
+                 AppStrings.confirmExit ,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -113,7 +113,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  "Are you sure you want to log out?",
+                  AppStrings.confirmLogout,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
@@ -125,7 +125,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: MainButton(
-                        buttonTile: "Cancel",
+                        buttonTile: AppStrings.cancel,
                         onPressed: () {
                           Navigator.of(ctx).pop();
                         },
@@ -135,7 +135,7 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: MainButton(
-                        buttonTile: "Logout",
+                        buttonTile: AppStrings.logout,
                         onPressed: () {
                           locator<AuthBloc>().add(
                             LogOutEvent(),

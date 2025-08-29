@@ -46,7 +46,7 @@ class ClientCard extends StatelessWidget {
                   PopupMenuItem(
                     value: 'delete',
                     child: Text(
-                      'Удалить',
+                      AppStrings.delete,
                       style: TextStyle(color: AppColors.red),
                     ),
                   ),

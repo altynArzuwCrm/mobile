@@ -39,7 +39,6 @@ class NewOrderItem extends StatelessWidget {
               child: ProductSelector(
                 onSelectProduct: (value) {
                   item.selectedProductId = value;
-                  debugPrint('Selected selectedProductId: $value');
                 },
               ),
             ),
@@ -101,7 +100,6 @@ class NewOrderItem extends StatelessWidget {
                 dateFormat: 'dd MMMM yyyy, HH:mm',
                 //  locale: const Locale('ru'),
                 onDateSelected: (date) {
-                  debugPrint('Selected: $date');
                   item.deadline = date;
                 },
               ),

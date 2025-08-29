@@ -3,7 +3,6 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
@@ -17,7 +16,6 @@ import 'package:crm/locator.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
@@ -57,9 +55,9 @@ class _EditProjectPageState extends State<EditProjectPage> {
     _nameCtrl = TextEditingController(text: widget.project.title);
     _descriptionCtrl = TextEditingController();
 
-    if(selectedStageId != null)    selectedStageId = widget.stageId;
+    if (selectedStageId != null) selectedStageId = widget.stageId;
 
-    if(selectedClientId != null)    selectedClientId = widget.clientId;
+    if (selectedClientId != null) selectedClientId = widget.clientId;
   }
 
   @override
@@ -85,7 +83,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
     if (selectedStageId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Выберите статус'),
+          content: Text(AppStrings.selectStatus),
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.only(
             top: MediaQuery.of(context).padding.top + 16,
@@ -159,7 +157,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                         ),
                         SizedBox(height: 20),
                         Text(
-                          'Статус',
+                          AppStrings.status,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
@@ -171,8 +169,6 @@ class _EditProjectPageState extends State<EditProjectPage> {
                         BlocBuilder<StageCubit, StageState>(
                           builder: (context, state) {
                             if (state is StageLoaded) {
-
-
                               return CustomDropdownField(
                                 value: state.selectedCategory,
 
@@ -227,15 +223,12 @@ class _EditProjectPageState extends State<EditProjectPage> {
                           value: locator<ClientsCubit>(),
                           child: BlocBuilder<ClientsCubit, ClientsState>(
                             builder: (context, state) {
-
-
                               final inputDecoration = InputDecoration(
-
                                 hintText: state is ClientsLoading
-                                    ? "Loading clients..."
+                                    ? AppStrings.loadingClients
                                     : state is ClientsError
-                                    ? "Failed to load"
-                                    : "Select client",
+                                    ? AppStrings.notLoaded
+                                    : AppStrings.selectClient,
                                 filled: true,
                                 fillColor: AppColors.bgColor,
                                 suffixIcon: const Icon(
@@ -277,7 +270,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                                   suggestions: state.data
                                       .map((c) => c.name)
                                       .toList(),
-                                 // initialValue: selectedClientId,
+                                  // initialValue: selectedClientId,
                                   onChanged: (value) {
                                     final matches = state.data
                                         .where((c) => c.name == value)
@@ -292,7 +285,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                                   },
                                   validator: (_) {
                                     if (selectedClientId == null) {
-                                      return 'Выберите клиента';
+                                      return AppStrings.selectClient;
                                     }
                                     return null;
                                   },
@@ -340,27 +333,27 @@ class _EditProjectPageState extends State<EditProjectPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 35),
-
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              IconAssets.calendar,
-                              width: 22,
-                              height: 20,
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 24),
-                            Text(
-                              'Created May 28, 2020',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: AppColors.gray,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(height: 35),
+                        //
+                        // Row(
+                        //   children: [
+                        //     SvgPicture.asset(
+                        //       IconAssets.calendar,
+                        //       width: 22,
+                        //       height: 20,
+                        //       fit: BoxFit.contain,
+                        //     ),
+                        //     SizedBox(width: 24),
+                        //     Text(
+                        //       'Created May 28, 2020',
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.w600,
+                        //         fontSize: 14,
+                        //         color: AppColors.gray,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
@@ -375,7 +368,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                   if (state is ProjectDetailLoaded) {
                     toastification.show(
                       context: context,
-                      title: Text('успешно'),
+                      title: Text(AppStrings.success),
                       autoCloseDuration: const Duration(seconds: 3),
                     );
 

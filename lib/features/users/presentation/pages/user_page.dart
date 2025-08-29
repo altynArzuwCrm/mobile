@@ -76,10 +76,10 @@ class _UserPageState extends State<UserPage> {
               setState(() {
                 sortOrder = val;
                 _currentPage = 1;
-              });              debugPrint("Sort order: $sortOrder");
+              });
 
               locator<UserListCubit>().getAllUsers(
-                UserParams(page:_currentPage , sortOrder: sortOrder),
+                UserParams(page: _currentPage, sortOrder: sortOrder),
               );
             },
           ),

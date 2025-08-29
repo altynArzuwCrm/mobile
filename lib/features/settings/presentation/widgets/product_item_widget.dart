@@ -1,5 +1,6 @@
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/products/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +48,7 @@ class ProductItemWidget extends StatelessWidget {
                   PopupMenuItem(
                     value: 'delete',
                     child: Text(
-                      'Удалить',
+                      AppStrings.delete,
                       style: TextStyle(color: AppColors.red),
                     ),
                   ),

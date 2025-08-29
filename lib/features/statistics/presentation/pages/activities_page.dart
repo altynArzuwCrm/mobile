@@ -26,7 +26,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Активности')),
+      appBar: AppBar(title: Text(AppStrings.activity)),
       body: BlocProvider.value(
         value: activityCubit,
         child: BlocBuilder<AllActivityCubit, AllActivityState>(

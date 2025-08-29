@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class ClientsSelector extends StatelessWidget {
       builder: (context, state) {
         final inputDecoration = InputDecoration(
           hintText: state is ClientsLoading
-              ? "Loading clients..."
+              ? AppStrings.loadingClients
               : state is ClientsError
-              ? "Failed to load"
-              : "Select client",
+              ? AppStrings.notLoaded
+              : AppStrings.selectClient,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -75,7 +76,7 @@ class ClientsSelector extends StatelessWidget {
             },
             validator: (v) {
               if (v == null) {
-                return 'Выберите клиента';
+                return AppStrings.selectClient;
               }
               return null;
             },

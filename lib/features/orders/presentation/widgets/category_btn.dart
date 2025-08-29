@@ -19,7 +19,7 @@ class CategoryBtn extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        margin: const EdgeInsets.only(right: 8,bottom: 8),
+        margin: const EdgeInsets.only(right: 8, bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isSelected ? AppColors.primary : Colors.transparent,
@@ -37,4 +37,3 @@ class CategoryBtn extends StatelessWidget {
     );
   }
 }
-

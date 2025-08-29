@@ -61,7 +61,7 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
         child: BlocBuilder<SearchUserCubit, SearchUserState>(
           builder: (context, state) {
             if (state is SearchUserInitial) {
-              return const Center(child: Text('Search clients'));
+              return const Center(child: Text(AppStrings.searchClient));
             } else if (state is SearchUserLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedUser) {
@@ -87,7 +87,7 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                 },
               );
             } else if (state is SearchNotFoundedUser) {
-              return Center(child: Text('Not founded'));
+              return Center(child: Text(AppStrings.notFounded));
             } else if (state is SearchUserConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
             } else {

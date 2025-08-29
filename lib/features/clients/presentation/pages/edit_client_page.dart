@@ -127,7 +127,7 @@ class _EditContactPageState extends State<EditContactPage> {
                 if (state is ClientDetailsLoaded) {
                   toastification.show(
                     context: context,
-                    title: Text('успешно'),
+                    title: Text(AppStrings.success),
                     autoCloseDuration: const Duration(seconds: 3),
                   );
                   final updatedClient = state.data;

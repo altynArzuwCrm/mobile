@@ -102,6 +102,50 @@ class AppStrings {
   static const String cancelled = 'Отменено';
   static const String pending = 'В ожидании';
   static const String progress = 'В процессе';
+  static const String success = 'Успешно';
+  static const String stages = 'Этапы';
+  static const String loadingClients = 'Загрузка клиентов...';
+  static const String notLoaded = 'Не удалось загрузить';
+  static const String selectClient = 'Выберите клиента';
+  static const String noRoles = 'Нет роли';
+  static const String noComments = 'Нет комментариев';
+
+  static const String loadingProducts = 'Загрузка товаров...';
+  static const String selectProduct = "Выберите продукт";
+
+  static const String loadingProjects = "Загрузка проектов...";
+  static const String selectProject = "Выберите проект";
+  static const String orderType = 'Тип заказа';
+  static const String single = 'Одиночный';
+  static const String multiple = 'Массовый';
+  static const String enterText ="Введите текст";
+  static const String searchClient ="Поиск клиентов";
+  static const String searchProject ="Поиск проекты";
+  static const String notFounded ="Не найдено";
+  static const String delete ="Удалить";
+  static const String loggedSuccessfully ="Вы успешно вошли в систему";
+  static const String addContact ='Добавьте контакт';
+  static const String add ='Добавить';
+  static const String productDetails ='Подробности о продукте';
+  static const String stageProcess = 'Этапы процесса';
+  static const String assignedUser = 'Назначенные пользователи';
+  static const String active = 'Активен';
+  static const String notActive = 'Неактивен';
+  static const String status = 'Статус';
+  static const String selectStatus = 'Выберите статус';
+  static const String selectUser = 'Выберите пользователя';
+  static const String revenue = 'Выручка';
+  static const String orderToStage = 'Заказы по стадиям';
+  static const String userEfficiency = 'Эффективность сотрудников';
+  static const String allSum = 'ИТОГО';
+  static const String efficiency = 'Эффективность';
+  static const String lastActivity = 'Последнее действие';
+  static const String all = 'Все';
+  static const String confirmExit = 'Подтвердите выход';
+  static const String confirmLogout = 'Вы уверены, что хотите выйти?';
+  static const String cancel = 'Отмена';
+  static const String logout = 'Выйти';
+
 
   static const String lorem = '''
     Lorem Ipsum, sometimes referred to as 'lipsum', is the placeholder text used in design when creating content. It helps designers plan out where the content will sit, without needing to wait for the content to be written and approved

@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/statistics/presentation/cubits/order_stat/order_stat_cubit.dart';
 import 'package:crm/features/statistics/presentation/widgets/chart2.dart';
 import 'package:crm/features/statistics/presentation/widgets/card_widget.dart';
@@ -25,7 +26,7 @@ class Item2 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
-                'Заказы по стадиям',
+                AppStrings.orderToStage,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,

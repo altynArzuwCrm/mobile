@@ -256,7 +256,7 @@ class _SignInPageState extends State<SignInPage> {
                         if (state is Authenticated) {
                           toastification.show(
                             context: context,
-                            title: Text('Вы успешно вошли в систему'),
+                            title: Text(AppStrings.loggedSuccessfully),
                             autoCloseDuration: const Duration(seconds: 3),
                           ); //todo
                           context.go(AppRoutes.mainStatistics);

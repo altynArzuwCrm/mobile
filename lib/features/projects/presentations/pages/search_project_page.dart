@@ -58,7 +58,7 @@ class _ProjectsSearchPageState extends State<ProjectsSearchPage> {
         child: BlocBuilder<SearchProjectCubit, SearchProjectState>(
           builder: (context, state) {
             if (state is SearchProjectInitial) {
-              return const Center(child: Text('Search Projects'));
+              return const Center(child: Text(AppStrings.searchProject));
             } else if (state is SearchProjectLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedProjects) {
@@ -81,7 +81,7 @@ class _ProjectsSearchPageState extends State<ProjectsSearchPage> {
                 },
               );
             } else if (state is SearchNotFoundedProjects) {
-              return Center(child: Text('Not founded'));
+              return Center(child: Text(AppStrings.notFounded));
             } else if (state is SearchProjectsConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
             } else {

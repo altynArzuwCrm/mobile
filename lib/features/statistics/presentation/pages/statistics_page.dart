@@ -1,6 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/orders/presentation/widgets/custom_dropdown.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
@@ -136,7 +137,7 @@ class _StatisticsPageState extends State<StatisticsPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text('ИТОГО', style: titleStyle),
+                  const Text(AppStrings.allSum, style: titleStyle),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -189,7 +190,7 @@ class _StatisticsPageState extends State<StatisticsPage>
           Tab(
             child: Center(
               child: Text(
-                'Выручка',
+                AppStrings.revenue,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -198,7 +199,7 @@ class _StatisticsPageState extends State<StatisticsPage>
           Tab(
             child: Center(
               child: Text(
-                'Заказы',
+                AppStrings.orders,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -207,7 +208,7 @@ class _StatisticsPageState extends State<StatisticsPage>
           Tab(
             child: Center(
               child: Text(
-                'Эффективность',
+                AppStrings.efficiency,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -308,7 +309,7 @@ class _StatisticsPageState extends State<StatisticsPage>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Последнее действие',
+          AppStrings.lastActivity,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 16,
@@ -320,7 +321,7 @@ class _StatisticsPageState extends State<StatisticsPage>
             context.push(AppRoutes.activities);
           },
           child: Text(
-            'Все',
+            AppStrings.all,
             style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,

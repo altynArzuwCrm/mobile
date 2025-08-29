@@ -12,7 +12,7 @@ abstract class AssignmentDataSources {
 
   Future<bool> bulkAssignOrders(BulkAssignOrderParams params);
 
-  Future<void> updateOrderAssignmentStatus();
+  Future<String> updateOrderAssignmentStatus(int id, String status);
 
   Future<void> deleteOrderAssignment();
 
@@ -94,8 +94,12 @@ class AssignmentDataSourcesImpl extends AssignmentDataSources {
   }
 
   @override
-  Future<void> updateOrderAssignmentStatus() async {
-    // TODO: implement updateOrderAssignmentStatus
-    throw UnimplementedError();
+  Future<String> updateOrderAssignmentStatus(int id, String status) async {
+    final response = await apiProvider.put(
+      endPoint: '${ApiEndpoints.assignments}/$id/status',
+      data: {"status": status},
+    );
+    final result = response.data['message'];
+    return result;
   }
 }

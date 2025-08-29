@@ -45,7 +45,7 @@ class OrderParams {
 class CreateOrderParams {
   final int? id;
   final String? title;
-  final String? description;
+  // final String? description;
   final String? stage;
   final int? clientId;
   final int? projectId;
@@ -60,7 +60,7 @@ class CreateOrderParams {
     this.id,
 
     this.title,
-    this.description,
+    // this.description,
     this.stage,
     this.clientId,
     this.projectId,
@@ -76,7 +76,7 @@ class CreateOrderParams {
     final Map<String, dynamic> params = {};
 
     if (title != null) params['title'] = title;
-    if (description != null) params['description'] = description;
+    // if (description != null) params['description'] = description;
     if (stage != null) params['stage'] = stage;
     if (clientId != null) params['client_id'] = clientId;
     if (projectId != null) params['project_id'] = projectId;

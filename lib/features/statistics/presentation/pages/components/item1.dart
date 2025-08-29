@@ -41,7 +41,7 @@ class Item1 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Выручка',
+                      AppStrings.revenue,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,

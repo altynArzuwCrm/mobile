@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
@@ -142,11 +141,11 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Тип заказа'),
+                      Text(AppStrings.orderType),
 
                       SizedBox(height: 15),
                       SelectableCardRow(
-                        options: ["Одиночный", "Массовый"],
+                        options: [AppStrings.single, AppStrings.multiple],
                         onChanged: (index) {
                           setState(() {
                             selectedIndex = index;
@@ -366,7 +365,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
       products: products,
       assignments: assignments,
     );
-    log('${param.toQueryParameters()}', name: '[PARAMS]');
 
     ordersCubit.createOrder(param);
 

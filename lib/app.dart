@@ -5,6 +5,7 @@ import '../core/config/routes/app_router.dart';
 import 'common/widgets/scroll_behavior.dart';
 import 'core/config/theme/app_theme.dart';
 import 'core/constants/strings/app_strings.dart';
+import 'features/assignments/presentation/cubits/assign_cubit.dart';
 import 'features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'features/orders/presentation/cubits/order_stage/order_stage_cubit.dart';
 import 'features/orders/presentation/cubits/orders/orders_cubit.dart';
@@ -41,6 +42,9 @@ class AppStart extends StatelessWidget {
           ),
           BlocProvider<OrderStageSelectionCubit>(
             create: (context) => locator<OrderStageSelectionCubit>(),
+          ),
+          BlocProvider<AssignCubit>(
+            create: (context) => locator<AssignCubit>(),
           ),
         ],
         child: MaterialApp.router(

@@ -6,7 +6,6 @@ import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/presentation/cubits/comment/comment_cubit.dart';
 import 'package:crm/features/orders/presentation/cubits/order_details/order_detail_cubit.dart';
 import 'package:crm/features/orders/presentation/pages/components/detail_components/comments_list.dart';
-import 'package:crm/features/orders/presentation/pages/components/detail_components/general_info.dart';
 import 'package:crm/features/orders/presentation/pages/components/detail_components/product.dart';
 import 'package:crm/features/orders/presentation/widgets/details_appbar.dart';
 import 'package:crm/locator.dart';
@@ -128,7 +127,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                         FocusScope.of(context).unfocus();
                                       },
                                       decoration: InputDecoration(
-                                        hintText: "Введите текст",
+                                        hintText: AppStrings.enterText,
                                         isDense: true,
                                         contentPadding: EdgeInsets.fromLTRB(
                                           16,
@@ -211,7 +210,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
                               const SizedBox(height: 15),
                               MainButton(
-                                buttonTile: 'Вернуться',
+                                buttonTile: AppStrings.back,
                                 onPressed: () {
                                   context.pop();
                                 },

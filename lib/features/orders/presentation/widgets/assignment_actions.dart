@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class AssignmentActions extends StatefulWidget {
   final String status;
   final ValueChanged<String>? onStatusChanged;
+  final bool enabled;
 
   const AssignmentActions({
     super.key,
     required this.status,
     this.onStatusChanged,
+    this.enabled = true,
   });
 
   @override
@@ -19,13 +21,12 @@ class AssignmentActions extends StatefulWidget {
 class _AssignmentActionsState extends State<AssignmentActions> {
   late String _selectedStatus;
 
-  /// переводы + доступные статусы
   final Map<String, String> statusLabels = {
-    'pending': 'В ожидании',
-    'in_progress': 'В процессе',
-    'cancelled': 'Отменено',
-    'under_review': 'На проверке',
-    'approved': 'Одобрено',
+    'pending': AppStrings.pending,
+    'in_progress': AppStrings.progress,
+    'cancelled': AppStrings.cancelled,
+    'under_review': AppStrings.approve,
+    'approved': AppStrings.approved,
   };
 
   @override
@@ -44,7 +45,7 @@ class _AssignmentActionsState extends State<AssignmentActions> {
       ),
       child: DropdownButton<String>(
         value: _selectedStatus,
-        underline: const SizedBox(), // убираем линию
+        underline: const SizedBox(),
         icon: const Icon(Icons.arrow_drop_down),
         style: TextStyle(
           fontWeight: FontWeight.w600,
@@ -57,12 +58,14 @@ class _AssignmentActionsState extends State<AssignmentActions> {
             child: Text(entry.value),
           );
         }).toList(),
-        onChanged: (value) {
-          if (value != null) {
-            setState(() => _selectedStatus = value);
-            widget.onStatusChanged?.call(value);
-          }
-        },
+        onChanged: widget.enabled
+            ? (value) {
+                if (value != null) {
+                  setState(() => _selectedStatus = value);
+                  widget.onStatusChanged?.call(value);
+                }
+              }
+            : null,
       ),
     );
   }

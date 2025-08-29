@@ -156,7 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 if (state is UserLoaded) {
                   toastification.show(
                     context: context,
-                    title: Text('Успешно'),
+                    title: Text(AppStrings.success),
                     autoCloseDuration: const Duration(seconds: 3),
                   );
                   //locator<UserListCubit>().getAllUsers(UserParams());

@@ -58,7 +58,7 @@ class _ProductsSearchPageState extends State<ProductsSearchPage> {
         child: BlocBuilder<SearchProductsCubit, SearchProductsState>(
           builder: (context, state) {
             if (state is SearchProductsInitial) {
-              return const Center(child: Text('Search clients'));
+              return const Center(child: Text(AppStrings.searchClient));
             } else if (state is SearchProductsLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedProducts) {
@@ -83,7 +83,7 @@ class _ProductsSearchPageState extends State<ProductsSearchPage> {
                 },
               );
             } else if (state is SearchNotFoundedProducts) {
-              return Center(child: Text('Not founded'));
+              return Center(child: Text(AppStrings.notFounded));
             } else if (state is SearchProductsConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
             } else {

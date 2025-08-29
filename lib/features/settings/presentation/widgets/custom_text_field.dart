@@ -9,7 +9,7 @@ class CustomTextFieldWithTitle extends StatelessWidget {
     required this.title,
     required this.hintText,
     this.suffixIcon,
-    this.isPhone = false,
+    this.isPhone = false, this.keyboardType,
   });
 
   final TextEditingController controller;
@@ -17,6 +17,7 @@ class CustomTextFieldWithTitle extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
   final bool isPhone;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class CustomTextFieldWithTitle extends StatelessWidget {
                 isSubmitted: false,
                 hintText: hintText,
                 suffixIcon: suffixIcon,
+          keyboardType: keyboardType,
               ),
       ],
     );

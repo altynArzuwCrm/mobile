@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class AddProductBtn extends StatelessWidget {
@@ -14,7 +15,7 @@ class AddProductBtn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Товары',
+            AppStrings.products,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16,

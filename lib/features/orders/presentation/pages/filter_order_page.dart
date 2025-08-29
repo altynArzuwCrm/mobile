@@ -64,7 +64,6 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
               isIconOnly: false,
               onChanged: (val) {
                 setState(() => sortOrder = val);
-                debugPrint("Sort order: $sortOrder");
               },
             ),
           ),

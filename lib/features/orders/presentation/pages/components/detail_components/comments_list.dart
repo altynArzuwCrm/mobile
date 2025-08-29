@@ -28,7 +28,7 @@ class CommentsList extends StatelessWidget {
               return const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Center(child: Text('Нет комментариев')),
+                  child: Center(child: Text(AppStrings.noComments)),
                 ),
               );
             }

@@ -1,18 +1,25 @@
 import 'package:crm/common/widgets/main_btn.dart';
+import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
+import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:crm/features/orders/presentation/cubits/order_details/order_detail_cubit.dart';
 import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
+import 'package:crm/features/products/data/models/product_params.dart';
+import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
 import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
+import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
+import 'components/clients_selector.dart';
+import 'components/product_selector.dart';
 
 class EditOrderPage extends StatefulWidget {
   const EditOrderPage({super.key, required this.order});
@@ -30,9 +37,14 @@ class _EditOrderPageState extends State<EditOrderPage> {
 
   late final TextEditingController _titleCtrl;
 
-  late final TextEditingController _descriptionCtrl;
+  late final TextEditingController _quantityCtrl;
+  late final TextEditingController _priceCtrl;
 
   late String? selectedStage;
+  late int? clientId;
+  late int? productId;
+  final clientsCubit = locator<ClientsCubit>();
+  final productsCubit = locator<ProductsCubit>();
 
   @override
   void initState() {
@@ -41,22 +53,34 @@ class _EditOrderPageState extends State<EditOrderPage> {
 
     _titleCtrl = TextEditingController(text: widget.order.project?.title ?? '');
 
-    _descriptionCtrl = TextEditingController();
+    _quantityCtrl = TextEditingController(
+      text: widget.order.quantity.toString(),
+    );
+    _priceCtrl = TextEditingController(
+      text: widget.order.price ?? 0.toString(),
+    );
 
     selectedStage = widget.order.stage?.name;
+    clientId = widget.order.clientId;
+    productId = widget.order.productId;
+
+    clientsCubit.getAllClients(UserParams());
+    productsCubit.getAllProducts(ProductParams());
   }
 
   @override
   void dispose() {
     _titleCtrl.dispose();
-    _descriptionCtrl.dispose();
+    _quantityCtrl.dispose();
+    _priceCtrl.dispose();
 
     super.dispose();
   }
 
   clear() {
     _titleCtrl.clear();
-    _descriptionCtrl.clear();
+    _quantityCtrl.clear();
+    _priceCtrl.clear();
   }
 
   @override
@@ -88,20 +112,38 @@ class _EditOrderPageState extends State<EditOrderPage> {
                       CustomTextFieldWithTitle(
                         controller: _titleCtrl,
 
-                        title: 'Название проекта',
+                        title: AppStrings.projectTitle,
                         hintText: widget.order.project?.title ?? '',
                       ),
-
                       SizedBox(height: 20),
-
-                      CustomTextFieldWithTitle(
-                        controller: _descriptionCtrl,
-                        title: AppStrings.description,
-                        hintText: '',
+                      TextFieldTitle(
+                        title: AppStrings.customer,
+                        child: BlocProvider.value(
+                          value: clientsCubit,
+                          child: ClientsSelector(
+                            onSelectClient: (value) {
+                              clientId = value;
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(height: 20),
+
+                      TextFieldTitle(
+                        title: AppStrings.product,
+                        child: BlocProvider.value(
+                          value: locator<ProductsCubit>(),
+                          child: ProductSelector(
+                            onSelectProduct: (value) {
+                              productId = value;
+                            },
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 20),
                       Text(
-                        'Этапы',
+                        AppStrings.stages,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -144,6 +186,21 @@ class _EditOrderPageState extends State<EditOrderPage> {
                           }
                         },
                       ),
+                      SizedBox(height: 20),
+
+                      CustomTextFieldWithTitle(
+                        controller: _quantityCtrl,
+                        title: AppStrings.count,
+                        hintText: '',
+                        keyboardType: TextInputType.number,
+                      ),
+                      SizedBox(height: 20),
+                      CustomTextFieldWithTitle(
+                        controller: _priceCtrl,
+                        title: AppStrings.sum,
+                        hintText: '',
+                        keyboardType: TextInputType.number,
+                      ),
                     ],
                   ),
                 ),
@@ -157,7 +214,7 @@ class _EditOrderPageState extends State<EditOrderPage> {
                   if (state is OrderDetailLoaded) {
                     toastification.show(
                       context: context,
-                      title: Text('успешно'),
+                      title: Text(AppStrings.success),
                       autoCloseDuration: const Duration(seconds: 3),
                     );
 
@@ -186,17 +243,17 @@ class _EditOrderPageState extends State<EditOrderPage> {
                       bool isValid = formKey.currentState?.validate() ?? false;
 
                       if (isValid) {
-                        orderDetailsCubit.updateOrder(
-                          CreateOrderParams(
-                            id: widget.order.id,
-                            title: _titleCtrl.text.trim(),
-                            description: _descriptionCtrl.text.trim(),
-                            stage: selectedStage,
-                            clientId: widget.order.clientId,
-                            productId: widget.order.productId,
-                            quantity: widget.order.quantity,
-                          ),
+                        final params = CreateOrderParams(
+                          id: widget.order.id,
+                          title: _titleCtrl.text.trim(),
+                          stage: selectedStage,
+                          clientId: clientId,
+                          productId: productId,
+                          quantity: int.tryParse(_quantityCtrl.text.trim()),
+                          price: int.tryParse(_priceCtrl.text.trim()),
                         );
+
+                        orderDetailsCubit.updateOrder(params);
                       }
                     },
                     isLoading: state is OrderDetailLoading,

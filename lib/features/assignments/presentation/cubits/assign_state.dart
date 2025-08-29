@@ -1,12 +1,22 @@
 part of 'assign_cubit.dart';
 
+abstract class AssignState {}
 
-sealed class AssignState {}
+class AssignInitial extends AssignState {}
 
-final class AssignLoading extends AssignState {}
-final class AssignLoaded extends AssignState {
-  final AssignModel data;
-
-  AssignLoaded(this.data);
+class AssignLoading extends AssignState {
+  final int assignmentId;
+  AssignLoading(this.assignmentId);
 }
-final class AssignError extends AssignState {}
+
+class AssignSuccess extends AssignState {
+  final int assignmentId;
+  final String message;
+  AssignSuccess(this.assignmentId, this.message);
+}
+
+class AssignError extends AssignState {
+  final int assignmentId;
+  final String message;
+  AssignError(this.assignmentId, this.message);
+}

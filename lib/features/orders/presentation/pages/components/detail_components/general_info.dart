@@ -41,7 +41,7 @@ class GeneralInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Название проекта',
+                      AppStrings.projectTitle,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -147,8 +147,6 @@ class GeneralInfo extends StatelessWidget {
           ),
 
           ///
-
-
         ],
       ),
     );

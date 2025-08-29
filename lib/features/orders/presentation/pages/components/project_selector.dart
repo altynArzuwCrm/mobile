@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
@@ -21,10 +22,10 @@ class ProjectSelector extends StatelessWidget {
       builder: (context, state) {
         final inputDecoration = InputDecoration(
           hintText: state is ProjectsLoading
-              ? "Loading projects..."
+              ? AppStrings.loadingProjects
               : state is ClientsError
-              ? "Failed to load"
-              : "Select project",
+              ? AppStrings.notLoaded
+              : AppStrings.selectProject,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -78,7 +79,7 @@ class ProjectSelector extends StatelessWidget {
             },
             validator: (v) {
               if (selectedIndex == 1 && v == null) {
-                return 'Выберите проект';
+                return AppStrings.selectProject;
               }
               return null;
             },

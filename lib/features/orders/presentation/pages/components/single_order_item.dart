@@ -44,10 +44,11 @@ class SingleOrderItem extends StatelessWidget {
                 builder: (context, state) {
                   final inputDecoration = InputDecoration(
                     hintText: state is ProductsLoading
-                        ? "Loading product..."
+                        ? AppStrings.loadingProducts
                         : state is ClientsError
-                        ? "Failed to load"
-                        : "Select product",
+                        ? AppStrings.notLoaded
+                        : AppStrings.selectProduct,
+
                     //    filled: true,
                     //      fillColor: AppColors.white,
                     suffixIcon: const Icon(
@@ -102,7 +103,7 @@ class SingleOrderItem extends StatelessWidget {
 
                       validator: (v) {
                         if (v == null) {
-                          return 'Выберите продукт';
+                          return AppStrings.selectProduct;
                         }
                         return null;
                       },

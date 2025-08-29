@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/orders/data/models/comment_model.dart';
 import 'package:crm/features/orders/presentation/widgets/person_img_with_title_widget.dart';
 import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
@@ -47,7 +48,7 @@ class CommentCard extends StatelessWidget {
                 PopupMenuItem(
                   value: 'delete',
                   child: Text(
-                    'Удалить',
+                    AppStrings.delete,
                     style: TextStyle(color: AppColors.red),
                   ),
                 ),

@@ -107,10 +107,10 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                           builder: (context, state) {
                             final inputDecoration = InputDecoration(
                               hintText: state is ClientsLoading
-                                  ? "Loading clients..."
+                                  ? AppStrings.loadingClients
                                   : state is ClientsError
-                                  ? "Failed to load"
-                                  : "Select client",
+                                  ? AppStrings.notLoaded
+                                  : AppStrings.selectClient,
                               filled: true,
                               fillColor: AppColors.white,
                               suffixIcon: const Icon(
@@ -166,7 +166,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                                 },
                                 validator: (_) {
                                   if (selectedClientId == null) {
-                                    return 'Выберите клиента';
+                                    return AppStrings.selectClient;
                                   }
                                   return null;
                                 },
@@ -188,7 +188,7 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                       ),
                       SizedBox(height: 20),
                       Text(
-                        'Статус',
+                        AppStrings.status,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,

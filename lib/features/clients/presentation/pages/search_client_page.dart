@@ -61,7 +61,7 @@ class _ClientsSearchPageState extends State<ClientsSearchPage> {
         child: BlocBuilder<SearchClientCubit, SearchClientState>(
           builder: (context, state) {
             if (state is SearchClientInitial) {
-              return const Center(child: Text('Search clients'));
+              return const Center(child: Text(AppStrings.searchClient));
             } else if (state is SearchClientLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedClients) {
@@ -90,7 +90,7 @@ class _ClientsSearchPageState extends State<ClientsSearchPage> {
                 separatorBuilder: (_, __) => const SizedBox(height: 20),
               );
             } else if (state is SearchNotFoundedClients) {
-              return Center(child: Text('Not founded'));
+              return Center(child: Text(AppStrings.notFounded));
             } else if (state is SearchClientsConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
             } else {

@@ -58,7 +58,7 @@ class _OrdersSearchPageState extends State<OrdersSearchPage> {
         child: BlocBuilder<SearchOrderCubit, SearchOrderState>(
           builder: (context, state) {
             if (state is SearchOrderInitial) {
-              return const Center(child: Text('Search clients'));
+              return const Center(child: Text(AppStrings.searchClient));
             } else if (state is SearchOrderLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedOrders) {
@@ -70,13 +70,11 @@ class _OrdersSearchPageState extends State<OrdersSearchPage> {
 
                 itemBuilder: (context, index) {
                   final item = data[index];
-                  return OrderCard(
-                    model: item,
-                  );
+                  return OrderCard(model: item);
                 },
               );
             } else if (state is SearchNotFoundedOrders) {
-              return Center(child: Text('Not founded'));
+              return Center(child: Text(AppStrings.notFounded));
             } else if (state is SearchOrdersConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
             } else {

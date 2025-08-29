@@ -1,5 +1,6 @@
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
 import 'package:crm/features/users/data/models/user_model.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
@@ -27,7 +28,7 @@ class _StageCategoryWidgetState extends State<StageCategoryWidget> {
   @override
   Widget build(BuildContext context) {
     final inputDecoration = InputDecoration(
-      hintText: "Select user",
+      hintText: AppStrings.selectUser,
       suffixIcon: const Icon(
         Icons.keyboard_arrow_down_outlined,
         color: AppColors.gray,
@@ -79,7 +80,7 @@ class _StageCategoryWidgetState extends State<StageCategoryWidget> {
           setState(() {});
         },
         validator: (_) {
-          if (selectedUserName == null) return "Select a user";
+          if (selectedUserName == null) return  AppStrings.selectUser;
           return null;
         },
         decoration: inputDecoration,

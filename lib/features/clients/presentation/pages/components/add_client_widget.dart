@@ -121,7 +121,7 @@ class _AddClientWidgetState extends State<AddClientWidget> {
                         Expanded(
                           child: DropdownButtonFormField<String>(
                             value: selectedType,
-                            hint: Text('Добавьте контакт'),
+                            hint: Text(AppStrings.addContact),
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10),
                               border: OutlineInputBorder(
@@ -174,7 +174,7 @@ class _AddClientWidgetState extends State<AddClientWidget> {
                                     selectedType = null;
                                   });
                                 },
-                          child: Text('Добавить'),
+                          child: Text(AppStrings.add),
                         ),
                       ],
                     ),

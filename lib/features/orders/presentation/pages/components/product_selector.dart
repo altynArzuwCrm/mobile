@@ -1,4 +1,5 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class ProductSelector extends StatelessWidget {
       builder: (context, state) {
         final inputDecoration = InputDecoration(
           hintText: state is ProductsLoading
-              ? "Loading products..."
+              ? AppStrings.loadingProducts
               : state is ProductsError
-              ? "Failed to load"
-              : "Select product",
+              ? AppStrings.notLoaded
+              : AppStrings.selectProduct,
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -74,7 +75,7 @@ class ProductSelector extends StatelessWidget {
             },
             validator: (v) {
               if (v == null) {
-                return 'Выберите продукт';
+                return  AppStrings.selectProduct;
               }
               return null;
             },

@@ -1,41 +1,25 @@
-import 'package:crm/features/assignments/data/models/assign_order_params.dart';
 import 'package:crm/features/assignments/data/repositories/assignment_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:crm/features/assignments/data/models/assign_model.dart';
 
 part 'assign_state.dart';
 
 class AssignCubit extends Cubit<AssignState> {
-  AssignCubit(this.repository) : super(AssignLoading());
+  AssignCubit(this.repository) : super(AssignInitial());
 
   final AssignmentRepository repository;
 
-  // void assignOrderToUser(AssignOrderParams params) async {
-  //   final result = await repository.assignOrderToUser(params);
-  //
-  //   result.fold((error) {}, (data) {
-  //     emit(data);
-  //   });
-  // }
-  //
-  // void bulkAssignOrders(BulkAssignOrderParams params) async {
-  //   final result = await repository.bulkAssignOrders(params);
-  //
-  //   result.fold((error) {}, (data) {
-  //     emit(data);
-  //   });
-  // }
+  void updateOrderAssignmentStatus(int id, String status) async {
+    if (isClosed) return;
 
-  // void getAssignmentById(int id) async {
-  //   final result = await repository.getOrderAssignmentById(id);
-  //
-  //   result.fold(
-  //     (error) {
-  //       emit(AssignError());
-  //     },
-  //     (data) {
-  //       emit(AssignLoaded(data));
-  //     },
-  //   );
-  // }
+    emit(AssignLoading(id));
+
+    final result = await repository.updateOrderAssignmentStatus(id, status);
+
+    if (isClosed) return;
+
+    result.fold(
+          (error) => emit(AssignError(id, error.message)),
+          (data) => emit(AssignSuccess(id, data)),
+    );
+  }
 }

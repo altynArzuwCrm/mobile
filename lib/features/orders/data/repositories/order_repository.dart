@@ -3,7 +3,7 @@ import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
 import 'package:crm/features/orders/data/models/comment_model.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
-import 'package:crm/features/orders/data/datasources/orders_remote_datasource.dart';
+import 'package:crm/features/orders/data/datasources/remote/orders_remote_datasource.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
 import 'package:dartz/dartz.dart';
 
@@ -33,12 +33,12 @@ class OrderRepository {
   Future<Either<Failure, OrderModel>> getOrderById(int id) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      // try {
+      try {
         final response = await remoteDataSource.getOrderById(id);
         return Right(response);
-      // } catch (error) {
-      //   return Left(ServerFailure('[Server]: $error'));
-      // }
+      } catch (error) {
+        return Left(ServerFailure('[Server]: $error'));
+      }
     } else {
       return Left(ConnectionFailure(AppStrings.noInternet));
     }

@@ -31,17 +31,7 @@ class UserModel {
         : [],
   );
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "username": username,
-    "phone": phone,
-    "image": image,
-    "is_active": isActive,
-    "roles": roles != null
-        ? List<dynamic>.from(roles!.map((x) => x.toJson()))
-        : null,
-  };
+
 
   UserEntity toEntity() {
     return UserEntity(
@@ -51,7 +41,7 @@ class UserModel {
       phone: phone,
       image: image,
       isActive: isActive ?? false,
-      roles: roles?.map((e) => e.toEntity()).toList(),
+      roles: roles.map((e) => e.toEntity()).toList(),
     );
   }
 }
