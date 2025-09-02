@@ -3,10 +3,10 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class OrderDao {
-  @Query('SELECT * FROM orders ORDER BY updatedAt DESC')
+  @Query('SELECT * FROM OrderLocalEntity')
   Future<List<OrderLocalEntity>> getAllOrders();
 
-  @Query('SELECT * FROM orders WHERE id = :id')
+  @Query('SELECT * FROM OrderLocalEntity WHERE id = :id')
   Future<OrderLocalEntity?> getOrderById(int id);
 
   @insert
@@ -21,6 +21,6 @@ abstract class OrderDao {
   @delete
   Future<void> deleteOrder(OrderLocalEntity order);
 
-  @Query('DELETE FROM orders')
+  @Query('DELETE FROM OrderLocalEntity')
   Future<void> clearOrders();
 }

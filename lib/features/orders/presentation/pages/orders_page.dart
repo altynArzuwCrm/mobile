@@ -29,6 +29,7 @@ class _OrdersPageState extends State<OrdersPage> {
   int isStatusSelected = 0;
   String? selectedStatus;
   String sortOrder = "asc";
+  String? orderBy;
 
   String? selectedStage;
   int _currentPage = 1;
@@ -47,6 +48,7 @@ class _OrdersPageState extends State<OrdersPage> {
     stageCubit.getAllStages();
     ordersCubit.getAllOrders(OrderParams(page: _currentPage));
     locator<UserCubit>().getCurrentUser();
+    orderBy = null;
   }
 
   @override
@@ -204,6 +206,7 @@ class _OrdersPageState extends State<OrdersPage> {
         return FilterOrderWidget(
           selectedStatus: selectedStatus,
           initialSortOrder: sortOrder,
+          orderBy: orderBy,
         );
       },
     );

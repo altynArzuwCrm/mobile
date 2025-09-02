@@ -18,6 +18,7 @@ class SearchProductsCubit extends Cubit<SearchProductsState> {
   }
 
   void searchProducts(ProductParams params) async {
+    _products.clear();
     emit(SearchProductsLoading());
 
     final result = await repository.getAllProducts(params);
@@ -34,7 +35,8 @@ class SearchProductsCubit extends Cubit<SearchProductsState> {
         if (data.isEmpty) {
           emit(SearchNotFoundedProducts());
         } else {
-          emit(SearchFoundedProducts(data));
+          _products.addAll(data);
+          emit(SearchFoundedProducts(List.from(_products)));
         }
       },
     );

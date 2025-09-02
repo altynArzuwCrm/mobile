@@ -29,7 +29,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
     if (!hasInternet && _orders.isNotEmpty) {
       canLoad = false;
-      return;
+     // return;
     } else if (hasInternet) {
       canLoad = true;
     }
@@ -52,6 +52,7 @@ class OrdersCubit extends Cubit<OrdersState> {
           final newItems = data
               .where((c) => !existingIds.contains(c.id))
               .toList();
+
           _orders.addAll(newItems);
         }
 

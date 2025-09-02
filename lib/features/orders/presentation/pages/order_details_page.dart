@@ -87,8 +87,11 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                       SizedBox(height: 20),
                                       ProductCard(title: data.product?.name),
                                       SizedBox(height: 20),
-                                      ProjectWidget(title: data.project?.title),
-                                      SizedBox(height: 20),
+                                      ProjectWidget(
+                                        title: data.client?.name,
+                                        contacts: data.client?.contacts ?? [],
+                                      ),
+                                      SizedBox(height: 10),
                                     ],
                                   ),
                                 ),

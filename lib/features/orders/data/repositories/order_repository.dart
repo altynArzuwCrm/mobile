@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/error/failure.dart';
 import 'package:crm/core/network/network.dart';
+import 'package:crm/features/orders/data/datasources/local/local_datasource/order_local_datasource.dart';
 import 'package:crm/features/orders/data/models/comment_model.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/orders/data/datasources/remote/orders_remote_datasource.dart';
@@ -11,8 +14,13 @@ class OrderRepository {
   final NetworkInfo networkInfo;
 
   final OrderRemoteDataSource remoteDataSource;
+  final OrderLocalDataSource localDataSource;
 
-  OrderRepository(this.networkInfo, this.remoteDataSource);
+  OrderRepository(
+    this.networkInfo,
+    this.remoteDataSource,
+    this.localDataSource,
+  );
 
   Future<Either<Failure, List<OrderModel>>> getAllOrders(
     OrderParams params,
@@ -21,12 +29,39 @@ class OrderRepository {
     if (isConnected) {
       try {
         final response = await remoteDataSource.getAllOrders(params);
+        await localDataSource.clearOrders();
+
+        final result = response.map((e) => e.toCacheEntity()).toList();
+
+        await localDataSource.insertOrders(result);
+
         return Right(response);
       } catch (error) {
-        return Left(ServerFailure('[Server]: $error'));
+        return await _getLocalOrders(isConnected,params);
       }
     } else {
-      return Left(ConnectionFailure(AppStrings.noInternet));
+
+      return await _getLocalOrders(isConnected,params);
+    }
+  }
+
+  Future<Either<Failure, List<OrderModel>>> _getLocalOrders(
+    bool isConnected,OrderParams params
+  ) async {
+
+    final localData = await localDataSource.getAllOrders(params);
+    log('$localData');
+
+    if (localData != null && localData.isNotEmpty) {
+      final localItems = localData.map((e) => e.toModel()).toList();
+      log('-----------------------');
+      return Right(localItems);
+    } else {
+      if (isConnected) {
+        return Left(ServerFailure(''));
+      } else {
+        return Left(ConnectionFailure(AppStrings.noInternet));
+      }
     }
   }
 

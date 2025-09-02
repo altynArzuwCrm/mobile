@@ -18,9 +18,11 @@ class FilterOrderWidget extends StatefulWidget {
     super.key,
     required this.selectedStatus,
     required this.initialSortOrder,
+    required this.orderBy,
   });
 
   final String? selectedStatus;
+  final String? orderBy;
   final String initialSortOrder;
 
   @override
@@ -29,6 +31,7 @@ class FilterOrderWidget extends StatefulWidget {
 
 class _FilterOrderWidgetState extends State<FilterOrderWidget> {
   late String sortOrder;
+  late String? selectedOrderBy;
 
   final ordersCubit = locator<OrdersCubit>();
 
@@ -36,6 +39,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
   void initState() {
     super.initState();
     sortOrder = widget.initialSortOrder;
+    selectedOrderBy = widget.orderBy;
   }
 
   @override
@@ -55,6 +59,44 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
             child: BottomSheetTitle(title: AppStrings.filter),
           ),
           Divider(color: AppColors.divider, thickness: 1),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 0,
+              children: [
+                CategoryBtn(
+                  title: "По название",
+                  isSelected: selectedOrderBy == 'name',
+                  onTap: () {
+                    setState(() {
+                      selectedOrderBy = 'name';
+                    });
+                  },
+                ),
+                CategoryBtn(
+                  title: "По времени",
+                  isSelected: selectedOrderBy == 'created_at',
+                  onTap: () {
+                    setState(() {
+                      selectedOrderBy = 'created_at';
+                    });
+                  },
+                ),
+                CategoryBtn(
+                  title: "По дедлайну",
+                  isSelected: selectedOrderBy == 'deadline',
+                  onTap: () {
+                    setState(() {
+                      selectedOrderBy = 'deadline';
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+
           SizedBox(height: 20),
 
           Padding(
@@ -122,6 +164,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
                     sortOrder: sortOrder,
                     stage: ordersCubit.selectedStage,
                     status: widget.selectedStatus,
+                    sortBy: selectedOrderBy,
                     page: 1,
                   ),
                 );

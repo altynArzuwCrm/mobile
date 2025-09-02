@@ -21,6 +21,7 @@ class SearchClientCubit extends Cubit<SearchClientState> {
  final List<ClientEntity> _clients = [];
 
   void searchClients(UserParams params) async {
+    _clients.clear();
     emit(SearchClientLoading());
 
     final result = await _clientsUseCase.execute(params);

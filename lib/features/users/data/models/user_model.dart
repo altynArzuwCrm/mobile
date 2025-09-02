@@ -31,7 +31,15 @@ class UserModel {
         : [],
   );
 
-
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "username": username,
+    "phone": phone,
+    "image": image,
+    "is_active": isActive == true ? 1 : 0,
+    "roles": roles.map((e) => e.toJson()).toList(),
+  };
 
   UserEntity toEntity() {
     return UserEntity(

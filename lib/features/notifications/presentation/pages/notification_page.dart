@@ -18,7 +18,6 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
-
     notificationCubit.getAllNotifications();
   }
 
@@ -41,9 +40,10 @@ class _NotificationPageState extends State<NotificationPage> {
                 itemBuilder: (context, index) {
                   final item = data[index];
                   return NotificationItemWidget(
-                    title: item.title,
+                    title: item.actionUserName,
                     text: item.message,
                     time: item.assignedAt,
+                    orderId: item.orderId,
                   );
                 },
                 separatorBuilder: (context, index) {

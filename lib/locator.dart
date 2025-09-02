@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/local/app_db/app_db.dart';
 import 'core/local/app_prefs.dart';
 import 'core/local/token_store.dart';
 import 'core/network/api_provider.dart';
@@ -32,6 +33,7 @@ import 'features/clients/presentation/cubits/search_client/search_client_cubit.d
 import 'features/notifications/data/datasources/notification_remote_datasource.dart';
 import 'features/notifications/data/repository/notification_repository.dart';
 import 'features/notifications/presentation/cubits/notifications/notification_cubit.dart';
+import 'features/orders/data/datasources/local/local_datasource/order_local_datasource.dart';
 import 'features/orders/data/repositories/order_repository.dart';
 import 'features/orders/presentation/cubits/comment/comment_cubit.dart';
 import 'features/orders/presentation/cubits/order_details/order_detail_cubit.dart';
@@ -83,6 +85,11 @@ Future<void> initLocator() async {
   locator.registerLazySingleton<FlutterSecureStorage>(() => secureStorage);
 
   locator.registerLazySingleton<Store>(() => Store(locator()));
+  final database = await $FloorAppDataBase
+      .databaseBuilder("app_db.db")
+      .build();
+
+  locator.registerSingleton<AppDataBase>(database);
 
   locator.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(internetChecker),
@@ -126,6 +133,11 @@ Future<void> initLocator() async {
     () => OrderRemoteDataSourceImpl(locator()),
   );
 
+  locator.registerLazySingleton<OrderLocalDataSource>(
+    () => OrderLocalDataSourceImpl(locator<AppDataBase>().orderDao),
+  );
+
+
   locator.registerLazySingleton<ProductRemoteDataSource>(
     () => ProductRemoteDataSourceImpl(locator()),
   );
@@ -164,7 +176,7 @@ Future<void> initLocator() async {
     () => StageRepository(locator(), locator()),
   );
   locator.registerLazySingleton<OrderRepository>(
-    () => OrderRepository(locator(), locator()),
+    () => OrderRepository(locator(), locator(), locator()),
   );
   locator.registerLazySingleton<ProductRepository>(
     () => ProductRepository(locator(), locator()),

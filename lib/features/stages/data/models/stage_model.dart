@@ -8,8 +8,8 @@ class StageModel {
   final int order;
   final bool isActive;
   final String color;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final dynamic deletedAt;
   final List<RoleModel> roles;
 
@@ -35,8 +35,8 @@ class StageModel {
     order: json["order"],
     isActive: json["is_active"] != null ? json["is_active"] == 1 ?true : false : false,
     color: json["color"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt:json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
+    updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
     deletedAt: json["deleted_at"],
     roles: json["roles"] != null ? List<RoleModel>.from(
       json["roles"].map((x) => RoleModel.fromJson(x)),
@@ -50,8 +50,8 @@ class StageModel {
     "description": description,
     "order": order,
     "color": color,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt,
   };
 }

@@ -26,8 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
     AppStrings.projects,
     AppStrings.contacts,
     AppStrings.members,
-    AppStrings.productSupport,
-    AppStrings.support,
+    AppStrings.products,
   ];
 
   final List<String> icons = [
@@ -36,7 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
     IconAssets.contact,
     IconAssets.members,
     IconAssets.warehouse,
-    IconAssets.support,
   ];
 
   final List<String> routes = [
@@ -45,7 +43,6 @@ class _SettingsPageState extends State<SettingsPage> {
     AppRoutes.contacts,
     AppRoutes.userPage,
     AppRoutes.warehouse,
-    AppRoutes.support,
   ];
   final userCubit = locator<UserCubit>();
 
@@ -76,32 +73,34 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-        child: MainCardWidget(
-          padding: EdgeInsets.zero,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+          child: MainCardWidget(
+            padding: EdgeInsets.zero,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
 
-            children: [
-              BlocBuilder<UserCubit, UserState>(
-                builder: (context, state) {
-                  if (state is UserLoaded) {
-                    final data = state.data;
-                    return UserDataWidget(
-                      name: data.name,
-                      job: data.username,
-                      image: data.image,
-                    );
-                  }
+              children: [
+                BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    if (state is UserLoaded) {
+                      final data = state.data;
+                      return UserDataWidget(
+                        name: data.name,
+                        job: data.username,
+                        image: data.image,
+                      );
+                    }
 
-                  return UserDataWidget(name: null, job: null, image: null);
-                },
-              ),
-              Divider(color: AppColors.commentTimeBorder, thickness: 1),
+                    return UserDataWidget(name: null, job: null, image: null);
+                  },
+                ),
+                Divider(color: AppColors.commentTimeBorder, thickness: 1),
 
-              SettingsWidget(titles: titles, icons: icons, routes: routes),
-            ],
+                SettingsWidget(titles: titles, icons: icons, routes: routes),
+              ],
+            ),
           ),
         ),
       ),

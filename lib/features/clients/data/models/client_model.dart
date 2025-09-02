@@ -5,7 +5,7 @@ class ClientModel {
   final int id;
   final String name;
   final String companyName;
-  final String createdAt;
+  final DateTime createdAt;
   final DateTime updatedAt;
   final List<ContactModel>? contacts;
 
@@ -22,9 +22,7 @@ class ClientModel {
     id: json["id"],
     name: json["name"] ?? '',
     companyName: json["company_name"] ?? '',
-    createdAt: json["created_at"] != null
-        ? formatDate(DateTime.parse(json["created_at"]))
-        : '',
+    createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     contacts: json["contacts"] != null
         ? List<ContactModel>.from(
@@ -37,7 +35,7 @@ class ClientModel {
     "id": id,
     "name": name,
     "company_name": companyName,
-    "created_at": createdAt,
+    "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
     "contacts": contacts != null
         ? List<dynamic>.from(contacts!.map((x) => x.toJson()))
@@ -60,7 +58,7 @@ class ClientModel {
       id: 0,
       name: '',
       companyName: '',
-      createdAt: '',
+      createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       contacts: [],
     );

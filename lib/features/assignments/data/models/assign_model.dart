@@ -54,4 +54,24 @@ class AssignModel {
     deletedAt: json["deleted_at"],
     user: UserModel.fromJson(json["user"]),
   );
+
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "order_id": orderId,
+    "user_id": userId,
+    "status": status,
+    "assigned_at": assignedAt.toIso8601String(),
+    "completed_at": completedAt,
+    "cancelled_at": cancelledAt,
+    "approved_at": approvedAt,
+    "assigned_by_user": assignedBy.toJson(),
+    "role_type": roleType,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+    "deleted_at": deletedAt,
+    "user": user.toJson(),
+  };
+
+
 }

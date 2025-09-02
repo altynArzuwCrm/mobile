@@ -142,7 +142,9 @@ class AppStrings {
   static const String lastActivity = 'Последнее действие';
   static const String all = 'Все';
   static const String confirmExit = 'Подтвердите выход';
+  static const String confirmDelete = 'Подтвердите удаление';
   static const String confirmLogout = 'Вы уверены, что хотите выйти?';
+  static const String confirmedDelete = 'Вы уверены, что хотите удалить?';
   static const String cancel = 'Отмена';
   static const String logout = 'Выйти';
 

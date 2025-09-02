@@ -9,6 +9,7 @@ import 'package:crm/features/projects/presentations/blocs/project_details/projec
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/projects/presentations/blocs/search_project/search_project_cubit.dart';
 import 'package:crm/features/settings/presentation/widgets/project_detail_order_widget.dart';
+import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,35 +43,39 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           automaticallyImplyLeading: true,
           title: Text(AppStrings.projectDetail),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 18.0),
-              child: AppBarIcon(
-                onTap: () {
-                  final state = detailBloc.state;
-                  if (state is ProjectDetailLoaded) {
-                    locator<ProjectsBloc>().add(DeleteProject(widget.id));
+            BlocBuilder<UserCubit, UserState>(
+              builder: (context, userState) {
+                if (userState is! UserLoaded) {
+                  return SizedBox.shrink();
+                }
 
-                    if(searchCubit.projects.isNotEmpty){
-                      searchCubit.deleteProject(widget.id);
-                    }
+                // Extract role IDs
+                final roles = userState.data.roles?.map((e) => e.id) ?? [];
+                final canDelete = roles.any((id) => id == 1 || id == 2);
 
-                    context.pop();
-                  }
-                },
-                icon: IconAssets.delete,
-              ),
+                return canDelete
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 18.0),
+                        child: AppBarIcon(
+                          onTap: () {
+                            _delete(context);
+                          },
+                          icon: IconAssets.delete,
+                        ),
+                      )
+                    : SizedBox.shrink();
+              },
             ),
+
             Padding(
-              padding: const EdgeInsets.only(right: 18.0),
+              padding: const EdgeInsets.only(right: 18.0, left: 20),
               child: AppBarIcon(
                 onTap: () {
                   final state = detailBloc.state;
                   if (state is ProjectDetailLoaded) {
                     context.push(
                       AppRoutes.editProject,
-                      extra: {"project": state.data,
-
-                      },
+                      extra: {"project": state.data},
                     );
                   }
                 },
@@ -170,6 +175,88 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  _delete(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 24,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white, // or AppColors.background
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  AppStrings.confirmDelete,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  AppStrings.confirmedDelete,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                const SizedBox(height: 24),
+
+                // Cancel + Logout buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: MainButton(
+                        buttonTile: AppStrings.cancel,
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        isLoading: false,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: MainButton(
+                        buttonTile: AppStrings.delete,
+                        onPressed: () {
+                          final state = detailBloc.state;
+                          if (state is ProjectDetailLoaded) {
+                            locator<ProjectsBloc>().add(
+                              DeleteProject(widget.id),
+                            );
+
+                            if (searchCubit.projects.isNotEmpty) {
+                              searchCubit.deleteProject(widget.id);
+                            }
+
+                            context.pop();
+                          }
+                        },
+                        isLoading: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

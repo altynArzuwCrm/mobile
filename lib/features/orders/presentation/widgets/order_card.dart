@@ -46,34 +46,119 @@ class OrderCard extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: 5),
+          SizedBox(height: 10),
 
+          Text(
+            model.project?.title ?? '',
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+              color: AppColors.darkBlue,
+            ),
+          ),
+
+          ///new
+          SizedBox(height: 5),
+          Divider(color: AppColors.divider, thickness: 1),
+          SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                model.project?.title ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: AppColors.darkBlue,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.push('${AppRoutes.orderDetails}/${model.id}');
-                },
-                child: Text(
-                  AppStrings.moreDetails,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: AppColors.primary,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.start,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.normalGray,
+                    ),
                   ),
-                ),
+                  SizedBox(height: 2),
+                  Text(
+                    model.createdAt ?? '',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: AppColors.darkBlue,
+                    ),
+                  ),
+                ],
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Text(
+                    AppStrings.dedline,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.normalGray,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+
+                  Text(
+                    model.deadline,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: AppColors.darkBlue,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
+          SizedBox(height: 5),
+          Divider(color: AppColors.divider, thickness: 1),
+          SizedBox(height: 5),
+          Row(
+
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.customer,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: AppColors.normalGray,
+                  ),
+                ),
+                SizedBox(height: 2),
+
+                Text(
+                  model.client?.name ?? '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: AppColors.accent,
+                  ),
+                ),
+              ],
+            ),
+
+            TextButton(
+              onPressed: () {
+                context.push('${AppRoutes.orderDetails}/${model.id}');
+              },
+              child: Text(
+                AppStrings.moreDetails,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+
+          ],)
         ],
       ),
     );

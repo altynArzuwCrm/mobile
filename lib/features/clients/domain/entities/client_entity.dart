@@ -2,7 +2,7 @@ class ClientEntity {
   final int id;
   final String name;
   final String companyName;
-  final String createdAt;
+  final DateTime createdAt;
   final DateTime updatedAt;
   final List<ContactEntity>? contacts;
 

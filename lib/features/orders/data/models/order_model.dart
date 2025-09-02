@@ -1,6 +1,7 @@
 import 'package:crm/core/utils/time_format.dart';
 import 'package:crm/features/assignments/data/models/assign_model.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
+import 'package:crm/features/orders/data/datasources/local/entity/order_local_entity.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
 
 class OrderModel {
@@ -107,6 +108,31 @@ class OrderModel {
     "client": client?.toJson(),
     "stage": stage?.toJson(),
   };
+
+  OrderLocalEntity toCacheEntity() {
+    return OrderLocalEntity(
+      id: id,
+      clientId: clientId,
+      projectId: projectId,
+      productId: productId,
+      stageId: stageId,
+      quantity: quantity,
+      deadline: deadline,
+      price: price,
+      reason: reason?.toString(),
+      reasonStatus: reasonStatus?.toString(),
+      archivedAt: archivedAt?.toString(),
+      isArchived: isArchived,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      project: project,
+      product: product,
+      client: client,
+      stage: stage,
+      currentStage: currentStage,
+      assignments: assignments,
+    );
+  }
 }
 
 class Product {
@@ -143,7 +169,7 @@ class Project {
   final DateTime? deadline;
   final String totalPrice;
   final String paymentAmount;
-  final String createdAt;
+  final DateTime? createdAt;
   final DateTime updatedAt;
 
   Project({
@@ -167,8 +193,11 @@ class Project {
         ? json["payment_amount"].toString()
         : '',
     createdAt: json["created_at"] != null
-        ? formatDateTime(DateTime.parse(json["created_at"]))
-        : '',
+        ? DateTime.parse(json["created_at"])
+        : null,
+    // createdAt: json["created_at"] != null
+    //     ? formatDateTime(DateTime.parse(json["created_at"]))
+    //     : '',
 
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -179,7 +208,7 @@ class Project {
     "deadline": deadline?.toIso8601String(),
     "total_price": totalPrice,
     "payment_amount": paymentAmount,
-    "created_at": createdAt,
+    "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
 }

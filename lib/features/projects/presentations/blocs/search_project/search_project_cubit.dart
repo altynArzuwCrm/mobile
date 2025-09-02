@@ -19,6 +19,7 @@ class SearchProjectCubit extends Cubit<SearchProjectState> {
   }
 
   Future<void> searchProjects(ProjectParams params) async {
+    projects.clear();
     emit(SearchProjectLoading());
 
     final result = await _allProjectsUseCase.execute(params);
@@ -35,7 +36,7 @@ class SearchProjectCubit extends Cubit<SearchProjectState> {
         if (data.isEmpty) {
           emit(SearchNotFoundedProjects());
         } else {
-          emit(SearchFoundedProjects(data));
+          emit(SearchFoundedProjects(List.from(projects)));
         }
       },
     );

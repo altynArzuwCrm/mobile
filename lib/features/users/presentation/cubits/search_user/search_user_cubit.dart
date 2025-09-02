@@ -21,6 +21,7 @@ class SearchUserCubit extends Cubit<SearchUserState> {
   }
 
   void searchUsers(UserParams params) async {
+    _users.clear();
     emit(SearchUserLoading());
 
     final result = await _allUsersUseCase.execute(params);

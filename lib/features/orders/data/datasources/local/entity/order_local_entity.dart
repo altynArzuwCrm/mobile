@@ -1,11 +1,16 @@
 import 'package:crm/features/assignments/data/models/assign_model.dart';
 import 'package:crm/features/clients/data/models/client_model.dart';
+import 'package:crm/features/orders/data/datasources/local/converter/assignment_list_converter.dart';
+import 'package:crm/features/orders/data/datasources/local/converter/client_converter.dart';
 import 'package:crm/features/orders/data/datasources/local/converter/generic_converter.dart';
+import 'package:crm/features/orders/data/datasources/local/converter/product_converter.dart';
+import 'package:crm/features/orders/data/datasources/local/converter/project_converter.dart';
+import 'package:crm/features/orders/data/datasources/local/converter/stage_converter.dart';
 import 'package:crm/features/orders/data/models/order_model.dart';
 import 'package:crm/features/stages/data/models/stage_model.dart';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'orders')
+@entity
 class OrderLocalEntity {
   @primaryKey
   final int id;
@@ -27,22 +32,22 @@ class OrderLocalEntity {
   @TypeConverters([DateTimeConverter])
   final DateTime updatedAt;
 
-  @TypeConverters([JsonConverter<Project>])
+  @TypeConverters([ProjectConverter])
   final Project? project;
 
-  @TypeConverters([JsonConverter<Product>])
+  @TypeConverters([ProductConverter])
   final Product? product;
 
-  @TypeConverters([JsonConverter<ClientModel>])
+  @TypeConverters([ClientConverter])
   final ClientModel? client;
 
-  @TypeConverters([JsonConverter<StageModel>])
+  @TypeConverters([StageConverter])
   final StageModel? stage;
 
-  @TypeConverters([JsonConverter<StageModel>])
+  @TypeConverters([StageConverter])
   final StageModel? currentStage;
 
-  @TypeConverters([JsonListConverter<AssignModel>])
+  @TypeConverters([AssignmentListConverter])
   final List<AssignModel> assignments;
 
   OrderLocalEntity({
@@ -90,4 +95,29 @@ class OrderLocalEntity {
     currentStage: model.currentStage,
     assignments: model.assignments,
   );
+
+  OrderModel toModel() {
+    return OrderModel(
+      id: id,
+      clientId: clientId,
+      projectId: projectId,
+      productId: productId,
+      stageId: stageId,
+      quantity: quantity,
+      deadline: deadline,
+      price: price,
+      reason: reason,
+      reasonStatus: reasonStatus,
+      archivedAt: archivedAt,
+      isArchived: isArchived,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      project: project,
+      product: product,
+      client: client,
+      stage: stage,
+      currentStage: currentStage,
+      assignments: assignments,
+    );
+  }
 }
