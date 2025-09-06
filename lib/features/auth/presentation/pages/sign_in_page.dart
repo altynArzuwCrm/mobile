@@ -259,7 +259,7 @@ class _SignInPageState extends State<SignInPage> {
                             title: Text(AppStrings.loggedSuccessfully),
                             autoCloseDuration: const Duration(seconds: 3),
                           ); //todo
-                          context.go(AppRoutes.mainStatistics);
+                          context.go(AppRoutes.orderPage);
                         } else if (state is AuthFailure) {
                           toastification.show(
                             context: context,

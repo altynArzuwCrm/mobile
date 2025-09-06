@@ -10,6 +10,8 @@ import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'product_selector.dart';
+
 class SingleOrderItem extends StatelessWidget {
   const SingleOrderItem({
     super.key,
@@ -17,6 +19,7 @@ class SingleOrderItem extends StatelessWidget {
     required this.priceCtrl,
     required this.countCtrl,
     required this.onSelectProduct,
+    required this.onAddProduct,
     required this.formKey,
   });
 
@@ -25,6 +28,7 @@ class SingleOrderItem extends StatelessWidget {
   final ValueChanged onSelectDate;
   final ValueChanged onSelectProduct;
   final GlobalKey<FormState> formKey;
+  final VoidCallback onAddProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -40,87 +44,27 @@ class SingleOrderItem extends StatelessWidget {
             title: AppStrings.product,
             child: BlocProvider.value(
               value: locator<ProductsCubit>(),
-              child: BlocBuilder<ProductsCubit, ProductsState>(
-                builder: (context, state) {
-                  final inputDecoration = InputDecoration(
-                    hintText: state is ProductsLoading
-                        ? AppStrings.loadingProducts
-                        : state is ClientsError
-                        ? AppStrings.notLoaded
-                        : AppStrings.selectProduct,
-
-                    //    filled: true,
-                    //      fillColor: AppColors.white,
-                    suffixIcon: const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: AppColors.gray,
-                      size: 30,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 14,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
-                        color: AppColors.timeBorder,
-                        // highlight color when focused
-                        width: 1,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
-                        color: AppColors.timeBorder,
-                        // highlight color when focused
-                        width: 1,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
-                        color: AppColors.timeBorder,
-                        width: 1,
-                      ),
-                    ),
-                  );
-
-                  if (state is ProductsLoaded) {
-                    return EasyAutocomplete(
-                      suggestions: state.data.map((c) => c.name).toList(),
-                      initialValue: '',
-                      onChanged: (value) {
-                        final matches = state.data
-                            .where((c) => c.name == value)
-                            .toList();
-                        if (matches.isNotEmpty) {
-                          final client = matches.first;
-                          onSelectProduct(client.id.toString());
-                        } else {
-                          onSelectProduct(null);
-                        }
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ProductSelector(
+                      onSelectProduct: (value) {
+                        onSelectProduct(value);
                       },
-
-                      validator: (v) {
-                        if (v == null) {
-                          return AppStrings.selectProduct;
-                        }
-                        return null;
-                      },
-                      decoration: inputDecoration,
-                    );
-                  } else {
-                    return IgnorePointer(
-                      ignoring: true,
-                      child: EasyAutocomplete(
-                        suggestions: const <String>[],
-                        initialValue: '',
-                        onChanged: (_) {},
-                        decoration: inputDecoration,
-                      ),
-                    );
-                  }
-                },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: AppColors.bgColor,
+                    ),
+                    child: IconButton(
+                      onPressed: onAddProduct,
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

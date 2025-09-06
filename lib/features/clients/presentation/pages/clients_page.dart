@@ -6,6 +6,7 @@ import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/clients/presentation/cubits/companies/company_cubit.dart';
 import 'package:crm/features/clients/presentation/pages/components/contacts_list.dart';
+import 'package:crm/features/clients/presentation/pages/filter_client_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
 import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
@@ -31,6 +32,8 @@ class _ContactsPageState extends State<ContactsPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     locator<CompanyCubit>().getCompanies();
+    orderBy = null;
+
   }
 
   @override
@@ -40,6 +43,7 @@ class _ContactsPageState extends State<ContactsPage>
   }
 
   String sortOrder = "asc";
+  String? orderBy;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,8 @@ class _ContactsPageState extends State<ContactsPage>
         automaticallyImplyLeading: true,
         title: Text(AppStrings.contacts),
         actions: [
+          AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
+
           SortOrderSelector(
             sortOrder: sortOrder,
             isIconOnly: true,
@@ -96,6 +102,25 @@ class _ContactsPageState extends State<ContactsPage>
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _openSort() async {
+    final result = await showDialog<String>(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return FilterClientWidget(
+          initialSortOrder: sortOrder,
+          orderBy: orderBy,
+        );
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        sortOrder = result;
+      });
+    }
   }
 
   void _openAddUser() {

@@ -1,4 +1,5 @@
 
+import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/settings/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +17,14 @@ class ContactWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String displayTitle =
+        AppStrings.contactTypesMap[contactField.type] ?? contactField.type;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextFieldWithTitle(
           controller: contactField.controller,
-          title: contactField.type,
+          title: displayTitle,
           hintText: '',
           isPhone:
           contactField.type == 'phone' || contactField.type == 'whatsapp',

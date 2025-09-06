@@ -99,9 +99,10 @@ class _StatisticsPageState extends State<StatisticsPage>
       expandedHeight: 200,
       floating: true,
       pinned: true,
+      leadingWidth: 100,
       leading: Container(
         margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-        child: SvgPicture.asset(ImageAssets.splashLogo),
+        child: SvgPicture.asset(ImageAssets.splashLogo,height: 20, width: 54,fit: BoxFit.contain,),
       ),
       actions: [
         const SizedBox(width: 7),

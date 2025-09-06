@@ -94,74 +94,58 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               } else if (state is ProjectDetailLoaded) {
                 final data = state.data;
 
-                return Stack(
-                  children: [
-                    CustomScrollView(
-                      slivers: [
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GeneralInfo(
-                                  name: data.title,
-                                  deadline: data.deadline,
-                                  price: data.paymentAmount,
-                                  createdTime: data.createdAt,
-                                ),
-                                SizedBox(height: 20),
-
-                                Text(
-                                  AppStrings.orders,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: AppColors.darkBlue,
-                                  ),
-                                ),
-                              ],
+                return CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GeneralInfo(
+                              name: data.title,
+                              deadline: data.deadline,
+                              price: data.paymentAmount,
+                              createdTime: data.createdAt,
                             ),
-                          ),
-                        ),
+                            SizedBox(height: 20),
 
-                        SliverPadding(
-                          padding: EdgeInsets.only(bottom: 85),
-                          sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              childCount: data.orders?.length,
-                              (BuildContext context, int index) {
-                                final item = data.orders?[index];
-                                return Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    25,
-                                    20,
-                                    25,
-                                    0,
-                                  ),
-                                  child: ProjectDetailOrderWidget(
-                                    title: item?.product.name ?? '',
-                                    client: item?.client.name ?? '',
-                                    deadline: item?.deadline ?? '',
-                                    id: item?.id,
-                                  ),
-                                );
-                              },
+                            Text(
+                              AppStrings.orders,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: AppColors.darkBlue,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    Positioned(
-                      bottom: 20,
-                      right: 25,
-                      left: 25,
-                      child: MainButton(
-                        buttonTile: AppStrings.back,
-                        onPressed: () {
-                          context.pop();
-                        },
-                        isLoading: false,
+
+                    SliverPadding(
+                      padding: EdgeInsets.only(bottom: 85),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: data.orders?.length,
+                          (BuildContext context, int index) {
+                            final item = data.orders?[index];
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                25,
+                                20,
+                                25,
+                                0,
+                              ),
+                              child: ProjectDetailOrderWidget(
+                                title: item?.product.name ?? '',
+                                client: item?.client.name ?? '',
+                                deadline: item?.deadline ?? '',
+                                id: item?.id,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

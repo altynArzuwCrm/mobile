@@ -1,5 +1,4 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
-import 'package:crm/common/widgets/main_btn.dart' show MainButton;
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
@@ -61,28 +60,12 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
             } else if (state is ClientDetailsLoaded) {
               final data = state.data;
 
-              return Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: ClientDetailsWidget(
-                        name: data.name,
-                        company: data.companyName,
-                        contacts: data.contacts ?? [],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: MainButton(
-                      buttonTile: AppStrings.back,
-                      onPressed: () {
-                        context.pop();
-                      },
-                      isLoading: false,
-                    ),
-                  ),
-                ],
+              return SingleChildScrollView(
+                child: ClientDetailsWidget(
+                  name: data.name,
+                  company: data.companyName,
+                  contacts: data.contacts ?? [],
+                ),
               );
             } else if (state is ClientDetailsConnectionError) {
               return Center(child: Text(AppStrings.noInternet));

@@ -159,15 +159,18 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
-                ordersCubit.getAllOrders(
-                  OrderParams(
-                    sortOrder: sortOrder,
-                    stage: ordersCubit.selectedStage,
-                    status: widget.selectedStatus,
-                    sortBy: selectedOrderBy,
-                    page: 1,
-                  ),
+                final params =  OrderParams(
+                  sortOrder: sortOrder,
+                  stage: ordersCubit.selectedStage,
+                  status: widget.selectedStatus,
+                  sortBy: selectedOrderBy,
+                  page: 1,
                 );
+                ordersCubit.getAllOrders(
+                 params
+                );
+                print(params);
+
                 context.pop(sortOrder);
               },
               isLoading: false,

@@ -96,7 +96,8 @@ class AppStrings {
   static const String coverDesign = 'Дизайн обложки';
   static const String addUser = 'Добавить  сотрудник';
   static const String addClient = 'Добавить  контакт';
-  static const String addProject = 'Добавить  проект';
+  static const String addProject = 'Добавить проект';
+  static const String addProduct = 'Добавить товар';
   static const String approve = 'На проверке';
   static const String approved = 'Одобрено';
   static const String cancelled = 'Отменено';
@@ -149,7 +150,13 @@ class AppStrings {
   static const String logout = 'Выйти';
 
 
-  static const String lorem = '''
-    Lorem Ipsum, sometimes referred to as 'lipsum', is the placeholder text used in design when creating content. It helps designers plan out where the content will sit, without needing to wait for the content to be written and approved
-    ''';
+  static const Map<String, String> contactTypesMap = {
+    'phone': 'Телефон',
+    'telegram': 'Телеграм',
+    'whatsapp': 'Ватсап',
+    'other': 'Другое',
+    'email': 'Почта',
+    'instagram': 'Инстаграм',
+  };
+
 }

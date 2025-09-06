@@ -43,7 +43,7 @@ class ProductRepository {
     }
   }
 
-  Future<Either<Failure, List<ProductModel>>> createProduct(
+  Future<Either<Failure, ProductModel>> createProduct(
     CreateProductParams params,
   ) async {
     final bool isConnected = await networkInfo.isConnected;

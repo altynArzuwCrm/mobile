@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (isRegistered is Authenticated) {
-      context.go(AppRoutes.mainStatistics);
+      context.go(AppRoutes.orderPage);
     } else {
       context.go(AppRoutes.signIn);
     }

@@ -1,6 +1,7 @@
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/notifications/presentation/cubits/notifications/notification_cubit.dart';
 import 'package:crm/features/notifications/presentation/widgets/notification_item_widget.dart';
+import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,13 @@ class _NotificationPageState extends State<NotificationPage> {
             if (state is NotificationLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is NotificationLoaded) {
+
+              final userState = locator<UserCubit>().state;
+              String name = '';
+              if(userState  is UserLoaded){
+                name =  userState.data.name;
+              }
+
               final data = state.data;
               return ListView.separated(
                 itemCount: data.length,
@@ -40,7 +48,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 itemBuilder: (context, index) {
                   final item = data[index];
                   return NotificationItemWidget(
-                    title: item.actionUserName,
+                    title: name,
                     text: item.message,
                     time: item.assignedAt,
                     orderId: item.orderId,

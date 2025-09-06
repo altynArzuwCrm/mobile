@@ -26,27 +26,15 @@ class ProfilePage extends StatelessWidget {
               if (state is UserLoaded) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: Row(
-                    children: [
-                      AppBarIcon(
-                        onTap: () {
-                          context.push(
-                            AppRoutes.editProfile,
-                            extra: {"user": state.data},
-                          );
-                        },
-                        icon: IconAssets.edit,
-                        padding: EdgeInsets.all(10),
-                      ),
-                      AppBarIcon(
-                        onTap:(){
-                          _logout(context);
-                        },
-                        icon: IconAssets.logout,
-
-                        padding: EdgeInsets.all(10),
-                      ),
-                    ],
+                  child: AppBarIcon(
+                    onTap: () {
+                      context.push(
+                        AppRoutes.editProfile,
+                        extra: {"user": state.data},
+                      );
+                    },
+                    icon: IconAssets.edit,
+                    padding: EdgeInsets.all(10),
                   ),
                 );
               } else {
@@ -65,10 +53,24 @@ class ProfilePage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             } else if (state is UserLoaded) {
               final data = state.data;
-              return UserProfileWidget(
-                name: data.name,
-                jobs: data.roles?.map((e) => e.displayName).toList() ?? [],
-                phone: data.phone,
+              return Column(
+                children: [
+                  Expanded(
+                    child: UserProfileWidget(
+                      name: data.name,
+                      jobs:
+                          data.roles?.map((e) => e.displayName).toList() ?? [],
+                      phone: data.phone,
+                    ),
+                  ),
+                  MainButton(
+                    buttonTile: 'Выйти',
+                    onPressed: () {
+                      _logout(context);
+                    },
+                    isLoading: false,
+                  ),
+                ],
               );
             } else if (state is UserConnectionError) {
               return Center(child: Text(AppStrings.noInternet));
@@ -104,7 +106,7 @@ class ProfilePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                 AppStrings.confirmExit ,
+                  AppStrings.confirmExit,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -137,9 +139,7 @@ class ProfilePage extends StatelessWidget {
                       child: MainButton(
                         buttonTile: AppStrings.logout,
                         onPressed: () {
-                          locator<AuthBloc>().add(
-                            LogOutEvent(),
-                          );
+                          locator<AuthBloc>().add(LogOutEvent());
                           context.go(AppRoutes.splash);
                         },
                         isLoading: false,
@@ -155,4 +155,3 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
-

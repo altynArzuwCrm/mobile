@@ -69,7 +69,7 @@ class _AddProductPageState extends State<AddProductPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 10),
-            child: BottomSheetTitle(title: AppStrings.addProject),
+            child: BottomSheetTitle(title: AppStrings.addProduct),
           ),
           Divider(color: AppColors.divider, thickness: 1),
           Flexible(

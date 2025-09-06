@@ -7,8 +7,6 @@ class ImageAssets {
 }
 
 class IconAssets {
-  static const String logo = '$iconPath/logo.png';
-  static const String mainLogo = '$iconPath/mainLogo.svg';
 
   static const String mainBottom = '$iconPath/mainBottom.svg';
   static const String orderBottom = '$iconPath/orderBottom.svg';

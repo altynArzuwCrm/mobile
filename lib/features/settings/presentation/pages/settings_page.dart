@@ -56,9 +56,10 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 100,
         leading: Container(
           margin: EdgeInsets.fromLTRB(20, 10, 0, 10),
-          child: SvgPicture.asset(ImageAssets.splashLogo),
+          child: SvgPicture.asset(ImageAssets.splashLogo, height: 20, width: 54,fit: BoxFit.contain,),
         ),
 
         actions: [
@@ -89,11 +90,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       return UserDataWidget(
                         name: data.name,
                         job: data.username,
-                        image: data.image,
                       );
                     }
 
-                    return UserDataWidget(name: null, job: null, image: null);
+                    return UserDataWidget(name: null, job: null,);
                   },
                 ),
                 Divider(color: AppColors.commentTimeBorder, thickness: 1),

@@ -329,7 +329,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     MainButton(
                       buttonTile: AppStrings.send,
                       onPressed: () {
-                        context.go(AppRoutes.mainStatistics);
+                        context.go(AppRoutes.orderPage);
                       },
                       isLoading: false,
                       hasIcon: true,

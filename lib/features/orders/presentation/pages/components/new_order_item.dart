@@ -13,11 +13,13 @@ class NewOrderItem extends StatelessWidget {
     super.key,
     required this.item,
     required this.onRemove,
+    required this.onAddProduct,
     required this.formKey,
   });
 
   final OrderItemModel item;
   final VoidCallback onRemove;
+  final VoidCallback onAddProduct;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -36,12 +38,30 @@ class NewOrderItem extends StatelessWidget {
           children: [
             TextFieldTitle(
               title: AppStrings.product,
-              child: ProductSelector(
-                onSelectProduct: (value) {
-                  item.selectedProductId = value;
-                },
-              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ProductSelector(
+                      onSelectProduct: (value) {
+                        item.selectedProductId = value;
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: AppColors.bgColor,
+                    ),
+                    child: IconButton(
+                      onPressed: onAddProduct,
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
+                ],
+              )
             ),
+
             //count
             SizedBox(height: 20),
             TextFieldTitle(

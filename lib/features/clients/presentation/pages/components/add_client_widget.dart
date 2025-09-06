@@ -28,14 +28,10 @@ class _AddClientWidgetState extends State<AddClientWidget> {
   late final List<ContactField> _contactControllers = [];
 
   String? selectedType;
-  final List<String> contactTypes = [
-    'telegram',
-    'whatsapp',
-    'other',
-    'phone',
-    'email',
-    'instagram',
-  ];
+
+
+
+
 
   @override
   void initState() {
@@ -146,10 +142,10 @@ class _AddClientWidgetState extends State<AddClientWidget> {
                                 ),
                               ),
                             ),
-                            items: contactTypes.map((type) {
+                            items: AppStrings.contactTypesMap.entries.map((type) {
                               return DropdownMenuItem(
-                                value: type,
-                                child: Text(type),
+                                value: type.key,
+                                child: Text(type.value),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -209,10 +205,9 @@ class _AddClientWidgetState extends State<AddClientWidget> {
                   contacts: contactsList,
                   id: null,
                 );
+               locator<ClientsCubit>().createClient(newClient);
 
-                locator<ClientsCubit>().createClient(newClient);
-
-                context.pop();
+               context.pop();
               },
               isLoading: false,
             ),

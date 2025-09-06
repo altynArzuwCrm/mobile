@@ -70,6 +70,7 @@ class ProductsCubit extends Cubit<ProductsState> {
     final result = await repository.createProduct(params);
 
     result.fold((error) {}, (data) {
+      _products.insert(0,data);
       emit(ProductsLoaded(List<ProductModel>.from(_products)));
     });
   }

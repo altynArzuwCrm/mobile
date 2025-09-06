@@ -4,11 +4,10 @@ import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class UserDataWidget extends StatelessWidget {
-  const UserDataWidget({super.key, required this.name, required this.job, required this.image});
+  const UserDataWidget({super.key, required this.name, required this.job});
 
   final String? name;
   final String? job;
-  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +16,16 @@ class UserDataWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: ImageWithShimmer(imageUrl: image ?? img, width: 60, height: 60),
+          Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.lightGray,
+              shape: BoxShape.circle
+            ),
+
+            child: Text(name?.substring(0, 1) ?? '',style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 5),
           Text(
           name ??  '',
             style: TextStyle(

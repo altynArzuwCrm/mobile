@@ -14,6 +14,7 @@ import 'package:crm/features/orders/presentation/widgets/selectable_card.dart';
 import 'package:crm/features/orders/presentation/widgets/widget_model/order_item_model.dart';
 import 'package:crm/features/products/data/models/product_params.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
+import 'package:crm/features/products/presentation/pages/add_product_page.dart';
 import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/features/projects/presentations/pages/add_project_page.dart';
@@ -125,6 +126,16 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
   }
 
+  void _openAddProduct() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return AddProductPage();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,6 +236,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               onSelectProduct: (p) {
                                 selectedProductId = p;
                               },
+                              onAddProduct: _openAddProduct,
                             )
                           : BlocProvider.value(
                               value: locator<ProductsCubit>(),
@@ -242,7 +254,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                       setState(() {
                                         orderItems.removeAt(index);
                                       });
-                                    },
+                                    }, onAddProduct: _openAddProduct,
                                   );
                                 }).toList(),
                               ),
@@ -261,10 +273,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                       BlocProvider.value(
                         value: stageWithUsersCubit,
                         child:
-                            BlocBuilder<
-                              StageWithUsersCubit,
-                              StageWithUsersState
-                            >(
+                            BlocBuilder<StageWithUsersCubit, StageWithUsersState>(
                               builder: (context, state) {
                                 if (state is StageWithUsersLoading) {
                                   return const Center(

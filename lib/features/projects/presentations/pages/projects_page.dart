@@ -151,26 +151,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
               return SizedBox.shrink();
             },
           ),
-
-          BlocBuilder<ProjectsBloc, ProjectsState>(
-            builder: (context, state) {
-              if (state is ProjectsLoaded) {
-                return Positioned(
-                  right: 25,
-                  bottom: 15,
-                  left: 15,
-                  child: MainButton(
-                    buttonTile: AppStrings.back,
-                    onPressed: () {
-                      context.pop();
-                    },
-                    isLoading: false,
-                  ),
-                );
-              }
-              return SizedBox.shrink();
-            },
-          ),
         ],
       ),
     );

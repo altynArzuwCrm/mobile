@@ -8,7 +8,7 @@ abstract class ProductRemoteDataSource {
 
   Future<ProductModel> getProductById(int id);
 
-  Future<List<ProductModel>> createProduct(CreateProductParams params);
+  Future<ProductModel> createProduct(CreateProductParams params);
 
   Future<ProductModel> editProduct(ProductParams params);
 
@@ -61,19 +61,16 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<List<ProductModel>> createProduct(CreateProductParams params) async {
+  Future<ProductModel> createProduct(CreateProductParams params) async {
     final response = await apiProvider.post(
       endPoint: ApiEndpoints.products,
       data: params.toQueryParameters(),
     );
 
-    if (response.statusCode == 201) {
-      final result = await getAllProducts(ProductParams());
+    final productId = response.data['data']['id'];
+    final result = await getProductById(productId);
 
-      return result;
-    } else {
-      return [];
-    }
+    return result;
   }
 
   @override
