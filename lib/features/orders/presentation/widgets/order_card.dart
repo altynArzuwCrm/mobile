@@ -77,7 +77,7 @@ class OrderCard extends StatelessWidget {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    model.createdAt ?? '',
+                    model.createdAt,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16,

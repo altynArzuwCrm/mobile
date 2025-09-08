@@ -49,12 +49,13 @@ class OrderRepository {
     bool isConnected,OrderParams params
   ) async {
 
+    log('----------Local Order-------------');
+
     final localData = await localDataSource.getAllOrders(params);
     log('$localData');
 
     if (localData != null && localData.isNotEmpty) {
       final localItems = localData.map((e) => e.toModel()).toList();
-      log('-----------------------');
       return Right(localItems);
     } else {
       if (isConnected) {

@@ -1,6 +1,7 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/common/widgets/main_card.dart';
+import 'package:crm/core/utils/time_format.dart';
 import 'package:flutter/material.dart';
 
 class GeneralInfo extends StatelessWidget {
@@ -13,12 +14,14 @@ class GeneralInfo extends StatelessWidget {
   });
 
   final String? name;
-  final String? deadline;
+  final DateTime? deadline;
   final String? price;
   final String? createdTime;
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = formatDate(deadline);
+
     return MainCardWidget(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +136,7 @@ class GeneralInfo extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      deadline ?? '',
+                      formattedDate,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,

@@ -1,6 +1,4 @@
-import 'package:crm/common/widgets/shimmer_image.dart' show ImageWithShimmer;
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class UserDataWidget extends StatelessWidget {

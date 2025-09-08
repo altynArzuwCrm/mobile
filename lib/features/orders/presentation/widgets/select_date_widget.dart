@@ -10,6 +10,7 @@ class SelectDateWidget extends StatefulWidget {
   final bool includeTime;
   final DateTime? firstDate;
   final DateTime? lastDate;
+  final String? hint;
 
   const SelectDateWidget({
     super.key,
@@ -19,6 +20,7 @@ class SelectDateWidget extends StatefulWidget {
     this.includeTime = false,
     this.firstDate,
     this.lastDate,
+    this.hint,
   });
 
   @override
@@ -92,7 +94,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
   Widget build(BuildContext context) {
     final formatted = selectedDate != null
         ? DateFormat(widget.dateFormat).format(selectedDate!)
-        : AppStrings.selectDate;
+        : widget.hint ?? AppStrings.selectDate;
 
     return GestureDetector(
       onTap: _pickDateTime,

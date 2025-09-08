@@ -58,6 +58,7 @@ class AppStrings {
 
 
   static const String customer = 'Клиент';
+  static const String customers = 'Клиенты';
   static const String addOrder = 'Добавить заказ';
   static const String start = 'Начало';
   static const String create = 'Создать';
@@ -78,7 +79,7 @@ class AppStrings {
   static const String company = 'Компания';
   static const String location = 'Локация';
   static const String birthday = 'Дата рождения';
-  static const String contacts = 'Контакты';
+  //static const String contacts = 'Контакты';
   static const String number = 'Номер телефона';
   static const String companies = 'Компании';
   static const String editing = 'Редактирование';

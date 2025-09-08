@@ -20,16 +20,17 @@ class CreateProjectUseCase
 
 class CreateProjectParams {
   final String title;
-  final String description;
-  final int clientId;
-  final String? status;
+  final String? price;
+  final String? payment;
+  final DateTime? deadline;
   final int? id;
 
+
   CreateProjectParams({
-    this.status,
+    required   this.price,
     required this.title,
-    required this.description,
-    required this.clientId,
+    required  this.payment,
+    required   this.deadline,
     this.id,
   });
 
@@ -37,10 +38,15 @@ class CreateProjectParams {
     final Map<String, dynamic> params = {};
 
     params['title'] = title;
-    params['description'] = description;
-    params['client_id'] = clientId;
-    if (status != null) params['status'] = status;
+    if (price != null)  params['total_price'] = price;
+    if (payment != null)  params['payment_amount'] = payment;
+    if (deadline != null) params['deadline'] = deadline!.toIso8601String();
 
     return params;
+  }
+
+  @override
+  String toString() {
+    return 'CreateProjectParams{title: $title, price: $price, payment: $payment, deadline: $deadline, id: $id}';
   }
 }

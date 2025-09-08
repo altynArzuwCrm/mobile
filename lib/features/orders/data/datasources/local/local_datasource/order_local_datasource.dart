@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crm/features/orders/data/datasources/local/dao/orders_dao.dart';
 import 'package:crm/features/orders/data/datasources/local/entity/order_local_entity.dart';
 import 'package:crm/features/orders/data/models/order_params.dart';
@@ -71,7 +69,6 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
 
     // --- Sorting ---
     if (sortBy != null) {
-      log('------sort--------');
       filteredOrders.sort((a, b) {
         int result = 0;
 
@@ -80,7 +77,6 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
             final titleA = a.project?.title ?? '';
             final titleB = b.project?.title ?? '';
             result = titleA.compareTo(titleB);
-            log('------name--------');
 
             break;
 
@@ -94,7 +90,6 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
                 : DateTime(1970);
 
             result = createdA.compareTo(createdB);
-            log('------created_at--------');
 
             break;
 
@@ -109,7 +104,6 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
                 : DateTime(2100);
 
             result = deadlineA.compareTo(deadlineB);
-            log('------deadline--------');
             break;
 
 
@@ -122,14 +116,12 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
 
         if (sortOrder != null && sortOrder.toLowerCase().contains('desc')) {
           result = -result; // reverse for descending
-          log('------desc--------');
 
         }
 
         return result;
       });
     } else {
-      log('------filteredOrders-- title ascending------');
 
       // Default sort by project title ascending
       filteredOrders.sort((a, b) {

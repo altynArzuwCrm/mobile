@@ -1,6 +1,5 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
-import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
@@ -14,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'add_product_page.dart';
+import 'filter_products_widget.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -29,10 +29,13 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     super.initState();
     productsCubit.getAllProducts(ProductParams(page: _currentPage));
+    orderBy = null;
+
   }
 
   int _currentPage = 1;
   String sortOrder = "asc";
+  String? orderBy;
 
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
@@ -69,22 +72,8 @@ class _ProductsPageState extends State<ProductsPage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.products),
         actions: [
-          SortOrderSelector(
-            sortOrder: sortOrder,
-            isIconOnly: true,
-            onChanged: (val) {
-              debugPrint("Sort order: $sortOrder");
+          AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
 
-              setState(() {
-                sortOrder = val;
-                _currentPage = 1;
-              });
-
-              productsCubit.getAllProducts(
-                ProductParams(page: _currentPage, sortProduct: sortOrder),
-              );
-            },
-          ),
 
           Padding(
             padding: const EdgeInsets.only(right: 18.0, left: 10),
@@ -169,6 +158,22 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
       ),
     );
+  }
+
+  void _openSort() async {
+    final result = await showDialog<String>(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return FilterProductsWidget(initialSortOrder: sortOrder, sortBy: orderBy);
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        sortOrder = result;
+      });
+    }
   }
 
   void _openAddOrder() {

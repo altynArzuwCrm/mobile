@@ -1,7 +1,5 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
-import 'package:crm/common/widgets/main_btn.dart';
-import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
@@ -18,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'add_project_page.dart';
+import 'filter_projects_widget.dart';
 
 class ProjectsPage extends StatefulWidget {
   const ProjectsPage({super.key});
@@ -33,6 +32,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
   int _currentPage = 1;
   final Set<int> selectedIndices = {};
   String sortOrder = "asc";
+  String? orderBy;
 
   @override
   void initState() {
@@ -41,6 +41,9 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
     clientsCubit.getAllClients(UserParams());
     stagesCubit.getAllStages();
+
+    orderBy = null;
+
   }
 
   final RefreshController _refreshController = RefreshController(
@@ -78,22 +81,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
         automaticallyImplyLeading: true,
         title: Text(AppStrings.projects),
         actions: [
-          SortOrderSelector(
-            sortOrder: sortOrder,
-            isIconOnly: true,
-            onChanged: (val) {
-              setState(() {
-                sortOrder = val;
-                _currentPage = 1;
-              });
+          AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
 
-              projectBloc.add(
-                GetAllProjects(
-                  ProjectParams(page: _currentPage, sortOrder: sortOrder),
-                ),
-              );
-            },
-          ),
 
           Padding(
             padding: const EdgeInsets.only(right: 18.0, left: 10),
@@ -183,6 +172,22 @@ class _ProjectsPageState extends State<ProjectsPage> {
         return Center(child: Text(AppStrings.error));
       case ProjectsConnectionError():
         return Center(child: Text(AppStrings.noInternet));
+    }
+  }
+
+  void _openSort() async {
+    final result = await showDialog<String>(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return FilterProjectsWidget(initialSortOrder: sortOrder, sortBy: orderBy);
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        sortOrder = result;
+      });
     }
   }
 

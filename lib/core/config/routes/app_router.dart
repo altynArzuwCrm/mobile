@@ -235,14 +235,8 @@ final goRouter = GoRouter(
           final extra = state.extra as Map<String, dynamic>;
 
           final ProjectEntity project = extra['project'];
-          final stageId = state.pathParameters['stageId'] ?? '';
-          final clientId = state.pathParameters['clientId'] ?? '';
 
-          return EditProjectPage(
-            project: project,
-            clientId: clientId,
-            stageId: stageId,
-          );
+          return EditProjectPage(project: project);
         }
 
         return Scaffold(

@@ -3,17 +3,13 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/bottom_sheet_title.dart';
 import 'package:crm/features/orders/presentation/widgets/dialog_widget.dart';
-import 'package:crm/features/orders/presentation/widgets/dropdown_widget.dart';
+import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
 import 'package:crm/features/projects/domain/usecases/create_project_usecase.dart';
 import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
-import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
 import 'package:crm/locator.dart';
-import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AddProjectWidget extends StatefulWidget {
@@ -25,12 +21,11 @@ class AddProjectWidget extends StatefulWidget {
 
 class _AddProjectWidgetState extends State<AddProjectWidget> {
   final TextEditingController _nameCtrl = TextEditingController();
-  final TextEditingController _descriptionCtrl = TextEditingController();
+  final TextEditingController _priceCtrl = TextEditingController();
+  final TextEditingController _paymentCtrl = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
-  String? selectedStage;
-  String? selectedClientId;
+  DateTime? deadline;
 
   @override
   void initState() {
@@ -40,27 +35,43 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
   @override
   void dispose() {
     _nameCtrl.dispose();
-    _descriptionCtrl.dispose();
+    _priceCtrl.dispose();
+    _paymentCtrl.dispose();
     super.dispose();
   }
 
   void _resetForm() {
     _nameCtrl.clear();
-    _descriptionCtrl.clear();
-    selectedClientId = null;
-    selectedStage = null;
+    _priceCtrl.clear();
+    _paymentCtrl.clear();
+    deadline = null;
   }
 
   void _onSubmit() {
     final isValid = formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+    if (deadline == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Пожалуйста, выберите дедлайн')),
+      );
+      return;
+    }
 
-    if (!isValid || selectedClientId == null || selectedStage == null) return;
+    final price = double.tryParse(_priceCtrl.text.trim()) ?? 0;
+    final payment = double.tryParse(_paymentCtrl.text.trim()) ?? 0;
+
+    if (payment > price) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Оплата не может превышать сумму')),
+      );
+      return;
+    }
 
     final newProject = CreateProjectParams(
-      status: selectedStage!,
       title: _nameCtrl.text.trim(),
-      description: _descriptionCtrl.text.trim(),
-      clientId: int.parse(selectedClientId!),
+      deadline: deadline,
+      price: price.toString(),
+      payment: payment.toString(),
     );
 
     locator<ProjectsBloc>().add(CreateProject(newProject));
@@ -91,153 +102,6 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15),
-                      Text(
-                        AppStrings.customer,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: AppColors.gray,
-                        ),
-                      ),
-                      SizedBox(height: 7),
-
-                      BlocProvider.value(
-                        value: locator<ClientsCubit>(),
-                        child: BlocBuilder<ClientsCubit, ClientsState>(
-                          builder: (context, state) {
-                            final inputDecoration = InputDecoration(
-                              hintText: state is ClientsLoading
-                                  ? AppStrings.loadingClients
-                                  : state is ClientsError
-                                  ? AppStrings.notLoaded
-                                  : AppStrings.selectClient,
-                              filled: true,
-                              fillColor: AppColors.white,
-                              suffixIcon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.gray,
-                                size: 30,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 14,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(
-                                  color: AppColors.timeBorder,
-                                  // highlight color when focused
-                                  width: 1,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(
-                                  color: AppColors.timeBorder,
-                                  // highlight color when focused
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(
-                                  color: AppColors.timeBorder,
-                                  width: 1,
-                                ),
-                              ),
-                            );
-
-                            if (state is ClientsLoaded) {
-                              return EasyAutocomplete(
-                                suggestions: state.data
-                                    .map((c) => c.name)
-                                    .toList(),
-                                initialValue: '',
-                                onChanged: (value) {
-                                  final matches = state.data
-                                      .where((c) => c.name == value)
-                                      .toList();
-                                  if (matches.isNotEmpty) {
-                                    final client = matches.first;
-                                    selectedClientId = client.id.toString();
-                                  } else {
-                                    selectedClientId = null;
-                                  }
-                                },
-                                validator: (_) {
-                                  if (selectedClientId == null) {
-                                    return AppStrings.selectClient;
-                                  }
-                                  return null;
-                                },
-                                decoration: inputDecoration,
-                              );
-                            } else {
-                              return IgnorePointer(
-                                ignoring: true,
-                                child: EasyAutocomplete(
-                                  suggestions: const <String>[],
-                                  initialValue: '',
-                                  onChanged: (_) {},
-                                  decoration: inputDecoration,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        AppStrings.status,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: AppColors.gray,
-                        ),
-                      ),
-                      SizedBox(height: 7),
-                      BlocBuilder<StageCubit, StageState>(
-                        builder: (context, state) {
-                          if (state is StageLoaded) {
-                            return CustomDropdownField(
-                              value: state.selectedCategory,
-                              onChanged: (val) {
-                                locator<StageCubit>().selectCategory(val);
-                                selectedStage = val;
-                              },
-                              backgroundColor: AppColors.white,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.gray,
-                                size: 30,
-                              ),
-                              items: state.data
-                                  .map(
-                                    (stage) => DropdownMenuItem(
-                                      value: stage.name,
-                                      child: Text(stage.displayName),
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          } else {
-                            return CustomDropdownField(
-                              value: null,
-                              onChanged: (v) {},
-                              backgroundColor: AppColors.white,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.gray,
-                                size: 30,
-                              ),
-                              items: const [],
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 20),
                       TextFieldTitle(
                         title: AppStrings.projectTitle,
                         child: KTextField(
@@ -255,14 +119,69 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                             fontWeight: FontWeight.w400,
                           ),
                           borderColor: AppColors.timeBorder,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Введите название проекта';
+                            }
+                            return null;
+                          },
                         ),
                       ),
 
                       SizedBox(height: 20),
                       TextFieldTitle(
-                        title: AppStrings.description,
+                        title: AppStrings.dedline,
+                        child: SelectDateWidget(
+                          includeTime: true,
+                          dateFormat: 'dd MMMM yyyy, HH:mm',
+                          //  locale: const Locale('ru'),
+                          onDateSelected: (v) {
+                            deadline = v;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Финансовая информация',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      SizedBox(height: 20),
+                      TextFieldTitle(
+                        title: 'Сумма к оплате',
                         child: KTextField(
-                          controller: _descriptionCtrl,
+                          controller: _priceCtrl,
+                          isSubmitted: false,
+                          hintText: '',
+                          keyboardType: TextInputType.number,
+                          hintStyle: TextStyle(
+                            color: AppColors.gray,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          borderColor: AppColors.timeBorder,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Введите сумму';
+                            }
+                            final number = double.tryParse(value);
+                            if (number == null || number <= 0) {
+                              return 'Введите корректное число';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextFieldTitle(
+                        title: "Оплачено",
+                        child: KTextField(
+                          controller: _paymentCtrl,
+                          keyboardType: TextInputType.number,
                           isSubmitted: false,
                           hintText: '',
                           hintStyle: TextStyle(
@@ -276,6 +195,16 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
                             fontWeight: FontWeight.w400,
                           ),
                           borderColor: AppColors.timeBorder,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Введите оплачено';
+                            }
+                            final number = double.tryParse(value);
+                            if (number == null || number < 0) {
+                              return 'Введите корректное число';
+                            }
+                            return null;
+                          },
                         ),
                       ),
 

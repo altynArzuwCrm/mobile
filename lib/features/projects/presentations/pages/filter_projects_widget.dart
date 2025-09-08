@@ -2,44 +2,38 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/orders/data/models/order_params.dart';
-import 'package:crm/features/orders/presentation/cubits/orders/orders_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/bottom_sheet_title.dart';
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/dialog_widget.dart';
-import 'package:crm/features/stages/presentation/cubits/all_stages/stage_cubit.dart';
+import 'package:crm/features/projects/domain/usecases/get_all_projects_usecase.dart';
+import 'package:crm/features/projects/presentations/blocs/projects_bloc/projects_bloc.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class FilterOrderWidget extends StatefulWidget {
-  const FilterOrderWidget({
+class FilterProjectsWidget extends StatefulWidget {
+  const FilterProjectsWidget({
     super.key,
-    required this.selectedStatus,
     required this.initialSortOrder,
-    required this.orderBy,
+    required this.sortBy,
   });
 
-  final String? selectedStatus;
-  final String? orderBy;
+  final String? sortBy;
   final String initialSortOrder;
 
   @override
-  State<FilterOrderWidget> createState() => _FilterOrderWidgetState();
+  State<FilterProjectsWidget> createState() => _FilterProjectsWidgetState();
 }
 
-class _FilterOrderWidgetState extends State<FilterOrderWidget> {
+class _FilterProjectsWidgetState extends State<FilterProjectsWidget> {
   late String sortOrder;
-  late String? selectedOrderBy;
-
-  final ordersCubit = locator<OrdersCubit>();
+  late String? selectedSortBy;
 
   @override
   void initState() {
     super.initState();
     sortOrder = widget.initialSortOrder;
-    selectedOrderBy = widget.orderBy;
+    selectedSortBy = widget.sortBy;
   }
 
   @override
@@ -68,28 +62,28 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
               children: [
                 CategoryBtn(
                   title: "По название",
-                  isSelected: selectedOrderBy == 'name',
+                  isSelected: selectedSortBy == 'name',
                   onTap: () {
                     setState(() {
-                      selectedOrderBy = 'name';
+                      selectedSortBy = 'name';
                     });
                   },
                 ),
                 CategoryBtn(
                   title: "По времени",
-                  isSelected: selectedOrderBy == 'created_at',
+                  isSelected: selectedSortBy == 'created_at',
                   onTap: () {
                     setState(() {
-                      selectedOrderBy = 'created_at';
+                      selectedSortBy = 'created_at';
                     });
                   },
                 ),
                 CategoryBtn(
                   title: "По дедлайну",
-                  isSelected: selectedOrderBy == 'deadline',
+                  isSelected: selectedSortBy == 'deadline',
                   onTap: () {
                     setState(() {
-                      selectedOrderBy = 'deadline';
+                      selectedSortBy = 'deadline';
                     });
                   },
                 ),
@@ -110,66 +104,19 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
             ),
           ),
           SizedBox(height: 20),
-          BlocBuilder<StageCubit, StageState>(
-            builder: (context, state) {
-              if (state is StageLoaded) {
-                final data = state.data;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 0,
-                    children: [
-                      CategoryBtn(
-                        title: "Все",
-                        isSelected: ordersCubit.isStageSelected == 0,
-                        onTap: () {
-                          setState(() {});
-                          ordersCubit.setStage(index: 0, stage: null);
-                        },
-                      ),
-                      ...data.asMap().entries.map((entry) {
-                        final index = entry.key + 1;
-                        final item = entry.value;
-                        return CategoryBtn(
-                          title: item.displayName,
-                          isSelected: index == ordersCubit.isStageSelected,
-                          onTap: () {
-                            ordersCubit.setStage(
-                              index: index,
-                              stage: item.name,
-                            );
-
-                            setState(() {});
-                          },
-                        );
-                      }),
-                    ],
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-
-          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
-                final params =  OrderParams(
+                final params = ProjectParams(
                   sortOrder: sortOrder,
-                  stage: ordersCubit.selectedStage,
-                  status: widget.selectedStatus,
-                  sortBy: selectedOrderBy,
+                  sortBy: selectedSortBy,
                   page: 1,
                 );
-                ordersCubit.getAllOrders(
-                 params
+                locator<ProjectsBloc>().add(
+                  GetAllProjects(params),
                 );
-
                 context.pop(sortOrder);
               },
               isLoading: false,

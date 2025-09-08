@@ -3,7 +3,7 @@ import 'package:crm/features/clients/domain/entities/client_entity.dart';
 class ProjectEntity {
   final int id;
   final String title;
-  final String? deadline;
+  final DateTime? deadline;
   final String? totalPrice;
   final String? paymentAmount;
   final String createdAt;

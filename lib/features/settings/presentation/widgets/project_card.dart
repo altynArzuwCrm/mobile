@@ -2,6 +2,7 @@ import 'package:crm/common/widgets/main_card.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
+import 'package:crm/core/utils/time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,17 +11,18 @@ class ProjectCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.deadline,
-    required this.ordersCount, required this.id,
+    required this.ordersCount,
+    required this.id,
   });
 
   final int id;
   final String title;
-  final String? deadline;
+  final DateTime? deadline;
   final int ordersCount;
-
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = formatDate(deadline);
     return Stack(
       children: [
         InkWell(
@@ -59,14 +61,14 @@ class ProjectCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 2),
-                          Text(
-                            ordersCount.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: AppColors.darkBlue,
-                            ),
+                        Text(
+                          ordersCount.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: AppColors.darkBlue,
                           ),
+                        ),
                       ],
                     ),
                     // Column(
@@ -104,15 +106,14 @@ class ProjectCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 2),
-                        if (deadline != null)
-                          Text(
-                            deadline!,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: AppColors.darkBlue,
-                            ),
+                        Text(
+                          formattedDate,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: AppColors.darkBlue,
                           ),
+                        ),
                       ],
                     ),
                     Padding(

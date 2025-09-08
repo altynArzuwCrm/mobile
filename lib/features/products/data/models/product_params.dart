@@ -9,7 +9,7 @@ class ProductParams {
   const ProductParams({
     this.page,
     this.search,
-    this.sortBy,
+    this.sortBy = 'name',
     this.sortProduct,
     this.perPage = 30,
     this.isActive,

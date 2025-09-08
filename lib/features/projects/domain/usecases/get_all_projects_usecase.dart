@@ -22,14 +22,14 @@ class GetAllProjectsUseCase
 class ProjectParams extends Equatable {
   final int? page;
   final String? search;
-  final int? sortBy;
+  final String? sortBy;
   final String? sortOrder;
   final int perPage;
 
   const ProjectParams({
     this.page,
     this.search,
-    this.sortBy,
+    this.sortBy = 'name',
     this.sortOrder,
     this.perPage = 30,
   });

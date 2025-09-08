@@ -5,7 +5,7 @@ import 'package:crm/features/projects/domain/entities/project_entity.dart';
 class ProjectModel {
   final int id;
   final String title;
-  final String? deadline;
+  final DateTime? deadline;
   final String? totalPrice;
   final String? paymentAmount;
   final String createdAt;
@@ -26,7 +26,7 @@ class ProjectModel {
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
     id: json["id"],
     title: json["title"] ?? '',
-    deadline: json["deadline"] != null ? formatDate(DateTime.parse(json["deadline"])) : '',
+    deadline: json["deadline"] != null ? DateTime.parse(json["deadline"]) : null,
     totalPrice: json["total_price"],
     paymentAmount: json["payment_amount"],
     createdAt: json["created_at"] != null
@@ -41,7 +41,7 @@ class ProjectModel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "deadline": deadline,
+    "deadline": deadline?.toIso8601String(),
     "total_price": totalPrice,
     "payment_amount": paymentAmount,
     "created_at": createdAt,

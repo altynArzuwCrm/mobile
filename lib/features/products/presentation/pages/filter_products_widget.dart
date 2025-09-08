@@ -2,17 +2,17 @@ import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/bottom_sheet_title.dart';
 import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:crm/features/orders/presentation/widgets/dialog_widget.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
+import 'package:crm/features/products/data/models/product_params.dart';
+import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FilterClientWidget extends StatefulWidget {
-  const FilterClientWidget({
+class FilterProductsWidget extends StatefulWidget {
+  const FilterProductsWidget({
     super.key,
     required this.initialSortOrder,
     required this.sortBy,
@@ -22,10 +22,10 @@ class FilterClientWidget extends StatefulWidget {
   final String initialSortOrder;
 
   @override
-  State<FilterClientWidget> createState() => _FilterClientWidgetState();
+  State<FilterProductsWidget> createState() => _FilterProductsWidgetState();
 }
 
-class _FilterClientWidgetState extends State<FilterClientWidget> {
+class _FilterProductsWidgetState extends State<FilterProductsWidget> {
   late String sortOrder;
   late String? selectedSortBy;
 
@@ -78,15 +78,6 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
                     });
                   },
                 ),
-                CategoryBtn(
-                  title: "По дедлайну",
-                  isSelected: selectedSortBy == 'deadline',
-                  onTap: () {
-                    setState(() {
-                      selectedSortBy = 'deadline';
-                    });
-                  },
-                ),
               ],
             ),
           ),
@@ -109,13 +100,12 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
-                final params = UserParams(
-                  sortOrder: sortOrder,
+                final params = ProductParams(
+                  sortProduct: sortOrder,
                   sortBy: selectedSortBy,
                   page: 1,
                 );
-                locator<ClientsCubit>().getAllClients(params);
-
+                locator<ProductsCubit>().getAllProducts(params);
                 context.pop(sortOrder);
               },
               isLoading: false,

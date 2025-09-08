@@ -24,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final List<String> titles = [
     AppStrings.profile,
     AppStrings.projects,
-    AppStrings.contacts,
+    AppStrings.customers,
     AppStrings.members,
     AppStrings.products,
   ];

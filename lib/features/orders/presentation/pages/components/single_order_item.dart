@@ -2,11 +2,9 @@ import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/textfield_title.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/orders/presentation/widgets/select_date_widget.dart';
 import 'package:crm/features/products/presentation/cubits/products/products_cubit.dart';
 import 'package:crm/locator.dart';
-import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

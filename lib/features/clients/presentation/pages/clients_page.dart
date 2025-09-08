@@ -1,14 +1,11 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
-import 'package:crm/common/widgets/sort_order_button.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
-import 'package:crm/features/clients/presentation/cubits/clinets/clients_cubit.dart';
 import 'package:crm/features/clients/presentation/cubits/companies/company_cubit.dart';
 import 'package:crm/features/clients/presentation/pages/components/contacts_list.dart';
 import 'package:crm/features/clients/presentation/pages/filter_client_widget.dart';
 import 'package:crm/features/settings/presentation/widgets/tabbar_btn.dart';
-import 'package:crm/features/users/domain/entities/user_params.dart';
 import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +30,6 @@ class _ContactsPageState extends State<ContactsPage>
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     locator<CompanyCubit>().getCompanies();
     orderBy = null;
-
   }
 
   @override
@@ -50,22 +46,9 @@ class _ContactsPageState extends State<ContactsPage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(AppStrings.contacts),
+        title: Text(AppStrings.customers),
         actions: [
           AppBarIcon(onTap: _openSort, icon: IconAssets.filter),
-
-          SortOrderSelector(
-            sortOrder: sortOrder,
-            isIconOnly: true,
-            onChanged: (val) {
-              setState(() => sortOrder = val);
-              debugPrint("Sort order: $sortOrder");
-
-              locator<ClientsCubit>().getAllClients(
-                UserParams(page: 1, sortOrder: sortOrder),
-              );
-            },
-          ),
 
           Padding(
             padding: const EdgeInsets.only(right: 18.0, left: 10),
@@ -82,7 +65,7 @@ class _ContactsPageState extends State<ContactsPage>
           child: TabBarHeader(
             tabController: _tabController,
             tabs: [
-              Tab(child: Center(child: Text(AppStrings.contacts, maxLines: 1))),
+              Tab(child: Center(child: Text(AppStrings.customers, maxLines: 1))),
               Tab(
                 child: Center(child: Text(AppStrings.companies, maxLines: 1)),
               ),
@@ -109,10 +92,7 @@ class _ContactsPageState extends State<ContactsPage>
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) {
-        return FilterClientWidget(
-          initialSortOrder: sortOrder,
-          orderBy: orderBy,
-        );
+        return FilterClientWidget(initialSortOrder: sortOrder, sortBy: orderBy);
       },
     );
 
