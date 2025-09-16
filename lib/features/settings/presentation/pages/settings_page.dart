@@ -7,7 +7,6 @@ import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/settings/presentation/widgets/settings_widget.dart';
 import 'package:crm/features/users/presentation/cubits/user/user_cubit.dart';
 import 'package:crm/features/users/presentation/pages/components/user_data_widget.dart';
-import 'package:crm/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,12 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
     AppRoutes.userPage,
     AppRoutes.warehouse,
   ];
-  final userCubit = locator<UserCubit>();
 
   @override
   void initState() {
     super.initState();
-    userCubit.getCurrentUser();
   }
 
   @override

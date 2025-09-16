@@ -1,12 +1,15 @@
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/features/orders/data/models/comment_model.dart';
-import 'package:crm/features/orders/presentation/widgets/person_img_with_title_widget.dart';
-import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({super.key, required this.showTime, required this.model, required this.onDelete});
+  const CommentCard({
+    super.key,
+    required this.showTime,
+    required this.model,
+    required this.onDelete,
+  });
 
   final bool showTime;
   final CommentModel model;
@@ -21,14 +24,22 @@ class CommentCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                PersonImgWithTitleWidget(image: img, name: model.username, textStyle:TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  color: AppColors.darkBlue,
-                ), ),
+                Text(
+                  model.username,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: AppColors.darkBlue,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+
                 SizedBox(width: 6),
-                Text(model.time,
+                Text(
+                  model.time,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -57,9 +68,9 @@ class CommentCard extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 6,left: 40),
+          padding: const EdgeInsets.only(top: 6),
           child: Text(
-    model.text,
+            model.text,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
@@ -67,24 +78,24 @@ class CommentCard extends StatelessWidget {
             ),
           ),
         ),
-        if(showTime)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-          margin: EdgeInsets.symmetric(vertical: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.commentTimeBorder),
-          ),
-          child: Text(model.createdAt,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppColors.gray,
+        if (showTime)
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+            margin: EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.commentTimeBorder),
+            ),
+            child: Text(
+              model.createdAt,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.gray,
+              ),
             ),
           ),
-        ),
-        if(showTime)
-        Divider(thickness: 1,color: AppColors.commentTimeBorder,)
+        if (showTime) Divider(thickness: 1, color: AppColors.commentTimeBorder),
       ],
     );
   }

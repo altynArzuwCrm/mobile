@@ -130,7 +130,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
               if (state is ProjectsLoaded) {
                 return Positioned(
                   right: 15,
-                  bottom: 100,
+                  bottom: 20,
                   child: FloatingActionButton(
                     onPressed: _openAddProject,
                     child: Icon(Icons.add),
@@ -169,9 +169,9 @@ class _ProjectsPageState extends State<ProjectsPage> {
           },
         );
       case ProjectsError():
-        return Center(child: Text(AppStrings.error));
+        return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
       case ProjectsConnectionError():
-        return Center(child: Text(AppStrings.noInternet));
+        return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
     }
   }
 

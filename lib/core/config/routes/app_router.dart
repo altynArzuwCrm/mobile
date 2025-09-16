@@ -2,11 +2,7 @@ import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/config/routes/scaffold_with_nested_nav.dart';
 import 'package:crm/core/config/routes/widget_keys_str.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
-import 'package:crm/features/auth/presentation/pages/change_password_page.dart';
-import 'package:crm/features/auth/presentation/pages/confirm_password_page.dart';
-import 'package:crm/features/auth/presentation/pages/new_password_page.dart';
 import 'package:crm/features/auth/presentation/pages/sign_in_page.dart';
-import 'package:crm/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:crm/features/clients/presentation/pages/client_detail_page.dart';
 import 'package:crm/features/clients/presentation/pages/clients_page.dart';
 import 'package:crm/features/clients/domain/entities/client_entity.dart';
@@ -105,30 +101,30 @@ final goRouter = GoRouter(
         return SignInPage();
       },
     ),
-    GoRoute(
-      path: AppRoutes.signUp,
-      builder: (context, state) {
-        return SignUpPage();
-      },
-    ),
-    GoRoute(
-      path: AppRoutes.changePassword,
-      builder: (context, state) {
-        return ChangePasswordPage();
-      },
-    ),
-    GoRoute(
-      path: AppRoutes.newPassword,
-      builder: (context, state) {
-        return NewPasswordPage();
-      },
-    ),
-    GoRoute(
-      path: AppRoutes.confirmPassword,
-      builder: (context, state) {
-        return ConfirmPasswordPage();
-      },
-    ),
+    // GoRoute(
+    //   path: AppRoutes.signUp,
+    //   builder: (context, state) {
+    //     return SignUpPage();
+    //   },
+    // ),
+    // GoRoute(
+    //   path: AppRoutes.changePassword,
+    //   builder: (context, state) {
+    //     return ChangePasswordPage();
+    //   },
+    // ),
+    // GoRoute(
+    //   path: AppRoutes.newPassword,
+    //   builder: (context, state) {
+    //     return NewPasswordPage();
+    //   },
+    // ),
+    // GoRoute(
+    //   path: AppRoutes.confirmPassword,
+    //   builder: (context, state) {
+    //     return ConfirmPasswordPage();
+    //   },
+    // ),
     GoRoute(
       path: AppRoutes.addUser,
       builder: (context, state) {

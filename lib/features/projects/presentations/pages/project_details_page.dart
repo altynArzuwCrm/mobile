@@ -105,7 +105,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                             GeneralInfo(
                               name: data.title,
                               deadline: data.deadline,
-                              price: data.paymentAmount,
+                              price: data.totalPrice,
                               createdTime: data.createdAt,
                             ),
                             SizedBox(height: 20),
@@ -151,9 +151,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                   ],
                 );
               } else if (state is ProjectDetailConnectionError) {
-                return Center(child: Text(AppStrings.noInternet));
+                return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
               } else {
-                return Center(child: Text(AppStrings.error));
+                return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
               }
             },
           ),

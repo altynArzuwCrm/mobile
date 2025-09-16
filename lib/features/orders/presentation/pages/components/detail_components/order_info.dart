@@ -46,7 +46,7 @@ class OrderInfo extends StatelessWidget {
                 flex: 4,
                 child: InfoBlock(
                   title: AppStrings.sum,
-                  value: '${model.project?.totalPrice ?? 0} тмт',
+                  value: '${model.project?.totalPrice?? 0} тмт',
                 ),
               ),
             ],

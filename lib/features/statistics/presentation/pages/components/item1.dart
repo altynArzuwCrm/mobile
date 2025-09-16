@@ -85,7 +85,7 @@ class Item1 extends StatelessWidget {
           } else if (state is RevenueStatLoading) {
             return Center(child: CircularProgressIndicator());
           } else {
-            return Center(child: Text(AppStrings.error));
+            return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
           }
         },
       ),

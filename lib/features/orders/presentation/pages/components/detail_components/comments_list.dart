@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentsList extends StatelessWidget {
-  const CommentsList({super.key});
+  const CommentsList({super.key, required this.orderId});
+  final int orderId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class CommentsList extends StatelessWidget {
                     onDelete: () {
                       locator<CommentCubit>().deleteOrderComment(
                         item.id,
-                        item.orderId,
+                          orderId
                       );
                     },
                   ),
@@ -55,18 +56,19 @@ class CommentsList extends StatelessWidget {
               }),
             );
           } else if (state is CommentConnectionError) {
-            return const SliverToBoxAdapter(
+            return  SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Center(child: Text(AppStrings.noInternet)),
+                child: Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,)),
               ),
             );
           } else {
-            return const SliverToBoxAdapter(
+            return  SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Center(child: Text(AppStrings.error)),
-              ),
+                child:Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,)),
+
+          ),
             );
           }
         },

@@ -121,9 +121,9 @@ class _ContactsListState extends State<ContactsList>
       );
     }
     if (state is ClientsConnectionError) {
-      return const Center(child: Text(AppStrings.noInternet));
+      return  Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
     }
-    return const Center(child: Text(AppStrings.error));
+    return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
   }
 
   @override

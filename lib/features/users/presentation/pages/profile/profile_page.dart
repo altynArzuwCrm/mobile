@@ -23,23 +23,25 @@ class ProfilePage extends StatelessWidget {
         actions: [
           BlocBuilder<UserCubit, UserState>(
             builder: (context, state) {
-              if (state is UserLoaded) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: AppBarIcon(
-                    onTap: () {
-                      context.push(
-                        AppRoutes.editProfile,
-                        extra: {"user": state.data},
-                      );
-                    },
-                    icon: IconAssets.edit,
-                    padding: EdgeInsets.all(10),
-                  ),
-                );
-              } else {
-                return SizedBox.shrink();
-              }
+              if (state is! UserLoaded) return SizedBox.shrink();
+
+              final canEdit =
+                  state.data.roles?.any((role) => role.id == 1) ?? false;
+              if (!canEdit) return SizedBox.shrink();
+
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: AppBarIcon(
+                  onTap: () {
+                    context.push(
+                      AppRoutes.editProfile,
+                      extra: {"user": state.data},
+                    );
+                  },
+                  icon: IconAssets.edit,
+                  padding: EdgeInsets.all(10),
+                ),
+              );
             },
           ),
         ],
@@ -73,9 +75,9 @@ class ProfilePage extends StatelessWidget {
                 ],
               );
             } else if (state is UserConnectionError) {
-              return Center(child: Text(AppStrings.noInternet));
+              return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             } else {
-              return Center(child: Text(AppStrings.error));
+              return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             }
           },
         ),

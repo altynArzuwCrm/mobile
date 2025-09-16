@@ -353,7 +353,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
         deadline: c.deadline,
       );
     }).toList();
-
+//todo check addd
     final clientId = int.tryParse(selectedClientId ?? '');
     final projectId = int.tryParse(selectedProjectId ?? '');
     final productId = int.tryParse(
@@ -364,10 +364,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
     final stage = assignments.isNotEmpty ? assignments.first.role : null;
 
     final param = CreateOrderParams(
-      clientId: clientId,
+      clientId: clientId.toString(),
       projectId: projectId,
       stage: stage,
-      productId: productId,
+      productId: productId.toString(),
       quantity: quantity,
       price: price,
       deadline: deadline,

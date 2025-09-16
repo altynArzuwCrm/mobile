@@ -18,9 +18,14 @@ class LoginUseCase extends BaseUseCase<LoginParams, void> {
 class LoginParams extends Equatable {
   final String password;
   final String username;
+  final String fcmToken;
 
-  const LoginParams({required this.password, required this.username});
+  const LoginParams({
+    required this.fcmToken,
+    required this.password,
+    required this.username,
+  });
 
   @override
-  List<Object?> get props => [password, username];
+  List<Object?> get props => [password, username, fcmToken];
 }

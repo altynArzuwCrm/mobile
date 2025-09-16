@@ -38,6 +38,8 @@ class SearchUserCubit extends Cubit<SearchUserState> {
         if (data.isEmpty) {
           emit(SearchNotFoundedUser());
         } else {
+          _users.addAll(data);
+
           emit(SearchFoundedUser(data));
         }
       },

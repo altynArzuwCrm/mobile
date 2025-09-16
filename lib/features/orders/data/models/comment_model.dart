@@ -2,9 +2,9 @@ import 'package:crm/core/utils/time_format.dart';
 
 class CommentModel {
   final int id;
-  final int userId;
-  final dynamic projectId;
-  final int orderId;
+  // final int userId;
+  // final dynamic projectId;
+  // final int orderId;
   final String text;
   final String createdAt;
   final DateTime updatedAt;
@@ -13,9 +13,9 @@ class CommentModel {
 
   CommentModel({
     required this.id,
-    required this.userId,
-    required this.projectId,
-    required this.orderId,
+    // required this.userId,
+    // required this.projectId,
+    // required this.orderId,
     required this.text,
     required this.createdAt,
     required this.updatedAt,
@@ -25,9 +25,9 @@ class CommentModel {
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
     id: json["id"],
-    userId: json["user_id"],
-    projectId: json["project_id"],
-    orderId: json["order_id"],
+    // userId: json["user_id"],
+    // projectId: json["project_id"],
+    // orderId: json["order_id"],
     text: json["text"],
     createdAt: json["created_at"] != null
         ? formatDate(DateTime.parse(json["created_at"]))

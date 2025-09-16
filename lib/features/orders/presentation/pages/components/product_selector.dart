@@ -12,19 +12,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../products/data/models/product_model.dart';
 
 class ProductSelector extends StatefulWidget {
-  const ProductSelector({super.key, required this.onSelectProduct});
+  const ProductSelector({super.key, required this.onSelectProduct, this.initialValue});
 
   final ValueChanged onSelectProduct;
+  final String? initialValue;
 
   @override
   State<ProductSelector> createState() => _ProductSelectorState();
 }
 
 class _ProductSelectorState extends State<ProductSelector> {
-  final TextEditingController _controller = TextEditingController();
+  late  TextEditingController _controller;
   final FocusNode _focusNode = FocusNode();
   Timer? _debounce;
   String? _lastQuery; // to avoid firing the same request repeatedly
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+  }
 
   @override
   void dispose() {
@@ -92,6 +99,8 @@ class _ProductSelectorState extends State<ProductSelector> {
               : state is ProductsError
               ? AppStrings.notLoaded
               : AppStrings.selectProduct,
+          hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -127,6 +136,7 @@ class _ProductSelectorState extends State<ProductSelector> {
           controller: _controller,
           focusNode: _focusNode,
           suggestions: names,
+          inputTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
           debounceDuration: Duration.zero,
           // we handle debounce manually
           onChanged: (value) => _onSearchChanged(
@@ -134,7 +144,10 @@ class _ProductSelectorState extends State<ProductSelector> {
             state is ProductsLoaded ? state.data : [],
           ),
           validator: (v) {
-            if (v == null ||
+            if(widget.initialValue != null){
+              return null;
+            }
+            else if (v == null ||
                 !names.map((n) => n.toLowerCase()).contains(v.toLowerCase())) {
               return AppStrings.selectProduct;
             }

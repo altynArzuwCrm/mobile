@@ -59,7 +59,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   appBar: AppBar(),
                   body: Center(child: CircularProgressIndicator()),
                 );
-              } else if (state is OrderDetailLoaded) {
+              }
+              else if (state is OrderDetailLoaded) {
                 final data = state.data;
 
                 return Stack(
@@ -104,7 +105,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                             horizontal: 25.0,
                             vertical: 20,
                           ),
-                          sliver: const CommentsList(),
+                          sliver:  CommentsList(orderId: data.id,),
                         ),
                         SliverToBoxAdapter(child: SizedBox(height: 150)),
                       ],
@@ -229,13 +230,14 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               } else if (state is OrderDetailConnectionError) {
                 return Scaffold(
                   appBar: AppBar(),
-                  body: Center(child: Text(AppStrings.noInternet)),
+                  body: Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,)),
                 );
               } else {
                 return Scaffold(
                   appBar: AppBar(),
-                  body: Center(child: Text(AppStrings.error)),
-                );
+                    body: Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,)),
+
+              );
               }
             },
           ),

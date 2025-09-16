@@ -136,7 +136,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 },
               );
             }
-            return Center(child: Text(AppStrings.error));
+            return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
           },
         ),
       ),

@@ -1,4 +1,3 @@
-
 import 'package:crm/features/roles/data/models/role_model.dart';
 import 'package:crm/features/roles/data/repository/role_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +10,11 @@ class RolesCubit extends Cubit<RolesState> {
   final RoleRepository repository;
 
   Future<void> getAllRoles({Set<int>? preselectedRoleIds}) async {
-
     emit(RolesLoading());
     final result = await repository.getAllRoles();
 
     result.fold((error) {}, (data) {
-      emit(RolesLoaded(data,
-        selectedRoleIds: preselectedRoleIds ?? {},));
+      emit(RolesLoaded(data, selectedRoleIds: preselectedRoleIds ?? {}));
     });
   }
 
@@ -32,13 +29,7 @@ class RolesCubit extends Cubit<RolesState> {
         updatedSelection.add(roleId);
       }
 
-      emit(
-        RolesLoaded(
-          currentState.data,
-          selectedRoleIds: updatedSelection,
-        ),
-      );
-
+      emit(RolesLoaded(currentState.data, selectedRoleIds: updatedSelection));
     }
   }
 }

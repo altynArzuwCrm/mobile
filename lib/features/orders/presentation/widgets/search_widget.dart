@@ -64,7 +64,7 @@ class _HomePageSearchWidgetState extends State<HomePageSearchWidget> {
       },
       onChanged: onSearchChange,
       cursorColor: AppColors.primary,
-      style: Theme.of(context).textTheme.bodyMedium!,
+      style: Theme.of(context).textTheme.titleSmall!,
       decoration: InputDecoration(
         prefixIcon: Icon(
           HeroiconsOutline.magnifyingGlass,

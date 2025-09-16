@@ -99,6 +99,8 @@ class _ProjectSelectorState extends State<ProjectSelector> {
               : state is ClientsError
               ? AppStrings.notLoaded
               : AppStrings.selectProject,
+          hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -131,6 +133,8 @@ class _ProjectSelectorState extends State<ProjectSelector> {
           focusNode: _focusNode,
           suggestions: names,
           debounceDuration: Duration.zero,
+          inputTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
           // we handle debounce manually
           onChanged: (value) => _onSearchChanged(
             value,

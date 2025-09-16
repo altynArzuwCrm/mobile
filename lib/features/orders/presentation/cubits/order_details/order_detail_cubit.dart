@@ -11,7 +11,7 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
 
   final OrderRepository repository;
 
-  Future<void> getOrderDetail(int id) async {
+  void getOrderDetail(int id) async {
     emit(OrderDetailLoading());
     final result = await repository.getOrderById(id);
 
@@ -29,7 +29,8 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
     );
   }
 
-  Future<void> updateOrder(CreateOrderParams params) async {
+  void updateOrder(CreateOrderParams params) async {
+
     emit(OrderDetailLoading());
     final result = await repository.editOrder(params);
 

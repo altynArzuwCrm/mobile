@@ -188,7 +188,7 @@ class Project {
     deadline: json["deadline"] != null
         ? DateTime.parse(json["deadline"])
         : null,
-    totalPrice: json["totalPrice"] != null ? json["totalPrice"].toString() : '',
+    totalPrice: json["totalPrice"] != null ? json["totalPrice"].toString() : '0',
     paymentAmount: json["payment_amount"] != null
         ? json["payment_amount"].toString()
         : '',

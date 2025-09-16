@@ -42,9 +42,6 @@ class Stage {
   final dynamic description;
   final int order;
   final String color;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final dynamic deletedAt;
 
   Stage({
     required this.id,
@@ -53,9 +50,6 @@ class Stage {
     required this.description,
     required this.order,
     required this.color,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
   });
 
   factory Stage.fromJson(Map<String, dynamic> json) => Stage(
@@ -65,9 +59,6 @@ class Stage {
     description: json["description"],
     order: json["order"],
     color: json["color"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    deletedAt: json["deleted_at"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -77,9 +68,6 @@ class Stage {
     "description": description,
     "order": order,
     "color": color,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-    "deleted_at": deletedAt,
   };
 }
 

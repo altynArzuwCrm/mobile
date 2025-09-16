@@ -1,7 +1,5 @@
-import 'package:crm/common/widgets/shimmer_image.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
-import 'package:crm/features/orders/presentation/widgets/user_order_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,16 +24,16 @@ class NotificationItemWidget extends StatelessWidget {
 
       },
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 35, 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: ImageWithShimmer(imageUrl: img, width: 53, height: 53),
-            ),
-            const SizedBox(width: 20),
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(100),
+            //   child: ImageWithShimmer(imageUrl: img, width: 53, height: 53),
+            // ),
+            // const SizedBox(width: 20),
 
             Flexible(
               child: Column(

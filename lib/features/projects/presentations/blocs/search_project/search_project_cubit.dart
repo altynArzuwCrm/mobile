@@ -36,6 +36,7 @@ class SearchProjectCubit extends Cubit<SearchProjectState> {
         if (data.isEmpty) {
           emit(SearchNotFoundedProjects());
         } else {
+          projects.addAll(data);
           emit(SearchFoundedProjects(List.from(projects)));
         }
       },

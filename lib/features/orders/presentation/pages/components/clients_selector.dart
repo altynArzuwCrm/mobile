@@ -11,20 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientsSelector extends StatefulWidget {
-  const ClientsSelector({super.key, required this.onSelectClient});
+  const ClientsSelector({super.key, required this.onSelectClient, this.initialValue});
 
   final ValueChanged onSelectClient;
+  final String? initialValue;
 
   @override
   State<ClientsSelector> createState() => _ClientsSelectorState();
 }
 
 class _ClientsSelectorState extends State<ClientsSelector> {
-  final TextEditingController _controller = TextEditingController();
+  late  TextEditingController _controller;
   final FocusNode _focusNode = FocusNode();
   Timer? _debounce;
   String? _lastQuery; // to avoid firing the same request repeatedly
-
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+  }
   @override
   void dispose() {
     _debounce?.cancel();
@@ -91,6 +96,7 @@ class _ClientsSelectorState extends State<ClientsSelector> {
               : state is ClientsError
               ? AppStrings.notLoaded
               : AppStrings.selectClient,
+          hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
           suffixIcon: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: AppColors.gray,
@@ -126,12 +132,17 @@ class _ClientsSelectorState extends State<ClientsSelector> {
           controller: _controller,
           focusNode: _focusNode,
           suggestions: names,
+          inputTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
           debounceDuration: Duration.zero,
           // we handle debounce manually
           onChanged: (value) =>
               _onSearchChanged(value, state is ClientsLoaded ? state.data : []),
           validator: (v) {
-            if (v == null ||
+            if(widget.initialValue != null){
+              return null;
+            }
+            else if (v == null ||
                 !names.map((n) => n.toLowerCase()).contains(v.toLowerCase())) {
               return AppStrings.selectClient;
             }

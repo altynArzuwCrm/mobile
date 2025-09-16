@@ -141,7 +141,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   Positioned(
                     right: 15,
-                    bottom: 100,
+                    bottom: 20,
                     child: FloatingActionButton(
                       onPressed: _openAddOrder,
                       child: Icon(Icons.add),
@@ -150,9 +150,9 @@ class _ProductsPageState extends State<ProductsPage> {
                 ],
               );
             } else if (state is ProductsConnectionError) {
-              return Center(child: Text(AppStrings.noInternet));
+              return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             } else {
-              return Center(child: Text(AppStrings.error));
+              return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             }
           },
         ),

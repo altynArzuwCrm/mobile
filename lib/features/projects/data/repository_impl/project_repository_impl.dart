@@ -43,7 +43,6 @@ final ProjectRemoteDataSource remoteDataSource;
       return Left(ConnectionFailure(AppStrings.noInternet));
     }
   }
-
   @override
   Future<Either<Failure, ProjectEntity>> editProject(CreateProjectParams params)async {
     final bool isConnected = await networkInfo.isConnected;

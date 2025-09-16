@@ -107,7 +107,7 @@ class _KTextFieldState extends State<KTextField> {
             if (value != null && value.isNotEmpty) {
               return null;
             }
-            return 'Hokman doldurmaly'; //AppLocalizations.of(context)!.requiredToFill;
+            return ''; //AppLocalizations.of(context)!.requiredToFill;
           },
       decoration: InputDecoration(
         isDense: widget.isDense,
@@ -208,13 +208,13 @@ class PhoneNumField extends StatelessWidget {
       onChange: onChange,
       validator: (val) {
         if (val == null || val.isEmpty) {
-          return 'to fill'; //AppLocalizations.of(context)!.requiredToFill;
+          return ''; //AppLocalizations.of(context)!.requiredToFill;
         } else if (val.length < 8) {
-          return 'phoneNumberIncorrect'; //AppLocalizations.of(context)!.phoneNumberIncorrect;
+          return ''; //AppLocalizations.of(context)!.phoneNumberIncorrect;
         }
         num? v = num.tryParse(val);
         if (v == null) {
-          return 'phoneNumberIncorrect'; //AppLocalizations.of(context)!.phoneNumberIncorrect;
+          return ''; //AppLocalizations.of(context)!.phoneNumberIncorrect;
         }
         return null;
       },

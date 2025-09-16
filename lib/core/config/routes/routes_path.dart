@@ -1,10 +1,10 @@
 abstract final class AppRoutes {
   static const String splash = '/splash';
   static const String signIn = '/signIn';
-  static const String signUp = '/signUp';
-  static const String changePassword = '/changePassword';
-  static const String newPassword = '/newPassword';
-  static const String confirmPassword = '/confirmPassword';
+  // static const String signUp = '/signUp';
+  // static const String changePassword = '/changePassword';
+  // static const String newPassword = '/newPassword';
+  // static const String confirmPassword = '/confirmPassword';
 
   static const String orderPage = '/orderPage';
   static const String statisticsPage = '/statisticsPage';

@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:crm/common/widgets/k_textfield.dart';
 import 'package:crm/common/widgets/main_btn.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/text_fonts.dart';
+import 'package:crm/core/utils/fcm/get_fcm_token.dart';
 import 'package:crm/features/auth/domain/usecases/login_usecase.dart';
 import 'package:crm/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:crm/features/auth/presentation/widgets/bg_card_widget.dart';
@@ -229,22 +232,22 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                               ],
                             ),
-                            TextButton(
-                              onPressed: () {
-                                context.push(AppRoutes.changePassword);
-                              },
-                              child: Text(
-                                AppStrings.forgetPassword,
-                                textAlign: TextAlign.end,
-
-                                style: TextStyle(
-                                  fontFamily: TextFonts.nunito,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                            // TextButton(
+                            //   onPressed: () {
+                            //     context.push(AppRoutes.changePassword);
+                            //   },
+                            //   child: Text(
+                            //     AppStrings.forgetPassword,
+                            //     textAlign: TextAlign.end,
+                            //
+                            //     style: TextStyle(
+                            //       fontFamily: TextFonts.nunito,
+                            //       fontWeight: FontWeight.w400,
+                            //       fontSize: 14,
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
@@ -258,7 +261,7 @@ class _SignInPageState extends State<SignInPage> {
                             context: context,
                             title: Text(AppStrings.loggedSuccessfully),
                             autoCloseDuration: const Duration(seconds: 3),
-                          ); //todo
+                          );
                           context.go(AppRoutes.orderPage);
                         } else if (state is AuthFailure) {
                           toastification.show(
@@ -272,18 +275,19 @@ class _SignInPageState extends State<SignInPage> {
                         return MainButton(
                           buttonTile: AppStrings.login,
                           onPressed: () async {
+                            final fcmToken = await locator<GetFcmToken>()
+                                .getFcmToken();
                             final name = _nameCtrl.text.trim();
                             final password = _passwordCtrl.text.trim();
 
                             if (validate()) {
-                              locator<AuthBloc>().add(
-                                LogInEvent(
-                                  LoginParams(
-                                    password: password,
-                                    username: name,
-                                  ),
-                                ),
+                              final params = LoginParams(
+                                password: password,
+                                username: name,
+                                fcmToken: fcmToken.toString(),
                               );
+                              locator<AuthBloc>().add(LogInEvent(params));
+                              log(params.toString(), name: 'ver params');
                             }
                           },
                           isDisable: isDisableBtn(),
@@ -292,22 +296,22 @@ class _SignInPageState extends State<SignInPage> {
                       },
                     ),
                     SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        context.push(AppRoutes.signUp);
-                      },
-
-                      child: Text(
-                        AppStrings.noAccount,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: TextFonts.nunito,
-
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     context.push(AppRoutes.signUp);
+                    //   },
+                    //
+                    //   child: Text(
+                    //     AppStrings.noAccount,
+                    //     style: TextStyle(
+                    //       fontSize: 16,
+                    //       fontFamily: TextFonts.nunito,
+                    //
+                    //       fontWeight: FontWeight.w600,
+                    //       color: AppColors.white,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

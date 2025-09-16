@@ -21,6 +21,7 @@ class AuthenticationRemoteDataSourceImpl
     Map<String, dynamic> data = {
       "username": params.username,
       "password": params.password,
+      "fcm_token": params.fcmToken
     };
 
     final response = await apiProvider.post(

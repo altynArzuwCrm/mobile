@@ -47,9 +47,9 @@ class CreateOrderParams {
   final String? title;
   // final String? description;
   final String? stage;
-  final int? clientId;
+  final String? clientId;
   final int? projectId;
-  final int? productId;
+  final String? productId;
   final int? quantity;
   final int? price;
   final DateTime? deadline;

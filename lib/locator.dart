@@ -97,7 +97,6 @@ Future<void> initLocator() async {
 
   locator.registerFactory<ApiProvider>(() => ApiProviderImpl());
 
-  //locator.registerSingleton<InternetBloc>(InternetBloc(internetChecker));
 
   final sharedPrefs = await SharedPreferences.getInstance();
 

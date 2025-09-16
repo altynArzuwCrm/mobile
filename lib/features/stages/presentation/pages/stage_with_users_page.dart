@@ -29,6 +29,8 @@ class _StageCategoryWidgetState extends State<StageCategoryWidget> {
   Widget build(BuildContext context) {
     final inputDecoration = InputDecoration(
       hintText: AppStrings.selectUser,
+      hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
       suffixIcon: const Icon(
         Icons.keyboard_arrow_down_outlined,
         color: AppColors.gray,
@@ -66,6 +68,8 @@ class _StageCategoryWidgetState extends State<StageCategoryWidget> {
       child: EasyAutocomplete(
         suggestions: widget.users.map((u) => u.name).toList(),
         initialValue: selectedUserName ?? '',
+        inputTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+
         onChanged: (value) {
           final matches =
           widget.users.where((u) => u.name == value).toList();

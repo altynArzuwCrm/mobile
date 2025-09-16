@@ -54,9 +54,9 @@ class _CompanyListState extends State<CompanyList>
               },
             );
           } else if (state is CompanyConnectionError) {
-            return Center(child: Text(AppStrings.noInternet));
+            return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
           }
-          return Center(child: Text(AppStrings.error));
+          return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
         },
       ),
     );

@@ -10,7 +10,7 @@ class AssignModel {
   final dynamic completedAt;
   final dynamic cancelledAt;
   final dynamic approvedAt;
-  final UserModel assignedBy;
+  final UserModel? assignedBy;
   final String roleType;
   final String createdAt;
   final String updatedAt;
@@ -43,7 +43,7 @@ class AssignModel {
     completedAt: json["completed_at"],
     cancelledAt: json["cancelled_at"],
     approvedAt: json["approved_at"],
-    assignedBy: UserModel.fromJson(json["assigned_by_user"]),
+    assignedBy: json["assigned_by_user"] != null ? UserModel.fromJson(json["assigned_by_user"]) : null,
     roleType: json["role_type"],
     createdAt: json["created_at"] != null
         ? formatDate(DateTime.parse(json["created_at"]))
@@ -65,7 +65,7 @@ class AssignModel {
     "completed_at": completedAt,
     "cancelled_at": cancelledAt,
     "approved_at": approvedAt,
-    "assigned_by_user": assignedBy.toJson(),
+    "assigned_by_user": assignedBy?.toJson(),
     "role_type": roleType,
     "created_at": createdAt,
     "updated_at": updatedAt,

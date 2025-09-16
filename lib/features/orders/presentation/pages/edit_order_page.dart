@@ -41,8 +41,8 @@ class _EditOrderPageState extends State<EditOrderPage> {
   late final TextEditingController _priceCtrl;
 
   late String? selectedStage;
-  late int? clientId;
-  late int? productId;
+  late String? clientId;
+  late String? productId;
   final clientsCubit = locator<ClientsCubit>();
   final productsCubit = locator<ProductsCubit>();
 
@@ -61,8 +61,8 @@ class _EditOrderPageState extends State<EditOrderPage> {
     );
 
     selectedStage = widget.order.stage?.name;
-    clientId = widget.order.clientId;
-    productId = widget.order.productId;
+    clientId = widget.order.clientId.toString();
+    productId = widget.order.productId.toString();
 
     clientsCubit.getAllClients(UserParams());
     productsCubit.getAllProducts(ProductParams());
@@ -121,6 +121,7 @@ class _EditOrderPageState extends State<EditOrderPage> {
                         child: BlocProvider.value(
                           value: clientsCubit,
                           child: ClientsSelector(
+                            initialValue: widget.order.client?.name,
                             onSelectClient: (value) {
                               clientId = value;
                             },
@@ -134,6 +135,7 @@ class _EditOrderPageState extends State<EditOrderPage> {
                         child: BlocProvider.value(
                           value: locator<ProductsCubit>(),
                           child: ProductSelector(
+                            initialValue: widget.order.product?.name,
                             onSelectProduct: (value) {
                               productId = value;
                             },
@@ -156,7 +158,7 @@ class _EditOrderPageState extends State<EditOrderPage> {
                           if (state is StageLoading) {
                             return const SizedBox.shrink();
                           } else if (state is StageError) {
-                            return const Text(AppStrings.error);
+                            return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
                           } else if (state is StageLoaded) {
                             return CustomDropdownField(
                               value: state.selectedCategory,
@@ -176,7 +178,7 @@ class _EditOrderPageState extends State<EditOrderPage> {
                                   .map(
                                     (stage) => DropdownMenuItem(
                                       value: stage.name,
-                                      child: Text(stage.displayName),
+                                      child: Text(stage.displayName,style: Theme.of(context).textTheme.titleSmall,),
                                     ),
                                   )
                                   .toList(),
@@ -241,8 +243,8 @@ class _EditOrderPageState extends State<EditOrderPage> {
                     buttonTile: AppStrings.save,
                     onPressed: () {
                       bool isValid = formKey.currentState?.validate() ?? false;
-
                       if (isValid) {
+
                         final params = CreateOrderParams(
                           id: widget.order.id,
                           title: _titleCtrl.text.trim(),

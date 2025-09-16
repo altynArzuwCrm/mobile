@@ -83,11 +83,11 @@ class _ProductsSearchPageState extends State<ProductsSearchPage> {
                 },
               );
             } else if (state is SearchNotFoundedProducts) {
-              return Center(child: Text(AppStrings.notFounded));
+              return Center(child: Text(AppStrings.notFounded,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             } else if (state is SearchProductsConnectionError) {
-              return Center(child: Text(AppStrings.noInternet));
+              return Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             } else {
-              return Center(child: Text(AppStrings.error));
+              return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
             }
           },
         ),
