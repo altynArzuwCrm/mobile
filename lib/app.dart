@@ -48,7 +48,7 @@ class AppStart extends StatelessWidget {
           ),
         ],
         child: MaterialApp.router(
-          title: AppStrings.splashName,
+          title: AppStrings.appName,
           theme: AppTheme.lightTheme(),
           debugShowCheckedModeBanner: false,
           scrollBehavior: const NoGlowScrollBehavior(),

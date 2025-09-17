@@ -1,6 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
+import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/assignments/presentation/cubits/assign_cubit.dart';
@@ -167,7 +168,7 @@ class _OrdersPageState extends State<OrdersPage> {
           // Floating button
           Positioned(
             right: 15,
-            bottom: 100,
+            bottom: 105,
             child: FloatingActionButton(
               onPressed: () => context.push(AppRoutes.addOrder),
               child: const Icon(Icons.add),
@@ -201,7 +202,7 @@ class _OrdersPageState extends State<OrdersPage> {
   void _openSort() async {
     final result = await showDialog<String>(
       context: context,
-      barrierColor: Colors.transparent,
+      barrierColor: AppColors.gray.withAlpha(150),
       builder: (context) {
         return FilterOrderWidget(
           selectedStatus: selectedStatus,

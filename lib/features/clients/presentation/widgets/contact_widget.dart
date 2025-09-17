@@ -19,6 +19,14 @@ class ContactWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final String displayTitle =
         AppStrings.contactTypesMap[contactField.type] ?? contactField.type;
+
+    if (contactField.type == 'phone' &&
+        contactField.controller.text.startsWith('8') &&
+        contactField.controller.text.length == 9) {
+      contactField.controller.text =
+          contactField.controller.text.substring(1);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

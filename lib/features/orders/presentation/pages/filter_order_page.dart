@@ -50,6 +50,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -61,7 +62,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
           Divider(color: AppColors.divider, thickness: 1),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Wrap(
               spacing: 8,
               runSpacing: 0,
@@ -97,25 +98,35 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
             ),
           ),
 
-          SizedBox(height: 20),
+          SizedBox(height: 10),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SortOrderSelector(
               sortOrder: sortOrder,
-              isIconOnly: false,
               onChanged: (val) {
                 setState(() => sortOrder = val);
               },
             ),
           ),
-          SizedBox(height: 20),
+
+          Padding(
+            padding:  EdgeInsets.symmetric(vertical: 10.0,horizontal: 16),
+            child: Text(
+              'Этапы',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: AppColors.gray,
+              ),
+            ),
+          ),
           BlocBuilder<StageCubit, StageState>(
             builder: (context, state) {
               if (state is StageLoaded) {
                 final data = state.data;
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Wrap(
                     spacing: 8,
                     runSpacing: 0,
@@ -155,7 +166,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
 
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {

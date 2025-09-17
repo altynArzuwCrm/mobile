@@ -44,51 +44,56 @@ class _FilterProductsWidgetState extends State<FilterProductsWidget> {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 10),
+            padding: const EdgeInsets.only(left: 16.0, right: 10),
             child: BottomSheetTitle(title: AppStrings.filter),
           ),
           Divider(color: AppColors.divider, thickness: 1),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Wrap(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
               spacing: 8,
-              runSpacing: 0,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CategoryBtn(
-                  title: "По название",
-                  isSelected: selectedSortBy == 'name',
-                  onTap: () {
-                    setState(() {
-                      selectedSortBy = 'name';
-                    });
-                  },
+                Expanded(
+                  child: CategoryBtn(
+                    title: "По название",
+                    isSelected: selectedSortBy == 'name',
+                    onTap: () {
+                      setState(() {
+                        selectedSortBy = 'name';
+                      });
+                    },
+                  ),
                 ),
-                CategoryBtn(
-                  title: "По времени",
-                  isSelected: selectedSortBy == 'created_at',
-                  onTap: () {
-                    setState(() {
-                      selectedSortBy = 'created_at';
-                    });
-                  },
+                Expanded(
+                  child: CategoryBtn(
+                    title: "По времени",
+                    isSelected: selectedSortBy == 'created_at',
+                    onTap: () {
+                      setState(() {
+                        selectedSortBy = 'created_at';
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
+          SizedBox(height: 10),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SortOrderSelector(
               sortOrder: sortOrder,
-              isIconOnly: false,
               onChanged: (val) {
                 setState(() => sortOrder = val);
               },
@@ -96,7 +101,7 @@ class _FilterProductsWidgetState extends State<FilterProductsWidget> {
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
@@ -111,7 +116,7 @@ class _FilterProductsWidgetState extends State<FilterProductsWidget> {
               isLoading: false,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
         ],
       ),
     );

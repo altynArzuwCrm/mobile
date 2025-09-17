@@ -1,5 +1,6 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
+import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/clients/presentation/cubits/companies/company_cubit.dart';
@@ -90,7 +91,7 @@ class _ContactsPageState extends State<ContactsPage>
   void _openSort() async {
     final result = await showDialog<String>(
       context: context,
-      barrierColor: Colors.transparent,
+      barrierColor: AppColors.gray.withAlpha(150),
       builder: (context) {
         return FilterClientWidget(initialSortOrder: sortOrder, sortBy: orderBy);
       },

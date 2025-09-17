@@ -44,6 +44,8 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -55,7 +57,7 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
           Divider(color: AppColors.divider, thickness: 1),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Wrap(
               spacing: 8,
               runSpacing: 0,
@@ -91,13 +93,12 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
             ),
           ),
 
-          SizedBox(height: 20),
+          SizedBox(height: 10),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SortOrderSelector(
               sortOrder: sortOrder,
-              isIconOnly: false,
               onChanged: (val) {
                 setState(() => sortOrder = val);
               },
@@ -105,7 +106,7 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: MainButton(
               buttonTile: AppStrings.filter,
               onPressed: () {
@@ -121,7 +122,7 @@ class _FilterClientWidgetState extends State<FilterClientWidget> {
               isLoading: false,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
         ],
       ),
     );

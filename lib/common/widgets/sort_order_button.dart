@@ -1,3 +1,5 @@
+import 'package:crm/core/constants/colors/app_colors.dart';
+import 'package:crm/features/orders/presentation/widgets/category_btn.dart';
 import 'package:flutter/material.dart';
 
 class SortOrderSelector extends StatelessWidget {
@@ -14,65 +16,72 @@ class SortOrderSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      initialValue: sortOrder,
-      onSelected: onChanged,
-      itemBuilder: (context) => [
-        const PopupMenuItem(
-          value: "asc",
-          child: Row(
-            children: [
-              Icon(Icons.arrow_upward, color: Colors.green),
-              SizedBox(width: 8),
-              Text("По возрастанию"),
-            ],
-          ),
-        ),
-        const PopupMenuItem(
-          value: "desc",
-          child: Row(
-            children: [
-              Icon(Icons.arrow_downward, color: Colors.red),
-              SizedBox(width: 8),
-              Text("По убыванию"),
-            ],
-          ),
-        ),
-      ],
-      child: isIconOnly
-          ? const Icon(Icons.sort)
-          : Container(
-        width: double.infinity,
-            padding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300, width: 1),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  sortOrder == "asc"
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward,
-                  color: sortOrder == "asc" ? Colors.green : Colors.red,
+    return isIconOnly
+        ? PopupMenuButton<String>(
+            initialValue: sortOrder,
+            onSelected: onChanged,
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: "asc",
+                child: Row(
+                  children: [
+                    Icon(Icons.arrow_upward, color: Colors.green),
+                    SizedBox(width: 8),
+                    Text("По возрастанию"),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    sortOrder == "asc"
-                        ? "По возрастанию"
-                        : "По убыванию",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
+              ),
+              const PopupMenuItem(
+                value: "desc",
+                child: Row(
+                  children: [
+                    Icon(Icons.arrow_downward, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text("По убыванию"),
+                  ],
+                ),
+              ),
+            ],
+            child: const Icon(Icons.sort),
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Сортировать',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: AppColors.gray,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: CategoryBtn(
+                      title: "По возрастанию",
+                      isSelected: sortOrder == 'asc',
+                      onTap: () {
+                        onChanged('asc');
+                      },
                     ),
                   ),
-                ),
-                const Icon(Icons.arrow_drop_down, color: Colors.grey),
-              ],
-            ),
-          ),
-    );
+                  const SizedBox(width: 8),
+
+                  Expanded(
+                    child: CategoryBtn(
+                      title: "По убыванию",
+                      isSelected: sortOrder == 'desc',
+                      onTap: () {
+                        onChanged('desc');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
   }
 }

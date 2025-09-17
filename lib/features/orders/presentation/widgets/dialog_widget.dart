@@ -7,20 +7,21 @@ class DialogWidget extends StatelessWidget {
     this.bgColor,
     required this.child,
     this.width,
-    this.height,
+    this.height, this.insetPadding,
   });
 
   final Color? bgColor;
   final Widget child;
   final double? width;
   final double? height;
+  final EdgeInsets? insetPadding;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: AppColors.white,
       elevation: 5,
-      insetPadding: EdgeInsets.symmetric(horizontal: 35),
+      insetPadding:insetPadding ?? EdgeInsets.symmetric(horizontal: 35),
       shadowColor: Theme.of(context).shadowColor.withAlpha(128),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),

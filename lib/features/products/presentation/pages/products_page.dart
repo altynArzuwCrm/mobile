@@ -1,6 +1,7 @@
 import 'package:crm/common/widgets/appbar_icon.dart';
 import 'package:crm/common/widgets/k_footer.dart';
 import 'package:crm/core/config/routes/routes_path.dart';
+import 'package:crm/core/constants/colors/app_colors.dart';
 import 'package:crm/core/constants/strings/app_strings.dart';
 import 'package:crm/core/constants/strings/assets_manager.dart';
 import 'package:crm/features/products/data/models/product_params.dart';
@@ -163,7 +164,7 @@ class _ProductsPageState extends State<ProductsPage> {
   void _openSort() async {
     final result = await showDialog<String>(
       context: context,
-      barrierColor: Colors.transparent,
+      barrierColor: AppColors.gray.withAlpha(150),
       builder: (context) {
         return FilterProductsWidget(initialSortOrder: sortOrder, sortBy: orderBy);
       },

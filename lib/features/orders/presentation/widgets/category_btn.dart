@@ -27,6 +27,7 @@ class CategoryBtn extends StatelessWidget {
         ),
         child: Text(
           title,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 14,
