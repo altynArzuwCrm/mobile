@@ -99,7 +99,7 @@ class _SignInPageState extends State<SignInPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppStrings.email,
+                          'Имя пользователя',
                           textAlign: TextAlign.start,
 
                           style: TextStyle(
