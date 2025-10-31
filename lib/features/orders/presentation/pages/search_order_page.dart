@@ -58,7 +58,7 @@ class _OrdersSearchPageState extends State<OrdersSearchPage> {
         child: BlocBuilder<SearchOrderCubit, SearchOrderState>(
           builder: (context, state) {
             if (state is SearchOrderInitial) {
-              return const Center(child: Text(AppStrings.searchClient));
+              return const Center(child: Text(AppStrings.searchOrders));
             } else if (state is SearchOrderLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedOrders) {

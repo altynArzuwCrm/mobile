@@ -40,7 +40,7 @@ class OrderStatModel {
     totalOrders: json["total_orders"],
     completedOrders: json["completed_orders"],
     cancelledOrders: json["cancelled_orders"],
-    percentCompleted: json["percent_completed"],
+    percentCompleted: int.tryParse(json["percent_completed"].toString()) ?? 0,
     percentCancelled: json["percent_cancelled"],
     isEmployeeView: json["is_employee_view"],
   );

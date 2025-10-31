@@ -9,7 +9,7 @@ class ProjectModel {
   final String? totalPrice;
   final String? paymentAmount;
   final String createdAt;
-  final DateTime updatedAt;
+  // final DateTime updatedAt;
   final List<OrderModel>? orders;
 
   ProjectModel({
@@ -19,7 +19,7 @@ class ProjectModel {
     required this.totalPrice,
     required this.paymentAmount,
     required this.createdAt,
-    required this.updatedAt,
+    // required this.updatedAt,
     required this.orders,
   });
 
@@ -32,7 +32,7 @@ class ProjectModel {
     createdAt: json["created_at"] != null
         ? formatDate(DateTime.parse(json["created_at"]))
         : '',
-    updatedAt: DateTime.parse(json["updated_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
     orders: json["orders"] != null ? List<OrderModel>.from(
       json["orders"].map((x) => OrderModel.fromJson(x)),
     ) : [],
@@ -45,7 +45,7 @@ class ProjectModel {
     "total_price": totalPrice,
     "payment_amount": paymentAmount,
     "created_at": createdAt,
-    "updated_at": updatedAt.toIso8601String(),
+    // "updated_at": updatedAt.toIso8601String(),
     "orders": orders != null
         ? List<dynamic>.from(orders!.map((x) => x.toJson()))
         : [],
@@ -59,7 +59,7 @@ class ProjectModel {
       totalPrice: totalPrice,
       paymentAmount: paymentAmount,
       createdAt: createdAt,
-      updatedAt: updatedAt,
+      // updatedAt: updatedAt,
       orders: orders != null ? orders!.map((e) => e.toEntity()).toList() : [],
     );
   }

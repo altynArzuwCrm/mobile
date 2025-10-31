@@ -7,7 +7,7 @@ class ProductModel {
   final String name;
   final String createdAt;
   final DateTime updatedAt;
-  final bool isActive;
+  //final bool isActive;
 
   final List<Assignment> assignments;
   final List<StageModel> availableStages;
@@ -17,7 +17,7 @@ class ProductModel {
     required this.name,
     required this.createdAt,
     required this.updatedAt,
-    required this.isActive,
+    //required this.isActive,
 
     required this.assignments,
     required this.availableStages,
@@ -28,7 +28,7 @@ class ProductModel {
     name: json["name"],
     createdAt:json["created_at"] != null ? formatDate(DateTime.parse(json["created_at"])):'',
     updatedAt: DateTime.parse(json["updated_at"]),
-    isActive: json["is_active"] ?? false,
+   // isActive: json["is_active"] ?? false,
 
     assignments: List<Assignment>.from(
       json["assignments"].map((x) => Assignment.fromJson(x)),

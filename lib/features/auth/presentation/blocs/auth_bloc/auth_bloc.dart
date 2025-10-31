@@ -21,19 +21,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<InitialEvent>(_onInitial);
   }
 
-  void _onLogIn(LogInEvent event, Emitter<AuthState> emit) async {
+  Future<void> _onLogIn(LogInEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final result = await _loginUseCase.execute(event.params);
-    result.fold(
-      (failure) => {emit(AuthFailure(failure.message))},
-      (data) => {emit(Authenticated())},
+
+    await result.fold(
+          (failure) async {
+        emit(AuthFailure(failure.message));
+      },
+          (data) async {
+        final store = locator<Store>();
+        await store.setRemember(event.remember);
+
+        emit(Authenticated());
+      },
     );
   }
 
-  Future<void> _onCheck(CheckAuthEvent event, Emitter<AuthState> emit) async {
-    final isTokenStored = await locator<Store>().isTokenAvailable();
 
-    if (isTokenStored) {
+  Future<void> _onCheck(CheckAuthEvent event, Emitter<AuthState> emit) async {
+    final store = locator<Store>();
+    final isTokenStored = await store.isTokenAvailable();
+    final remember = await store.getRemember();
+
+    if (isTokenStored && remember) {
       emit(Authenticated());
     } else {
       emit(AuthInitial());

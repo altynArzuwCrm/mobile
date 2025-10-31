@@ -61,7 +61,7 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
         child: BlocBuilder<SearchUserCubit, SearchUserState>(
           builder: (context, state) {
             if (state is SearchUserInitial) {
-              return const Center(child: Text(AppStrings.searchClient));
+              return const Center(child: Text(AppStrings.searchUsers));
             } else if (state is SearchUserLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedUser) {

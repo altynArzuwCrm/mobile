@@ -7,7 +7,7 @@ class ProjectEntity {
   final String? totalPrice;
   final String? paymentAmount;
   final String createdAt;
-  final DateTime updatedAt;
+  // final DateTime updatedAt;
   final List<OrderEntity>? orders;
 
   ProjectEntity({
@@ -17,7 +17,7 @@ class ProjectEntity {
     required this.totalPrice,
     required this.paymentAmount,
     required this.createdAt,
-    required this.updatedAt,
+    // required this.updatedAt,
     required this.orders,
   });
 

@@ -17,6 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
+
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -35,11 +37,19 @@ class _SignInPageState extends State<SignInPage> {
   bool validate() {
     bool isValid = formKey.currentState?.validate() ?? false;
 
-    if (!remember) {
-      return false;
-    }
 
     return isValid;
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    _nameCtrl.addListener(_onTextChanged);
+    _passwordCtrl.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    setState(() {}); // triggers UI rebuild -> button rebuilds
   }
 
   @override
@@ -51,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   bool isDisableBtn() {
-    if ((_nameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) || !remember) {
+    if (_nameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) {
       return true;
     } else {
       return false;
@@ -286,7 +296,7 @@ class _SignInPageState extends State<SignInPage> {
                                 username: name,
                                 fcmToken: fcmToken.toString(),
                               );
-                              locator<AuthBloc>().add(LogInEvent(params));
+                              locator<AuthBloc>().add(LogInEvent(params,remember));
                               log(params.toString(), name: 'ver params');
                             }
                           },

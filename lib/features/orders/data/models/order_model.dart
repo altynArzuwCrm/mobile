@@ -138,28 +138,28 @@ class OrderModel {
 class Product {
   final int id;
   final String name;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
 
   Product({
     required this.id,
     required this.name,
-    required this.createdAt,
-    required this.updatedAt,
+    // required this.createdAt,
+    // required this.updatedAt,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     name: json["name"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    // "created_at": createdAt.toIso8601String(),
+    // "updated_at": updatedAt.toIso8601String(),
   };
 }
 
@@ -170,7 +170,7 @@ class Project {
   final String totalPrice;
   final String paymentAmount;
   final DateTime? createdAt;
-  final DateTime updatedAt;
+ // final DateTime updatedAt;
 
   Project({
     required this.id,
@@ -179,7 +179,7 @@ class Project {
     required this.totalPrice,
     required this.paymentAmount,
     required this.createdAt,
-    required this.updatedAt,
+   // required this.updatedAt,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
@@ -199,7 +199,7 @@ class Project {
     //     ? formatDateTime(DateTime.parse(json["created_at"]))
     //     : '',
 
-    updatedAt: DateTime.parse(json["updated_at"]),
+  //  updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -209,6 +209,6 @@ class Project {
     "total_price": totalPrice,
     "payment_amount": paymentAmount,
     "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+  //  "updated_at": updatedAt.toIso8601String(),
   };
 }

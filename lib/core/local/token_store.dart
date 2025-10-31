@@ -6,6 +6,7 @@ class Store {
   Store(this._secureStorage);
 
   final String _tokenKey = 'token';
+  final String _rememberKey = 'remember';
 
   Future<void> setToken(String token) async {
     await _secureStorage.write(key: _tokenKey, value: token);
@@ -22,5 +23,16 @@ class Store {
 
   Future<void> clear() async {
     await _secureStorage.delete(key: _tokenKey);
+    await _secureStorage.delete(key: _rememberKey);
+
+  }
+
+  Future<void> setRemember(bool value) async {
+    await _secureStorage.write(key: _rememberKey, value: value.toString());
+  }
+
+  Future<bool> getRemember() async {
+    String? value = await _secureStorage.read(key: _rememberKey);
+    return value == 'true';
   }
 }

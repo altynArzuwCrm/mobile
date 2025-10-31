@@ -45,59 +45,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     Card(
                       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       // elevation: 3,
-                      child: Padding(
+                      child: Container(
+                        width: double.infinity,
                         padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Icon(
-                                  data.isActive
-                                      ? Icons.check_circle
-                                      : Icons.cancel,
-                                  color: data.isActive
-                                      ? Colors.green
-                                      : Colors.red,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  data.isActive
-                                      ? AppStrings.active
-                                      : AppStrings.notActive,
-
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    color: AppColors.gray,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                        child: Text(
+                          data.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      AppStrings.assignedUser,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
+
+                    if (data.assignments.isNotEmpty) const SizedBox(height: 20),
+
+                    if (data.assignments.isNotEmpty)
+                      Text(
+                        AppStrings.assignedUser,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
+                    if (data.assignments.isNotEmpty) const SizedBox(height: 20),
 
                     // Assignments list
                     ListView.builder(
@@ -137,7 +108,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         );
                       },
                     ),
-                    const SizedBox(height: 20),
+
+                    if (data.assignments.isNotEmpty) const SizedBox(height: 20),
                     Text(
                       AppStrings.stageProcess,
                       style: TextStyle(
@@ -167,7 +139,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               );
             }
 
-            return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
+            return Center(
+              child: Text(
+                AppStrings.error,
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+            );
           },
         ),
       ),

@@ -4,16 +4,16 @@ class ClientModel {
   final int id;
   final String name;
   final String companyName;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
   final List<ContactModel>? contacts;
 
   ClientModel({
     required this.id,
     required this.name,
     required this.companyName,
-    required this.createdAt,
-    required this.updatedAt,
+    // required this.createdAt,
+    // required this.updatedAt,
     required this.contacts,
   });
 
@@ -21,8 +21,8 @@ class ClientModel {
     id: json["id"],
     name: json["name"] ?? '',
     companyName: json["company_name"] ?? '',
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
     contacts: json["contacts"] != null
         ? List<ContactModel>.from(
             json["contacts"].map((x) => ContactModel.fromJson(x)),
@@ -34,8 +34,8 @@ class ClientModel {
     "id": id,
     "name": name,
     "company_name": companyName,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    // "created_at": createdAt.toIso8601String(),
+    // "updated_at": updatedAt.toIso8601String(),
     "contacts": contacts != null
         ? List<dynamic>.from(contacts!.map((x) => x.toJson()))
         : null,
@@ -46,8 +46,8 @@ class ClientModel {
       id: id,
       name: name,
       companyName: companyName,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      // createdAt: createdAt,
+      // updatedAt: updatedAt,
       contacts: contacts?.map((e) => e.toEntity()).toList(),
     );
   }
@@ -57,8 +57,8 @@ class ClientModel {
       id: 0,
       name: '',
       companyName: '',
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      // createdAt: DateTime.now(),
+      // updatedAt: DateTime.now(),
       contacts: [],
     );
   }
@@ -69,16 +69,16 @@ class ContactModel {
   final int clientId;
   final String type;
   final String value;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
 
   ContactModel({
     required this.id,
     required this.clientId,
     required this.type,
     required this.value,
-    required this.createdAt,
-    required this.updatedAt,
+    // required this.createdAt,
+    // required this.updatedAt,
   });
 
   factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
@@ -86,8 +86,8 @@ class ContactModel {
     clientId: json["client_id"],
     type: json["type"],
     value: json["value"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -95,8 +95,8 @@ class ContactModel {
     "client_id": clientId,
     "type": type,
     "value": value,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    // "created_at": createdAt.toIso8601String(),
+    // "updated_at": updatedAt.toIso8601String(),
   };
 
   ContactEntity toEntity() {
@@ -105,8 +105,8 @@ class ContactModel {
       clientId: clientId,
       type: type,
       value: value,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      // createdAt: createdAt,
+      // updatedAt: updatedAt,
     );
   }
 }

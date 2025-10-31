@@ -123,6 +123,9 @@ class AppStrings {
   static const String enterText ="Введите текст";
   static const String searchClient ="Поиск клиентов";
   static const String searchProject ="Поиск проекты";
+  static const String searchProducts ="Поиск продуктов";
+  static const String searchOrders ="Поиск заказов";
+  static const String searchUsers ="Поиск пользователей";
   static const String notFounded ="Не найдено";
   static const String delete ="Удалить";
   static const String loggedSuccessfully ="Вы успешно вошли в систему";

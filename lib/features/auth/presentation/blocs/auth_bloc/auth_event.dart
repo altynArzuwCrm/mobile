@@ -4,8 +4,12 @@ sealed class AuthEvent {}
 
 final class LogInEvent extends AuthEvent {
   final LoginParams params;
+  final bool remember;
 
-  LogInEvent(this.params);
+  LogInEvent(this.params, this.remember);
+
+
+  List<Object?> get props => [params, remember];
 }
 
 final class LogOutEvent extends AuthEvent {}

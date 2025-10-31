@@ -58,7 +58,7 @@ class _ProductsSearchPageState extends State<ProductsSearchPage> {
         child: BlocBuilder<SearchProductsCubit, SearchProductsState>(
           builder: (context, state) {
             if (state is SearchProductsInitial) {
-              return const Center(child: Text(AppStrings.searchClient));
+              return const Center(child: Text(AppStrings.searchProducts));
             } else if (state is SearchProductsLoading) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (state is SearchFoundedProducts) {
