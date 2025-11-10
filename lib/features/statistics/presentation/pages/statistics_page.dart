@@ -317,19 +317,19 @@ class _StatisticsPageState extends State<StatisticsPage>
             color: AppColors.accent,
           ),
         ),
-        TextButton(
-          onPressed: () {
-            context.push(AppRoutes.activities);
-          },
-          child: Text(
-            AppStrings.all,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.gray,
-            ),
-          ),
-        ),
+        // TextButton(
+        //   onPressed: () {
+        //     context.push(AppRoutes.activities);
+        //   },
+        //   child: Text(
+        //     AppStrings.all,
+        //     style: const TextStyle(
+        //       fontWeight: FontWeight.w400,
+        //       fontSize: 14,
+        //       color: AppColors.gray,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

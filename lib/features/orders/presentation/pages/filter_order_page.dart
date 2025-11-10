@@ -68,7 +68,7 @@ class _FilterOrderWidgetState extends State<FilterOrderWidget> {
               runSpacing: 0,
               children: [
                 CategoryBtn(
-                  title: "По название",
+                  title: "По названию",
                   isSelected: selectedOrderBy == 'name',
                   onTap: () {
                     setState(() {

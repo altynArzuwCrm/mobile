@@ -59,6 +59,13 @@ class _AddUserPageState extends State<AddUserPage> {
                       controller: _nameCtrl,
                       title: AppStrings.name,
                       hintText: '',
+                      validator: (val){
+                        if (val == null || val.isEmpty) {
+                          return 'Нужно заполнить имя';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                     //2
                     SizedBox(height: 20),
@@ -75,6 +82,13 @@ class _AddUserPageState extends State<AddUserPage> {
                       controller: _passwordCtrl,
                       title: AppStrings.password,
                       hintText: '',
+                      validator: (val){
+                        if (val == null || val.isEmpty) {
+                          return 'Нужно заполнить пароль';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                     SizedBox(height: 20),
                     BlocProvider.value(

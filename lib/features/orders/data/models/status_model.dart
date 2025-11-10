@@ -6,10 +6,10 @@ class StatusModel {
 
   static const List<StatusModel> statuses = [
     StatusModel(name: 'Все', status: null),
-    StatusModel(name: 'Ожидает', status: 'pending'),
+    // StatusModel(name: 'Ожидает', status: 'pending'),
     StatusModel(name: 'В работе', status: 'in_progress'),
-    StatusModel(name: 'На рассмотрении', status: 'under_review'),
+    // StatusModel(name: 'На рассмотрении', status: 'under_review'),
     StatusModel(name: 'Одобрено', status: 'approved'),
-    StatusModel(name: 'Отменено', status: 'cancelled'),
+    // StatusModel(name: 'Отменено', status: 'cancelled'),
   ];
 }

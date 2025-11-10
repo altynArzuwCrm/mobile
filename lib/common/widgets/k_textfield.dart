@@ -185,6 +185,8 @@ class PhoneNumField extends StatelessWidget {
   final bool showContactPicker;
   final Function(String)? onChange;
 
+
+
   const PhoneNumField({
     super.key,
     required this.phoneCtrl,
@@ -208,13 +210,13 @@ class PhoneNumField extends StatelessWidget {
       onChange: onChange,
       validator: (val) {
         if (val == null || val.isEmpty) {
-          return ''; //AppLocalizations.of(context)!.requiredToFill;
+          return 'Обязательно заполните номер телефона'; //AppLocalizations.of(context)!.requiredToFill;
         } else if (val.length < 8) {
-          return ''; //AppLocalizations.of(context)!.phoneNumberIncorrect;
+          return 'Номер телефона неверный'; //AppLocalizations.of(context)!.phoneNumberIncorrect;
         }
         num? v = num.tryParse(val);
         if (v == null) {
-          return ''; //AppLocalizations.of(context)!.phoneNumberIncorrect;
+          return 'Номер телефона неверный'; //AppLocalizations.of(context)!.phoneNumberIncorrect;
         }
         return null;
       },

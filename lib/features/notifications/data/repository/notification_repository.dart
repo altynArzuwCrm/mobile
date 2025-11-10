@@ -12,11 +12,11 @@ class NotificationRepository {
 
   NotificationRepository(this.networkInfo, this.remoteDataSource);
 
-  Future<Either<Failure, List<NotificationModel>>> getAllNotifications() async {
+  Future<Either<Failure, List<NotificationModel>>> getAllNotifications(int page) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        final response = await remoteDataSource.getAllNotifications();
+        final response = await remoteDataSource.getAllNotifications(page);
         return Right(response);
       } catch (error) {
         return Left(ServerFailure('[Server]: $error'));

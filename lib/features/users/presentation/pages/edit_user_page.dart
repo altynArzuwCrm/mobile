@@ -38,7 +38,9 @@ class _EditUserPageState extends State<EditUserPage> {
 
     _nameCtrl = TextEditingController(text: widget.user.name);
 
-    _phoneCtrl = TextEditingController(text: widget.user.phone);
+    final phoneNumber = widget.user.phone?.replaceFirst('+993','',0);
+
+    _phoneCtrl = TextEditingController(text: phoneNumber);
 
     final userRoleIds = widget.user.roles?.map((role) => role.id).toSet();
 

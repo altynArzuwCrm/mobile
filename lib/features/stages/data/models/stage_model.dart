@@ -7,7 +7,7 @@ class StageModel {
   // final dynamic description;
   // final int order;
   // final bool isActive;
-  final String color;
+  final String? color;
   // final DateTime? createdAt;
   // final DateTime? updatedAt;
   // final dynamic deletedAt;
@@ -34,7 +34,7 @@ class StageModel {
     // description: json["description"],
     // order: json["order"],
     // isActive: json["is_active"] != null ? json["is_active"] == 1 ?true : false : false,
-    color: json["color"],
+    color: json["color"] != null ?  json["color"] : null,
     // createdAt:json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
     // updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
     // deletedAt: json["deleted_at"],

@@ -220,7 +220,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<CommentCubit>(CommentCubit(locator()));
   locator.registerSingleton<ProductsCubit>(ProductsCubit(locator(),locator()));
   locator.registerSingleton<ProductDetailCubit>(ProductDetailCubit(locator()));
-  locator.registerSingleton<NotificationCubit>(NotificationCubit(locator()));
+  locator.registerSingleton<NotificationCubit>(NotificationCubit(locator(),locator()));
   locator.registerSingleton<RolesCubit>(RolesCubit(locator()));
   locator.registerSingleton<CompanyCubit>(CompanyCubit());
   locator.registerSingleton<CompanyDetailCubit>(CompanyDetailCubit());

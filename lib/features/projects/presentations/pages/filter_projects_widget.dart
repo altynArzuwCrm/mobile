@@ -63,7 +63,7 @@ class _FilterProjectsWidgetState extends State<FilterProjectsWidget> {
               runSpacing: 0,
               children: [
                 CategoryBtn(
-                  title: "По название",
+                  title: "По названию",
                   isSelected: selectedSortBy == 'name',
                   onTap: () {
                     setState(() {

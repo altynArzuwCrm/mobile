@@ -64,7 +64,7 @@ class _FilterProductsWidgetState extends State<FilterProductsWidget> {
               children: [
                 Expanded(
                   child: CategoryBtn(
-                    title: "По название",
+                    title: "По названию",
                     isSelected: selectedSortBy == 'name',
                     onTap: () {
                       setState(() {

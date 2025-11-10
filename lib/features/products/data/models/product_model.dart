@@ -30,12 +30,12 @@ class ProductModel {
     updatedAt: DateTime.parse(json["updated_at"]),
    // isActive: json["is_active"] ?? false,
 
-    assignments: List<Assignment>.from(
+    assignments: json["assignments"] != null ? List<Assignment>.from(
       json["assignments"].map((x) => Assignment.fromJson(x)),
-    ),
-    availableStages: List<StageModel>.from(
+    ) : [],
+    availableStages: json["available_stages"] != null ? List<StageModel>.from(
       json["available_stages"].map((x) => StageModel.fromJson(x)),
-    ),
+    ) : [],
   );
 }
 
@@ -45,8 +45,8 @@ class Assignment {
   final int userId;
   final String roleType;
   final bool isActive;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
   final UserModel user;
 
   Assignment({
@@ -55,8 +55,8 @@ class Assignment {
     required this.userId,
     required this.roleType,
     required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
+    // required this.createdAt,
+    // required this.updatedAt,
     required this.user,
   });
 
@@ -66,8 +66,8 @@ class Assignment {
     userId: json["user_id"],
     roleType: json["role_type"],
     isActive: json["is_active"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
     user: UserModel.fromJson(json["user"]),
   );
 }

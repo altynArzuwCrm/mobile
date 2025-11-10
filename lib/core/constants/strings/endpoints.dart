@@ -1,6 +1,6 @@
 class ApiEndpoints {
   // static const baseUrl = 'http://192.168.31.138/api/';
-  static const baseUrl = 'https://crm.ltm.studio/api/';
+  static const baseUrl = 'http://crm.aa.com.tm/api/';
   static const login = 'login';
   static const logout = 'logout';
   static const currentUser = 'me';

@@ -27,11 +27,11 @@ class StatsBarChart extends StatelessWidget {
       children: List.generate(users.length, (index) {
         final user = users[index];
         final mainValue = user.total;
-        final subValue = user.orders.length;
+     //   final subValue = user.orders.length;
 
         // 3. Percent scaling relative to global max
         final mainPercent = globalMax > 0 ? mainValue / globalMax : 0.0;
-        final subPercent = globalMax > 0 ? subValue / globalMax : 0.0;
+   //     final subPercent = globalMax > 0 ? subValue / globalMax : 0.0;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -66,13 +66,13 @@ class StatsBarChart extends StatelessWidget {
                       color: Colors.grey[500],
                     ),
                   ),
-                  Text(
-                    subValue.toString(),
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.grey[500],
-                    ),
-                  ),
+                  // Text(
+                  //   subValue.toString(),
+                  //   style: TextStyle(
+                  //     fontSize: 10,
+                  //     color: Colors.grey[500],
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(width: 8),
@@ -83,7 +83,7 @@ class StatsBarChart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildBar(mainPercent, const [Color(0xFF6A85F1), Color(0xFF89C4F8)]),
-                    _buildBar(subPercent, const [Color(0xffCBCBF6), Color(0xffCBCBF6)]),
+                  //  _buildBar(subPercent, const [Color(0xffCBCBF6), Color(0xffCBCBF6)]),
                   ],
                 ),
               ),
