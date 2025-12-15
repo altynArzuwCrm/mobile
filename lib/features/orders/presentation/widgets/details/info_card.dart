@@ -57,6 +57,7 @@ class InfoBlock extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           value,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16,

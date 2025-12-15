@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:426376798827:android:7d6a41b18cf537550f472e",
+        "mobilesdk_app_id": "1:426376798827:android:8bc684d736f2ad7f0f472e",
         "android_client_info": {
-          "package_name": "com.ltm.crm"
+          "package_name": "studio.ltm.crm"
         }
       },
       "oauth_client": [],

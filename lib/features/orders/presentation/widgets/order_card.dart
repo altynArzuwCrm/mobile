@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:crm/core/config/routes/routes_path.dart';
 import 'package:crm/core/constants/colors/app_colors.dart';

@@ -167,7 +167,7 @@ class Project {
   final int id;
   final String title;
   final DateTime? deadline;
-  final String totalPrice;
+  final int totalPrice;
   final String paymentAmount;
   final DateTime? createdAt;
  // final DateTime updatedAt;
@@ -188,7 +188,7 @@ class Project {
     deadline: json["deadline"] != null
         ? DateTime.parse(json["deadline"])
         : null,
-    totalPrice: json["totalPrice"] != null ? json["totalPrice"].toString() : '0',
+    totalPrice: json["total_price"] ?? 0,
     paymentAmount: json["payment_amount"] != null
         ? json["payment_amount"].toString()
         : '',

@@ -1,4 +1,4 @@
-package com.ltm.crm
+package studio.ltm.crm
 
 import io.flutter.embedding.android.FlutterActivity
 

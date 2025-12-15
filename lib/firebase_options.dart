@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBWbCn5a_ZbWkA7AJK7GJgkYrzWKA86Muk',
-    appId: '1:426376798827:android:7d6a41b18cf537550f472e',
+    appId: '1:426376798827:android:8bc684d736f2ad7f0f472e',
     messagingSenderId: '426376798827',
     projectId: 'altyn-arzuw',
     storageBucket: 'altyn-arzuw.firebasestorage.app',
@@ -65,10 +65,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDoQaYphyBRWtDfiEtOzXinCkgsdmqddVI',
-    appId: '1:426376798827:ios:d21f627cda3a382d0f472e',
+    appId: '1:426376798827:ios:86b67c8b1aa5e0330f472e',
     messagingSenderId: '426376798827',
     projectId: 'altyn-arzuw',
     storageBucket: 'altyn-arzuw.firebasestorage.app',
-    iosBundleId: 'com.example.crm',
+    iosBundleId: 'studio.ltm.crm',
   );
+
 }
