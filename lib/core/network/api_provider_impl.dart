@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:crm/core/constants/strings/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'api_provider.dart';
 import 'dio_interceptor.dart';
+import 'package:dio/io.dart';
 
 class ApiProviderImpl implements ApiProvider {
   final Dio dio;
@@ -16,6 +19,15 @@ class ApiProviderImpl implements ApiProvider {
         connectTimeout: const Duration(seconds: 20),
       ),
     );
+
+    // ✅ ДОБАВЬТЕ ЭТОТ КОД для обхода SSL проверки
+    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+      final client = HttpClient();
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+
     // Only the interceptor sets the Authorization header
     dio.interceptors.add(TokenInterceptor(dio));
     return dio;
