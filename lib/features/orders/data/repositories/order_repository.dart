@@ -25,7 +25,7 @@ class OrderRepository {
   ) async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-      try {
+      // try {
         final response = await remoteDataSource.getAllOrders(params);
         await localDataSource.clearOrders();
 
@@ -34,12 +34,32 @@ class OrderRepository {
         await localDataSource.insertOrders(result);
 
         return Right(response);
-      } catch (error) {
-        return await _getLocalOrders(isConnected,params);
-      }
+      // } catch (error) {
+      //   return await _getLocalOrders(isConnected,params);
+      // }
     } else {
 
       return await _getLocalOrders(isConnected,params);
+    }
+  }
+
+  Future<Either<Failure, List<OrderModel>>> getCurrentOrders(int page
+  ) async {
+    final bool isConnected = await networkInfo.isConnected;
+    if (isConnected) {
+      // try {
+        final response = await remoteDataSource.getCurrentOrders(page);
+
+
+
+        return Right(response);
+      // } catch (error) {
+      //   return await _getLocalOrders(isConnected,params);
+      // }
+    } else {
+
+      return Left(ConnectionFailure(AppStrings.noInternet));
+
     }
   }
 

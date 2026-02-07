@@ -117,49 +117,78 @@ class OrderCard extends StatelessWidget {
           SizedBox(height: 5),
           Divider(color: AppColors.divider, thickness: 1),
           SizedBox(height: 5),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppStrings.product,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: AppColors.normalGray,
+                ),
+              ),
+              SizedBox(height: 2),
+
+              Text(
+                model.product?.name ?? '',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                  color: AppColors.accent,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5),
+
+          Divider(color: AppColors.divider, thickness: 1),
+          SizedBox(height: 5),
           Row(
 
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.customer,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: AppColors.normalGray,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.customer,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.normalGray,
+                    ),
                   ),
-                ),
-                SizedBox(height: 2),
+                  SizedBox(height: 2),
 
-                Text(
-                  model.client?.name ?? '',
+                  Text(
+                    model.client?.name ?? '',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: AppColors.accent,
+                    ),
+                  ),
+                ],
+              ),
+
+              TextButton(
+                onPressed: () {
+                  context.push('${AppRoutes.orderDetails}/${model.id}');
+                },
+                child: Text(
+                  AppStrings.moreDetails,
                   style: TextStyle(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                     fontSize: 12,
-                    color: AppColors.accent,
+                    color: AppColors.primary,
                   ),
-                ),
-              ],
-            ),
-
-            TextButton(
-              onPressed: () {
-                context.push('${AppRoutes.orderDetails}/${model.id}');
-              },
-              child: Text(
-                AppStrings.moreDetails,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12,
-                  color: AppColors.primary,
                 ),
               ),
-            ),
 
-          ],)
+            ],),
+
+
         ],
       ),
     );

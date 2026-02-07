@@ -7,6 +7,8 @@ import 'package:crm/features/orders/data/models/order_params.dart';
 abstract class OrderRemoteDataSource {
   Future<List<OrderModel>> getAllOrders(OrderParams params);
 
+  Future<List<OrderModel>> getCurrentOrders(int page);
+
   Future<OrderModel> getOrderById(int id);
 
   Future<OrderModel> createOrder(CreateOrderParams params);
@@ -38,6 +40,20 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await apiProvider.get(
       endPoint: ApiEndpoints.orders,
       query: params.toQueryParameters(),
+    );
+
+    final responseBody = response.data['data'] as List;
+
+    final result = responseBody.map((e) => OrderModel.fromJson(e)).toList();
+
+    return result;
+  }
+
+  @override
+  Future<List<OrderModel>> getCurrentOrders(int page) async {
+    final response = await apiProvider.get(
+      endPoint: ApiEndpoints.orders,
+      query: {'active_only' : page},
     );
 
     final responseBody = response.data['data'] as List;

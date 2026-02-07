@@ -61,18 +61,55 @@ class _OrdersPageState extends State<OrdersPage> {
   void _onRefresh() async {
     _currentPage = 1;
 
-    ordersCubit.getAllOrders(OrderParams(page: _currentPage));
+    if (StatusModel.statuses[isStatusSelected].status == 'current') {
+      ordersCubit.getCurrentOrders(_currentPage);
+    } else {
+      ordersCubit.getAllOrders(
+        OrderParams(
+          page: _currentPage,
+          stage: selectedStage,
+          status: selectedStatus,
+        ),
+      );
+    }
   }
 
   void _onLoad() async {
-    if (ordersCubit.canLoad) {
-      _currentPage++;
-
-      ordersCubit.getAllOrders(OrderParams(page: _currentPage));
-    } else {
+    if (!ordersCubit.canLoad) {
       _refreshController.loadNoData();
+      return;
+    }
+
+    _currentPage++;
+
+    if (StatusModel.statuses[isStatusSelected].status == 'current') {
+      ordersCubit.getCurrentOrders(_currentPage);
+    } else {
+      ordersCubit.getAllOrders(
+        OrderParams(
+          page: _currentPage,
+          stage: selectedStage,
+          status: selectedStatus,
+        ),
+      );
     }
   }
+
+  // void _onRefresh() async {
+  //   _currentPage = 1;
+  //
+  //   ordersCubit.getAllOrders(OrderParams(page: _currentPage));
+  // }
+
+  // void _onLoad() async {
+  //   if (ordersCubit.canLoad) {
+  //     _currentPage++;
+  //
+  //     ordersCubit.getAllOrders(OrderParams(page: _currentPage));
+  //   } else {
+  //     _refreshController.loadNoData();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,25 +143,61 @@ class _OrdersPageState extends State<OrdersPage> {
                     itemCount: StatusModel.statuses.length,
                     itemBuilder: (context, index) {
                       final item = StatusModel.statuses[index];
+
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: TypeChip(
                           title: item.name,
                           isSelected: isStatusSelected == index,
+
                           onTap: () {
                             setState(() {
                               isStatusSelected = index;
-                              selectedStatus = item.status;
+                              _currentPage = 1; // IMPORTANT
                             });
 
-                            ordersCubit.getAllOrders(
-                              OrderParams(
-                                page: _currentPage,
-                                stage: selectedStage,
-                                status: selectedStatus,
-                              ),
-                            );
+                            if (item.status == 'current') {
+                              ordersCubit.getCurrentOrders(1);
+                            } else {
+                              setState(() {
+                                selectedStatus = item.status;
+                              });
+
+                              ordersCubit.getAllOrders(
+                                OrderParams(
+                                  page: 1,
+                                  stage: selectedStage,
+                                  status: selectedStatus,
+                                ),
+                              );
+                            }
+
+                            _refreshController
+                                .resetNoData(); // optional but recommended
                           },
+                          // onTap: () {
+                          //   if (item.status == 'current') {
+                          //     setState(() {
+                          //       isStatusSelected = index;
+                          //     });
+                          //
+                          //     ordersCubit.getCurrentOrders(1);
+                          //
+                          //   } else {
+                          //     setState(() {
+                          //       isStatusSelected = index;
+                          //       selectedStatus = item.status;
+                          //     });
+                          //
+                          //     ordersCubit.getAllOrders(
+                          //       OrderParams(
+                          //         page: _currentPage,
+                          //         stage: selectedStage,
+                          //         status: selectedStatus,
+                          //       ),
+                          //     );
+                          //   }
+                          // },
                         ),
                       );
                     },
@@ -166,13 +239,27 @@ class _OrdersPageState extends State<OrdersPage> {
           ),
 
           // Floating button
-          Positioned(
-            right: 15,
-            bottom: 105,
-            child: FloatingActionButton(
-              onPressed: () => context.push(AppRoutes.addOrder),
-              child: const Icon(Icons.add),
-            ),
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, userState) {
+              if (userState is! UserLoaded) {
+                return SizedBox.shrink();
+              }
+
+              // Extract role IDs
+              final roles = userState.data.roles?.map((e) => e.id) ?? [];
+              final canEdit = roles.any((id) => id == 1 || id == 2);
+
+              return canEdit
+                  ? Positioned(
+                      right: 15,
+                      bottom: 105,
+                      child: FloatingActionButton(
+                        onPressed: () => context.push(AppRoutes.addOrder),
+                        child: const Icon(Icons.add),
+                      ),
+                    )
+                  : SizedBox.shrink();
+            },
           ),
         ],
       ),
@@ -193,9 +280,21 @@ class _OrdersPageState extends State<OrdersPage> {
         },
       );
     } else if (state is OrdersConnectionError) {
-      return  Center(child: Text(AppStrings.noInternet,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
+      return Center(
+        child: Text(
+          AppStrings.noInternet,
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.center,
+        ),
+      );
     } else {
-      return Center(child: Text(AppStrings.error,style: Theme.of(context).textTheme.titleSmall,textAlign: TextAlign.center,));
+      return Center(
+        child: Text(
+          AppStrings.error,
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.center,
+        ),
+      );
     }
   }
 
